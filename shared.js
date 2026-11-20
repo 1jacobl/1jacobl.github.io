@@ -10,6 +10,9 @@
     requestAnimationFrame(raf);
   }
   window.__lenis = lenis;
+  // Reloads always start at the top (the browser would otherwise restore the old position).
+  const nav0 = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (nav0 && nav0.type === 'reload') { window.scrollTo(0, 0); if (lenis) lenis.scrollTo(0, { immediate: true }); }
 
   // In-page anchor links go through Lenis.
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
