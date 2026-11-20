@@ -31,9 +31,12 @@
   }
   :root[data-theme="dark"] { --bg: #121114; --ink: #f1eee8; --mute: #9a96a0; --line: #2b2930; --card: #1a191e; --hover: rgba(255,255,255,.04); --solid-hover: #d9d5cd; --progress: #f1eee8; color-scheme: dark; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121114; --ink: #f1eee8; --mute: #9a96a0; --line: #2b2930; --card: #1a191e; --hover: rgba(255,255,255,.04); --solid-hover: #d9d5cd; color-scheme: dark; } }
-  body { transition: background-color .35s, color .35s; }
-  .theme-t { all: unset; cursor: pointer; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: var(--mute); transition: color .2s, background .2s; }
-  .theme-t:hover { color: var(--ink); background: var(--hover); }
+  .theme-t { all: unset; cursor: pointer; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); color: var(--ink); transition: background .2s, border-color .2s, transform .2s; }
+  .theme-t:active { transform: scale(.92); }
+  .theme-t svg { width: 18px; height: 18px; }
+  /* theme switch: circular reveal; turn off the page-to-page fade for this transition */
+  html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+  .theme-t:hover { background: var(--hover); border-color: var(--mute); }
   .theme-t:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .theme-t .moon { display: none; }
   :root[data-theme="dark"] .theme-t .sun { display: none; } :root[data-theme="dark"] .theme-t .moon { display: block; }
@@ -482,12 +485,20 @@
   const rows = [...document.querySelectorAll('.p-ink .bar-row')];
   let k = 2;
   setInterval(() => { rows.forEach(r => r.classList.remove('lit')); k = (k % (rows.length - 1)) + 1; rows[k].classList.add('lit'); }, 1500);
-  // Theme toggle: flips light/dark and remembers the choice.
-  document.getElementById('themeT').addEventListener('click', () => {
+  // Theme toggle: the new theme spreads out from the button in a circle (one clean reveal), and the choice is remembered.
+  const themeT = document.getElementById('themeT');
+  themeT.addEventListener('mousedown', (e) => e.preventDefault());
+  themeT.addEventListener('click', () => {
     const root = document.documentElement;
     const isDark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-    root.dataset.theme = isDark ? 'light' : 'dark';
-    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+    const apply = () => { root.dataset.theme = isDark ? 'light' : 'dark'; try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {} };
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) { apply(); return; }
+    const r = themeT.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    root.classList.add('theme-vt');
+    const t = document.startViewTransition(apply);
+    t.ready.then(() => root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] }, { duration: 650, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' }));
+    t.finished.finally(() => root.classList.remove('theme-vt'));
   });
 </script>
 </body>
