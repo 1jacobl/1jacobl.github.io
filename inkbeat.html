@@ -79,22 +79,28 @@
   .sheet { position: relative; background: var(--paper); color: var(--ink); border-radius: 4px; padding: 32px 26px 32px 58px; box-shadow: 0 40px 70px -30px #000c; transform: rotate(-1deg);
     background-image: linear-gradient(90deg, transparent 42px, var(--margin) 42px, var(--margin) 43px, transparent 43px), repeating-linear-gradient(transparent 0 31px, var(--rule) 31px 32px); background-position: 0 0, 0 26px; }
   .sheet .tape { position: absolute; top: -13px; left: 40%; width: 110px; height: 26px; background: #c8b083cc; transform: rotate(2deg); }
-  .sec { padding: 0; transition: opacity .4s; opacity: .35; }
-  .sec.now { opacity: 1; }
   .sec-h { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; line-height: 32px; height: 32px; }
   .chip { font-family: "JetBrains Mono"; font-size: 11px; background: var(--ink); color: var(--paper); padding: 1px 7px; border-radius: 4px; line-height: 18px; transition: background .3s; }
-  .sec.now .chip { background: var(--rec); }
   .ly { font-family: "Courier Prime", monospace; font-size: 17px; line-height: 32px; height: 32px; white-space: nowrap; overflow: hidden; }
-  .ly span { display: inline-block; clip-path: inset(0 100% 0 0); transition: clip-path .9s steps(28); }
-  .sec.now .ly span, .sec.done .ly span { clip-path: inset(0 0 0 0); }
-  .sec.done { opacity: .75; }
   .scrub-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
   .scrub-steps li { font-size: clamp(22px, 2.4vw, 32px); font-weight: 800; letter-spacing: -.03em; color: var(--faint); transition: color .4s; }
   .scrub-steps li.now { color: var(--chalk); }
   .scrub-steps li small { display: block; font-weight: 500; font-size: 16px; letter-spacing: 0; color: var(--dim); max-height: 0; overflow: hidden; transition: max-height .5s; }
   .scrub-steps li.now small { max-height: 80px; }
   .take { position: absolute; right: 22px; bottom: -16px; display: inline-flex; gap: 8px; align-items: center; font-family: "JetBrains Mono"; font-size: 12px; background: var(--rec); color: #fff; padding: 6px 12px; border-radius: 999px; opacity: 0; transform: translateY(6px); transition: .4s; }
-  .sec.now .take.show { opacity: 1; transform: none; }
+  .song { display: flex; align-items: center; gap: 12px; height: 32px; font-size: 14px; }
+  .song .yt { display: inline-flex; align-items: center; gap: 6px; font-family: "JetBrains Mono"; font-size: 11px; color: #fff; background: #c4302b; padding: 2px 8px; border-radius: 4px; line-height: 18px; }
+  .song b { font-weight: 800; }
+  .song { opacity: 0; transform: translateY(6px); transition: opacity .5s, transform .5s; }
+  .sheet[data-step] .song { opacity: 1; transform: none; }
+  .sec { padding: 0; }
+  .sec-h { opacity: 0; transform: translateX(-10px); transition: opacity .45s, transform .45s cubic-bezier(.2,.7,.1,1); transition-delay: calc(var(--m) * .15s); }
+  .sheet:is([data-step="1"],[data-step="2"],[data-step="3"]) .sec-h { opacity: 1; transform: none; }
+  .ly span { display: inline-block; clip-path: inset(0 100% 0 0); transition: clip-path .7s steps(26); transition-delay: calc(var(--l) * .22s); }
+  .sheet:is([data-step="2"],[data-step="3"]) .ly span { clip-path: inset(0 0 0 0); }
+  .sheet[data-step="3"] .sec:not(.hook) { opacity: .4; transition: opacity .4s; }
+  .sheet[data-step="3"] .hook .chip { background: var(--rec); }
+  .sheet[data-step="3"] .take { opacity: 1; transform: none; }
   .take i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
   @keyframes blink { 50% { opacity: .2; } }
   @media (max-width: 899px) { .scrub-steps li small { display: none; } .scrub-steps { display: flex; flex-wrap: wrap; gap: 4px 14px; } .time { display: none; } .transport { grid-template-columns: auto minmax(0,1fr); } .scrub-steps li { font-size: 18px; } .sheet { padding-left: 50px; } .ly { font-size: 15px; } }
@@ -190,12 +196,13 @@
         <li>Write per section<small>Each marker gets its own lyric page, timestamped.</small></li>
         <li>Record a flow<small>The mic starts and the beat plays from that marker with a lead-in.</small></li>
       </ol>
-      <div class="sheet">
+      <div class="sheet" id="sheet" data-step="0">
         <div class="tape"></div>
-        <div class="sec" data-i="0"><div class="sec-h"><span class="chip">0:00</span>Intro</div><div class="ly"><span>(beat rides, no words yet)</span></div></div>
-        <div class="sec" data-i="1"><div class="sec-h"><span class="chip">0:12</span>Verse 1</div><div class="ly"><span>late bus home, city in my headphones</span></div><div class="ly"><span>counting streetlights like they owe me</span></div></div>
-        <div class="sec" data-i="2"><div class="sec-h"><span class="chip">0:41</span>Hook</div><div class="ly"><span>write it down before it fades out</span></div><div class="ly"><span>every bar got a place now</span></div></div>
-        <div class="sec" data-i="3"><div class="sec-h"><span class="chip">1:05</span>Verse 2</div><div class="ly"><span>margin full of arrows, coffee rings</span></div><div class="take" id="take"><i></i>REC · take 3 · 0:08</div></div>
+        <div class="song"><span class="yt"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>youtube.com/watch?v=…</span><b>late bus (prod. demo)</b></div>
+        <div class="sec" style="--m:0"><div class="sec-h"><span class="chip">0:12</span>Verse 1</div><div class="ly"><span style="--l:0">late bus home, city in my headphones</span></div><div class="ly"><span style="--l:1">counting streetlights like they owe me</span></div></div>
+        <div class="sec hook" style="--m:1"><div class="sec-h"><span class="chip">0:41</span>Hook</div><div class="ly"><span style="--l:2">write it down before it fades out</span></div><div class="ly"><span style="--l:3">every bar got a place now</span></div></div>
+        <div class="sec" style="--m:2"><div class="sec-h"><span class="chip">1:05</span>Verse 2</div><div class="ly"><span style="--l:4">margin full of arrows, coffee rings</span></div><div class="ly"><span style="--l:5">rewind it, run it, one more take</span></div></div>
+        <div class="take"><i></i>REC · Hook · take 3 · 0:08</div>
       </div>
     </div>
   </div>
@@ -300,15 +307,13 @@
   // Scroll-scrubbed demo: progress through the tall section picks the active step + lyric section.
   const scrub = document.getElementById('scrub');
   const steps = [...document.querySelectorAll('#steps li')];
-  const secs = [...document.querySelectorAll('.sheet .sec')];
-  const take = document.getElementById('take');
+  const sheet = document.getElementById('sheet');
   const onScroll = () => {
     const r = scrub.getBoundingClientRect();
     const p = Math.min(.999, Math.max(0, -r.top / (r.height - innerHeight)));
     const k = Math.floor(p * 4);
     steps.forEach((s, i) => s.classList.toggle('now', i === k));
-    secs.forEach((s, i) => { s.classList.toggle('now', i === k); s.classList.toggle('done', i < k); });
-    take.classList.toggle('show', k === 3);
+    if (sheet.dataset.step !== String(k)) sheet.dataset.step = k;
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
