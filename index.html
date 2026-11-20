@@ -255,7 +255,7 @@
   /* Desktop: contact is its own closing screen, heading centered, footer at the bottom. */
   @media (min-width: 960px) and (min-height: 620px) {
     .contact { padding: 0; }
-    .contact > .wrap { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; padding-top: 80px; }
+    .contact > .wrap { min-height: 72vh; display: flex; flex-direction: column; padding-top: 72px; }
     .contact > .wrap > h2 { margin-top: auto; }
     .contact > .wrap > footer { margin-top: auto; }
   }
@@ -386,7 +386,7 @@
       </li>
     </ul>
   </div>
-  <div class="nums" data-stagger="80">
+  <div class="nums reveal">
     <div class="num"><b data-n="280" data-plus>0</b><span>volunteer hours teaching science</span></div>
     <div class="num"><b data-n="4.45" data-dec="2">0</b><span>weighted GPA, Honor Roll</span></div>
     <div class="num"><b data-n="10" data-plus>0</b><span>students led on Patribots</span></div>
@@ -437,14 +437,22 @@
     li.classList.toggle('open', open); btn.setAttribute('aria-expanded', open);
   }));
 
-  // Numbers count up when they appear.
-  document.querySelectorAll('[data-n]').forEach(el => {
-    el.parentElement.addEventListener('reveal', () => {
-      const end = +el.dataset.n, t0 = performance.now();
-      const tick = (t) => { const p = Math.min(1, (t - t0) / 1600); const dec = +(el.dataset.dec || 0); el.textContent = (end * (1 - Math.pow(1 - p, 4))).toFixed(dec) + (p === 1 && el.hasAttribute('data-plus') ? '+' : ''); if (p < 1) requestAnimationFrame(tick); };
-      requestAnimationFrame(tick);
-    }, { once: true });
-  });
+  // Numbers count up in place (width locked to the final value so nothing shifts).
+  const numsRow = document.querySelector('.nums');
+  const numEls = [...numsRow.querySelectorAll('[data-n]')];
+  const finalText = (el) => (+el.dataset.n).toFixed(+(el.dataset.dec || 0)) + (el.hasAttribute('data-plus') ? '+' : '');
+  numEls.forEach((el) => { el.textContent = finalText(el); el.style.minWidth = el.getBoundingClientRect().width + 'px'; el.style.display = 'inline-block'; });
+  numsRow.addEventListener('reveal', () => {
+    if (document.documentElement.classList.contains('settling')) return;
+    const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / 1400), e = 1 - Math.pow(1 - p, 4);
+      numEls.forEach((el) => { const dec = +(el.dataset.dec || 0); el.textContent = (+el.dataset.n * e).toFixed(dec) + (el.hasAttribute('data-plus') ? '+' : ''); });
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    numEls.forEach((el) => { el.textContent = (0).toFixed(+(el.dataset.dec || 0)) + (el.hasAttribute('data-plus') ? '+' : ''); });
+    requestAnimationFrame(tick);
+  }, { once: true });
 
   // Realistic-looking QR (21x21 with three finder squares).
   const qr = document.getElementById('qr'), QN = 21;
