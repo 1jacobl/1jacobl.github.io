@@ -30,34 +30,10 @@
   .links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
   /* hero */
-  .hero { padding: 132px 0 72px; }
-  .hero-top { display: grid; gap: 40px; align-items: center; margin-bottom: 8px; }
-  @media (min-width: 1000px) { .hero-top { grid-template-columns: 1.25fr .75fr; gap: 56px; } }
-  .hero-side { display: grid; gap: 14px; }
-  .live { display: block; text-decoration: none; border-radius: 18px; padding: 20px 22px; transition: transform .35s cubic-bezier(.2,.7,.1,1), box-shadow .35s; }
-  .live:hover { transform: translateY(-3px); }
-  .live-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .live-tag { display: inline-flex; align-items: center; gap: 6px; font-family: "Geist Mono", monospace; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
-  .live-tag i { width: 7px; height: 7px; border-radius: 50%; animation: ping 2s infinite; }
-  .live-c { background: #F5F4FF; color: #1B1340; border: 2px solid #1B1340; box-shadow: 5px 5px 0 #1B1340; }
-  .live-c:hover { box-shadow: 7px 8px 0 #1B1340; }
-  .live-c b.nm { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -.02em; }
-  .live-c .live-tag { color: #0f8a63; } .live-c .live-tag i { background: #14b37f; }
-  .live-nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .live-nums div { background: #fff; border: 1.5px solid #1B1340; border-radius: 10px; padding: 10px 12px; }
-  .live-nums b { display: block; font-family: "Unbounded", sans-serif; font-size: 20px; letter-spacing: -.02em; }
-  .live-nums span { font-size: 12px; color: #544D7A; }
-  .live-i { background: #15120e; color: #efe6d2; border: 1px solid #352e25; }
-  .live-i b.nm { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -.03em; display: inline-flex; align-items: center; gap: 8px; }
-  .live-i b.nm i { width: 9px; height: 9px; border-radius: 50%; background: #e8442c; animation: rec 1.6s infinite; }
-  .live-i .live-tag { color: #9c907b; } .live-i .live-tag i { background: #e8442c; }
-  .live-i p { margin: 0 0 12px; color: #9c907b; font-size: 14.5px; }
-  .hw { height: 34px; display: flex; align-items: center; gap: 3px; }
-  .hw i { flex: 1; height: var(--h); border-radius: 2px; background: #352e25; }
-  .hw i.on { background: #efe6d2; }
-  .js .hero-side { opacity: 0; transform: translateY(14px); }
-  .js .hero.ready .hero-side { opacity: 1; transform: none; transition: opacity .9s ease .55s, transform 1s cubic-bezier(.16,1,.3,1) .55s; }
-  .vt-arrive .hero .hero-side { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .hero { padding: 168px 0 72px; }
+  .hero-top { display: grid; gap: 8px; margin-bottom: 56px; }
+  @media (min-width: 960px) { .hero-top { grid-template-columns: auto minmax(0, 1fr); gap: 64px; align-items: end; } .hero-top .intro { margin: 0 0 .6em; font-size: clamp(19px, 1.6vw, 24px); max-width: 30ch; justify-self: end; } }
+
   .hero h1 { font-weight: 800; font-size: clamp(42px, 8.4vw, 118px); line-height: 1; letter-spacing: -.035em; margin: 0 0 40px; max-width: 13ch; }
   .hero h1 em { font-style: normal; color: var(--mute); }
   .hero-foot { display: grid; gap: 24px; border-top: 1px solid var(--line); padding-top: 22px; }
@@ -271,22 +247,12 @@
 </div></nav>
 
 <header class="hero wrap" id="top">
-  <div class="hero-top"><div>
-  <div class="mono in-1" style="margin-bottom:22px">Engineering &amp; Software · Portfolio 2026</div>
-  <h1 class="hero-name" aria-label="Jacob Le">Jacob Le</h1>
-  <p class="intro in-2">Student engineer focused on mechanical design and full-stack software. I build products for real users, most recently <a class="pl pl-club" href="clubbie.html">Clubbie</a>, a club management platform, and <a class="pl pl-ink" href="inkbeat.html">Inkbeat</a>, a lyric-writing studio.</p>
-  </div>
-  <aside class="hero-side" aria-label="Live projects">
-    <a class="live live-c" href="clubbie.html">
-      <div class="live-top"><b class="nm">Clubbie</b><span class="live-tag"><i></i>Live · clubbie.live</span></div>
-      <div class="live-nums"><div><b>55</b><span>users</span></div><div><b>365</b><span>check-ins</span></div><div><b>4</b><span>clubs</span></div></div>
-    </a>
-    <a class="live live-i" href="inkbeat.html">
-      <div class="live-top"><b class="nm">Inkbeat <i></i></b><span class="live-tag"><i></i>Live · web app</span></div>
-      <p>Lyrics pinned to the beat, takes recorded in place.</p>
-      <div class="hw" id="heroWave"></div>
-    </a>
-  </aside>
+  <div class="hero-top">
+    <div>
+      <div class="mono in-1" style="margin-bottom:22px">Engineering &amp; Software · Portfolio 2026</div>
+      <h1 class="hero-name" aria-label="Jacob Le">Jacob Le</h1>
+    </div>
+    <p class="intro in-2">Student engineer focused on mechanical design and full-stack software. I build products for real users, most recently <a class="pl pl-club" href="clubbie.html">Clubbie</a>, a club management platform, and <a class="pl pl-ink" href="inkbeat.html">Inkbeat</a>, a lyric-writing studio.</p>
   </div>
   <div class="hero-foot">
     <div class="in-3" style="--k:0"><div class="mono">Education</div><p>Patrick Henry High School, San Diego · Class of 2027 · 4.45 weighted GPA</p></div>
@@ -449,13 +415,6 @@
   const fdr = (r, c) => { for (const [r0, c0] of [[0,0],[0,QN-7],[QN-7,0]]) { const y = r-r0, x = c-c0; if (y >= -1 && y <= 7 && x >= -1 && x <= 7) { if (y < 0 || y > 6 || x < 0 || x > 6) return 0; if (y === 0 || y === 6 || x === 0 || x === 6) return 1; return (y >= 2 && y <= 4 && x >= 2 && x <= 4) ? 1 : 0; } } return null; };
   let sd = 11; const rn = () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
   for (let r = 0; r < QN; r++) for (let c = 0; c < QN; c++) { const i = document.createElement('i'); const f = fdr(r, c); const on = f !== null ? f === 1 : (r === 6 || c === 6) ? (r + c) % 2 === 0 : rn() < .48; if (!on) i.className = 'o'; qr.appendChild(i); }
-
-  // Hero Inkbeat card waveform.
-  const hw = document.getElementById('heroWave'), hwBars = [];
-  for (let i = 0; i < 40; i++) { const b = document.createElement('i'); b.style.setProperty('--h', Math.min(100, 26 + Math.abs(Math.sin(i * .6) * 48 + Math.sin(i * 1.9) * 22)) + '%'); hw.appendChild(b); hwBars.push(b); }
-  const hwT0 = performance.now();
-  const hwLoop = (t) => { const k = Math.floor((((t - hwT0) / 7000) % 1) * hwBars.length); hwBars.forEach((b, i) => b.classList.toggle('on', i <= k)); requestAnimationFrame(hwLoop); };
-  requestAnimationFrame(hwLoop);
 
   // Inkbeat mini waveform with a sweeping playhead.
   const mw = document.getElementById('miniWave'), mwBars = [];
