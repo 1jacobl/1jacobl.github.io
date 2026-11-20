@@ -33,6 +33,13 @@
   .hero { padding: 150px 0 24px; }
   .hero-top { display: grid; gap: 8px; margin-bottom: 56px; }
   @media (min-width: 960px) { .hero-top { grid-template-columns: auto minmax(0, 1fr); gap: 64px; align-items: end; } .intro-col { justify-self: end; max-width: 31ch; margin-bottom: .4em; } .hero-top .intro { margin: 0; font-size: clamp(19px, 1.6vw, 24px); } }
+  /* Desktop: the intro is exactly one screen; work starts a full page down. */
+  .scroll-cue.hero-scroll { display: none; }
+  @media (min-width: 960px) and (min-height: 620px) {
+    .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 96px 0 110px; }
+    .scroll-cue.hero-scroll { display: inline-flex; position: absolute; left: 0; bottom: 34px; }
+    #work { padding-top: 96px; }
+  }
   .hero-cta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
   .intro-col .intro { margin-bottom: 0; }
   .intro-col { margin-bottom: 48px; }
@@ -266,6 +273,7 @@
     <div class="in-3" style="--k:1"><div class="mono">Leadership</div><p>AAPI Club President · Patribots Marketing Director · Key Club D21E Executive Assistant</p></div>
     <div class="in-3" style="--k:2"><div class="mono">Skills</div><p>TypeScript, React, Next.js, Python, Java · Social media, photo &amp; video, event planning</p></div>
   </div>
+  <a class="scroll-cue hero-scroll in-3" style="--k:3" href="#work"><i></i><span class="mono">Scroll to selected work</span></a>
 </header>
 
 <section id="work"><div class="wrap">
