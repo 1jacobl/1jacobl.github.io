@@ -82,7 +82,7 @@
   .proj h3 { margin: 10px 0 12px; line-height: 1; }
   .proj p { margin: 0; max-width: 38ch; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-  .tags span { font-size: 13px; padding: 4px 10px; border-radius: 999px; }
+  .tags span { font-family: "Geist Mono", monospace; font-size: 12.5px; padding: 5px 10px; border-radius: 7px; }
   .proj { position: relative; cursor: pointer; }
   .proj .stage { pointer-events: none; }
   .actions { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -98,7 +98,7 @@
   .p-club:hover { box-shadow: 10px 12px 0 #1B1340; }
   .p-club h3 { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.03em; }
   .p-club .mono { color: #6F6896; }
-  .p-club .tags span { border: 1.5px solid #1B1340; background: #fff; }
+  .p-club .tags span { background: #EEECFA; color: #544D7A; }
   .p-club .go-btn { border: 2px solid #1B1340; background: #fff; color: #1B1340; box-shadow: 2px 2px 0 #1B1340; }
   .p-club .go-btn.primary { background: #7B0AFF; color: #fff; }
   .p-club .go-btn:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #1B1340; }
@@ -117,6 +117,23 @@
   .bars { display: flex; align-items: end; gap: 6px; height: 58px; margin-top: 12px; }
   .bars i { flex: 1; background: #7B0AFF; border: 1.5px solid #1B1340; border-radius: 4px 4px 0 0; height: var(--h); transform-origin: bottom; transform: scaleY(.08); transition: transform 1s cubic-bezier(.2,.8,.2,1) var(--d); }
   .in .bars i, .bars.in i { transform: none; }
+  .cp { width: min(440px, 100%); background: #fff; border: 2px solid #1B1340; border-radius: 18px; box-shadow: 5px 5px 0 #1B1340; padding: 20px; transition: transform .7s cubic-bezier(.2,.7,.1,1); }
+  .p-club:hover .cp { transform: translateY(-4px); }
+  .cp-head { display: flex; justify-content: space-between; align-items: center; font-family: "Unbounded", sans-serif; font-size: 15px; }
+  .cp-body { display: grid; grid-template-columns: 110px 1fr; gap: 18px; align-items: center; margin: 16px 0 10px; padding: 14px; background: #EEECFA; border-radius: 14px; }
+  .p-club .qr { aspect-ratio: 1; background: #fff; border: 2px solid #1B1340; border-radius: 10px; padding: 7px; display: grid; grid-template-columns: repeat(21, 1fr); gap: 0; }
+  .p-club .qr i { background: #1B1340; aspect-ratio: 1; border-radius: 0; }
+  .p-club .qr i.o { background: transparent; }
+  .cp-count { display: flex; align-items: baseline; gap: 6px; }
+  .cp-count b { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -.04em; line-height: 1; }
+  .cp-count span { color: #544D7A; font-size: 14px; }
+  .cp-cap { color: #544D7A; font-size: 13px; margin: 4px 0 10px; }
+  .cp-meter { height: 8px; border-radius: 999px; background: #fff; border: 1.5px solid #1B1340; overflow: hidden; }
+  .cp-meter i { display: block; height: 100%; width: 0; background: #7B0AFF; transition: width 1.4s cubic-bezier(.2,.7,.1,1); }
+  .in .cp-meter i { width: 82%; }
+  .cp-row { display: flex; align-items: center; gap: 10px; height: 42px; border-top: 1px solid #F0EEF8; font-size: 14px; font-weight: 500; }
+  .cp-row .av { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+  .cp-row .tm { margin-left: auto; color: #9790BD; font-size: 12.5px; }
   .sticker { position: absolute; font-family: "Unbounded"; font-weight: 800; font-size: 13px; padding: 8px 12px; border: 2px solid #1B1340; border-radius: 12px; box-shadow: 3px 3px 0 #1B1340; transition: transform .6s cubic-bezier(.3,1.6,.5,1); }
   .s1 { top: 26px; right: 26px; background: #FF6FB5; transform: rotate(6deg); }
   .s2 { bottom: 28px; left: 24px; background: #FFE14D; transform: rotate(-5deg); }
@@ -129,22 +146,26 @@
   .p-ink h3 .dot { width: .32em; height: .32em; border-radius: 50%; background: #e8442c; box-shadow: 0 0 0 0 #e8442c88; animation: rec 1.6s infinite; }
   @keyframes rec { 0% { box-shadow: 0 0 0 0 #e8442c88; } 70% { box-shadow: 0 0 0 12px #e8442c00; } 100% { box-shadow: 0 0 0 0 #e8442c00; } }
   .p-ink .mono { color: #9c907b; }
-  .p-ink .tags span { border: 1px solid #352e25; background: #1d1914; color: #efe6d2; }
+  .p-ink .tags span { background: #27221b; color: #9c907b; }
   .p-ink .go-btn { border: 1px solid #352e25; color: #efe6d2; }
   .p-ink .go-btn.primary { background: #e8442c; border-color: #e8442c; color: #fff; }
   .p-ink .go-btn:hover { border-color: #9c907b; transform: translateY(-1px); }
   .p-ink .go-btn.primary:hover { border-color: #e8442c; }
   .p-ink .stage { background: radial-gradient(120% 90% at 70% 20%, #27221b, #15120e 70%); border-top: 1px solid #352e25; }
   @media (min-width: 900px) { .p-ink .stage { border-top: 0; border-left: 1px solid #352e25; } }
-  .sheet { position: relative; width: min(400px, 100%); background: #f3ead6; color: #1e1a14; border-radius: 4px; padding: 30px 22px 22px 46px; transform: rotate(2deg); box-shadow: 0 30px 50px -20px #000a; transition: transform .8s cubic-bezier(.2,.7,.1,1);
+  .ink-stack { width: min(500px, 100%); display: grid; gap: 34px; }
+  .sheet { position: relative; width: 100%; background: #f3ead6; color: #1e1a14; border-radius: 4px; padding: 34px 26px 26px 50px; transform: rotate(2deg); box-shadow: 0 30px 50px -20px #000a; transition: transform .8s cubic-bezier(.2,.7,.1,1);
     background-image: linear-gradient(90deg, transparent 34px, #e3a99b 34px, #e3a99b 35px, transparent 35px), repeating-linear-gradient(transparent 0 27px, #d8c9a9 27px 28px); background-position: 0 0, 0 22px; }
   .p-ink:hover .sheet { transform: rotate(0deg) translateY(-6px); }
   .tape { position: absolute; top: -12px; left: 50%; width: 92px; height: 24px; margin-left: -46px; background: #c8b083cc; transform: rotate(-3deg); }
-  .bar-row { display: flex; gap: 10px; align-items: baseline; font-family: "Courier Prime", monospace; font-size: 15px; line-height: 28px; white-space: nowrap; overflow: hidden; }
+  .bar-row { display: flex; gap: 12px; align-items: baseline; font-family: "Courier Prime", monospace; font-size: 16px; line-height: 28px; white-space: nowrap; overflow: hidden; }
   .bar-row .t { font-family: "Geist Mono", monospace; font-size: 11px; background: #1e1a14; color: #f3ead6; padding: 0 6px; border-radius: 3px; line-height: 18px; flex: none; }
   .bar-row.lit .t { background: #e8442c; }
   .bar-row span.txt { overflow: hidden; text-overflow: ellipsis; }
   .rec-chip { position: absolute; right: 18px; bottom: -16px; display: flex; align-items: center; gap: 8px; background: #e8442c; color: #fff; font-family: "Geist Mono"; font-size: 12px; padding: 7px 12px; border-radius: 999px; box-shadow: 0 10px 24px -8px #e8442c; }
+  .mini-wave { height: 54px; display: flex; align-items: center; gap: 3px; padding: 0 14px; border: 1px solid #352e25; border-radius: 12px; background: #1d1914; }
+  .mini-wave i { flex: 1; height: var(--h); border-radius: 2px; background: #352e25; transition: background .15s; }
+  .mini-wave i.on { background: #efe6d2; }
   .rec-chip i { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
   @keyframes blink { 50% { opacity: .2; } }
 
@@ -154,8 +175,10 @@
   .about .big { font-size: clamp(24px, 2.6vw, 34px); line-height: 1.25; letter-spacing: -.02em; margin: 0; }
   .roles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
   .role { border-bottom: 1px solid var(--line); }
-  .role-h { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 1fr auto 22px; gap: 16px; align-items: center; padding: 18px 0; transition: padding .4s cubic-bezier(.2,.7,.1,1); }
-  .role-h:hover { padding-left: 8px; }
+  .role-h { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 1fr auto 22px; gap: 16px; align-items: center; padding: 18px 14px; margin: 0 -14px; width: calc(100% + 28px); border-radius: 12px; transition: background .25s; }
+  .role-h:hover { background: rgba(22,21,26,.04); }
+  .role-h:hover .pm { transform: rotate(90deg); }
+  .pm { transition: transform .4s cubic-bezier(.2,.7,.1,1); }
   .role-h:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
   .rt b { display: block; font-weight: 600; }
   .rt small { color: var(--mute); font-size: 14px; }
@@ -242,18 +265,19 @@
       </div>
       <div class="stage">
         <div class="sticker s1">46 members</div>
-        <div class="mini">
-          <div class="mini-top">General meeting <span class="pill">Check-in open</span></div>
-          <div class="mini-body">
+        <div class="cp">
+          <div class="cp-head"><b>General meeting</b><span class="pill">Check-in open</span></div>
+          <div class="cp-body">
             <div class="qr" id="qr"></div>
             <div>
-              <div class="mono" style="color:#6F6896">Checked in</div>
-              <div class="count" data-count="38">0</div>
-              <div class="bars" data-on-view>
-                <i style="--h:40%;--d:0ms"></i><i style="--h:62%;--d:60ms"></i><i style="--h:48%;--d:120ms"></i><i style="--h:80%;--d:180ms"></i><i style="--h:70%;--d:240ms"></i><i style="--h:94%;--d:300ms"></i>
-              </div>
+              <div class="cp-count"><b data-count="38">0</b><span>/ 46 here</span></div>
+              <div class="cp-cap">Scan to check in</div>
+              <div class="cp-meter"><i></i></div>
             </div>
           </div>
+          <div class="cp-row"><span class="av" style="background:#EDE2FF">P</span>Priya S.<span class="tm">3:12 PM</span></div>
+          <div class="cp-row"><span class="av" style="background:#D3F7EA">A</span>Ana R.<span class="tm">3:12 PM</span></div>
+          <div class="cp-row"><span class="av" style="background:#FFF6C2">M</span>Marcus T.<span class="tm">3:11 PM</span></div>
         </div>
         <div class="sticker s2">227 service hrs</div>
       </div>
@@ -270,6 +294,7 @@
         <div class="actions"><a class="go-btn primary" href="inkbeat.html">Read the case study <span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="go-btn" href="https://1jacobl.github.io/inkbeat/" target="_blank" rel="noopener">Open Inkbeat <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
       </div>
       <div class="stage">
+        <div class="ink-stack">
         <div class="sheet">
           <div class="tape"></div>
           <div class="bar-row"><span class="t">0:12</span><span class="txt">Verse 1</span></div>
@@ -277,7 +302,10 @@
           <div class="bar-row lit"><span class="t">0:18</span><span class="txt">counting streetlights like they owe me</span></div>
           <div class="bar-row"><span class="t">0:22</span><span class="txt">notebook full of maybes, half-done</span></div>
           <div class="bar-row"><span class="t">0:41</span><span class="txt">Hook</span></div>
+          <div class="bar-row"><span class="t">0:44</span><span class="txt">write it down before it fades out</span></div>
           <div class="rec-chip"><i></i>REC · take 3</div>
+        </div>
+        <div class="mini-wave" id="miniWave"></div>
         </div>
       </div>
     </article>
@@ -374,15 +402,18 @@
     }, { once: true });
   });
 
-  // Fake-but-plausible QR grid (finder squares in three corners).
-  const qr = document.getElementById('qr');
-  const finder = (r, c) => (r < 3 && c < 3) || (r < 3 && c > 3) || (r > 3 && c < 3);
-  for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) {
-    const i = document.createElement('i');
-    const on = finder(r, c) || ((r * 7 + c) * 37) % 5 < 2;
-    if (!on) i.className = 'o';
-    qr.appendChild(i);
-  }
+  // Realistic-looking QR (21x21 with three finder squares).
+  const qr = document.getElementById('qr'), QN = 21;
+  const fdr = (r, c) => { for (const [r0, c0] of [[0,0],[0,QN-7],[QN-7,0]]) { const y = r-r0, x = c-c0; if (y >= -1 && y <= 7 && x >= -1 && x <= 7) { if (y < 0 || y > 6 || x < 0 || x > 6) return 0; if (y === 0 || y === 6 || x === 0 || x === 6) return 1; return (y >= 2 && y <= 4 && x >= 2 && x <= 4) ? 1 : 0; } } return null; };
+  let sd = 11; const rn = () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
+  for (let r = 0; r < QN; r++) for (let c = 0; c < QN; c++) { const i = document.createElement('i'); const f = fdr(r, c); const on = f !== null ? f === 1 : (r === 6 || c === 6) ? (r + c) % 2 === 0 : rn() < .48; if (!on) i.className = 'o'; qr.appendChild(i); }
+
+  // Inkbeat mini waveform with a sweeping playhead.
+  const mw = document.getElementById('miniWave'), mwBars = [];
+  for (let i = 0; i < 48; i++) { const b = document.createElement('i'); b.style.setProperty('--h', Math.min(100, 24 + Math.abs(Math.sin(i * .55) * 50 + Math.sin(i * 1.7) * 20)) + '%'); mw.appendChild(b); mwBars.push(b); }
+  let mwT0 = performance.now();
+  const mwLoop = (t) => { const k = Math.floor((((t - mwT0) / 9000) % 1) * mwBars.length); mwBars.forEach((b, i) => b.classList.toggle('on', i <= k)); requestAnimationFrame(mwLoop); };
+  requestAnimationFrame(mwLoop);
 
   // Count up when the Clubbie card comes into view.
   const count = document.querySelector('[data-count]');

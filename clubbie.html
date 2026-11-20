@@ -17,9 +17,9 @@
     --progress: var(--grape); --sel: var(--hl); --sel-ink: var(--ink);
   }
   body { background: var(--paper); color: var(--ink); font-family: "Figtree", system-ui, sans-serif; font-size: 18px; line-height: 1.55; }
-  h1, h2, h3 { font-family: "Unbounded", sans-serif; letter-spacing: -.035em; line-height: 1.02; margin: 0; }
+  h1, h2, h3 { font-family: "Unbounded", sans-serif; letter-spacing: -.02em; line-height: 1.02; margin: 0; }
   .eyebrow { font-family: "Geist Mono", monospace; font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); }
-  .hl { background: linear-gradient(var(--hl), var(--hl)) no-repeat 0 72% / 0% 38%; transition: background-size 1s cubic-bezier(.6,0,.2,1) .5s; padding: 0 .08em; }
+  .hl { background: linear-gradient(var(--hl), var(--hl)) no-repeat 0 72% / 100% 38%; padding: 0 .08em; }
   .ready .hl, .in .hl, .hl.in { background-size: 100% 38%; }
   .card { background: #fff; border: 2px solid var(--ink); border-radius: 18px; box-shadow: 5px 5px 0 var(--ink); }
 
@@ -33,7 +33,7 @@
 
   /* hero */
   .hero { position: relative; min-height: 100vh; display: grid; align-content: center; padding: 120px 0 80px; }
-  .hero h1 { font-size: clamp(64px, 15vw, 210px); font-weight: 800; letter-spacing: -.06em; }
+  .hero h1 { font-size: clamp(64px, 15vw, 210px); font-weight: 800; letter-spacing: -.015em; }
   .brand-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
   .app-icon { width: 44px; height: 44px; flex: none; }
   .hero .tag { font-family: "Unbounded"; font-weight: 500; font-size: clamp(20px, 2.6vw, 34px); letter-spacing: -.03em; margin: 22px 0 0; max-width: 30ch; }
@@ -45,7 +45,7 @@
   .f2 { right: 12%; top: 66%; background: var(--hl); --r: -6deg; }
   .f3 { right: 4%; bottom: 16%; background: var(--mint); --r: 4deg; }
   .float { transform: rotate(var(--r)) translateY(var(--py, 0px)); }
-  .js .float { opacity: 0; scale: .6; transition: opacity .5s, scale .7s cubic-bezier(.3,1.7,.5,1); }
+  .js .float { opacity: 1; scale: 1; }
   .js .ready .float { opacity: 1; scale: 1; }
   .ready .f1 { transition-delay: .5s; } .ready .f2 { transition-delay: .65s; } .ready .f3 { transition-delay: .8s; }
   @media (max-width: 1100px) { .float { display: none; } }
@@ -152,6 +152,9 @@
   .next:hover .arrow { transform: translateX(10px); }
 
   .ar { width: .95em; height: .95em; display: inline-block; vertical-align: -.12em; flex: none; }
+
+  /* The page transition is the entrance; the header doesn't animate a second time. */
+  .js .hero .reveal, .js .hero .line > span { opacity: 1; transform: none; transition: none; }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
 </head>
