@@ -1,4 +1,4 @@
-/* Shared base: reset, reveal motion, page wipe, progress bar. Each page brings its own theme. */
+/* Shared base: reset, reveal motion, page transitions. Each page brings its own theme. */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
@@ -24,11 +24,6 @@ a { color: inherit; }
 .line > span { display: inline-block; }
 .js .line > span { transform: translateY(110%); transition: transform 1.1s cubic-bezier(.16,1,.3,1) var(--d, 0ms); }
 .js .ready .line > span, .js .line.in > span { transform: none; }
-
-.progress {
-  position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60;
-  background: var(--progress, currentColor); transform-origin: 0 50%; transform: scaleX(0);
-}
 
 /* Page-to-page: the browser cross-fades between pages (Chrome, Edge, Safari 18.2+). */
 @view-transition { navigation: auto; }

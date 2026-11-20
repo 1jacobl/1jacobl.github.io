@@ -1,4 +1,4 @@
-// Shared motion: smooth scrolling, scroll reveals, page-to-page wipe.
+// Shared motion: smooth scrolling and scroll reveals.
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('js');
@@ -41,16 +41,5 @@
     });
   }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
   document.querySelectorAll('.reveal, [data-on-view], .line').forEach((el) => io.observe(el));
-
-  // Scroll progress bar.
-  const bar = document.querySelector('.progress');
-  if (bar) {
-    const update = () => {
-      const max = document.documentElement.scrollHeight - innerHeight;
-      bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-    };
-    addEventListener('scroll', update, { passive: true });
-    update();
-  }
 
 })();

@@ -83,9 +83,14 @@
   .proj p { margin: 0; max-width: 38ch; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
   .tags span { font-size: 13px; padding: 4px 10px; border-radius: 999px; }
-  .go { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
-  .go b { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; transition: transform .5s cubic-bezier(.2,.7,.1,1); }
-  .proj:hover .go b { transform: rotate(-45deg); }
+  .proj { position: relative; cursor: pointer; }
+  .proj .stage { pointer-events: none; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .go-btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 15px; padding: 11px 18px; border-radius: 999px; transition: transform .25s, box-shadow .25s, background .25s, border-color .25s; position: relative; z-index: 1; }
+  .go-btn.primary { position: static; }
+  .go-btn.primary::after { content: ""; position: absolute; inset: 0; z-index: 0; }   /* whole card opens the case study */
+  .go-btn span { display: inline-block; transition: transform .4s cubic-bezier(.2,.7,.1,1); }
+  .proj:hover .go-btn.primary span { transform: translateX(4px); }
   .stage { position: relative; min-height: 340px; display: grid; place-items: center; padding: 28px; overflow: hidden; }
 
   /* Clubbie card — Clubbie's own palette: grape ink, lavender paper, sticker shadows */
@@ -94,10 +99,12 @@
   .p-club h3 { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.03em; }
   .p-club .mono { color: #6F6896; }
   .p-club .tags span { border: 1.5px solid #1B1340; background: #fff; }
-  .p-club .go b { background: #7B0AFF; color: #fff; border: 2px solid #1B1340; box-shadow: 2px 2px 0 #1B1340; }
+  .p-club .go-btn { border: 2px solid #1B1340; background: #fff; color: #1B1340; box-shadow: 2px 2px 0 #1B1340; }
+  .p-club .go-btn.primary { background: #7B0AFF; color: #fff; }
+  .p-club .go-btn:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #1B1340; }
   .p-club .stage { background: #EEECFA; border-top: 2px solid #1B1340; }
   @media (min-width: 900px) { .p-club .stage { border-top: 0; border-left: 2px solid #1B1340; } }
-  .hl { background: linear-gradient(transparent 55%, #FFE14D 55%); padding: 0 2px; }
+  .hl { background: linear-gradient(#FFE14D, #FFE14D) no-repeat 0 72% / 100% 38%; padding: 0 2px; }
   .mini { width: min(420px, 100%); background: #fff; border: 2px solid #1B1340; border-radius: 16px; box-shadow: 5px 5px 0 #1B1340; padding: 18px; transition: transform .7s cubic-bezier(.2,.7,.1,1); }
   .p-club:hover .mini { transform: rotate(-1.2deg) scale(1.02); }
   .mini-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
@@ -119,11 +126,17 @@
   /* Inkbeat card — late-night studio desk */
   .p-ink { background: #15120e; color: #efe6d2; font-family: "Bricolage Grotesque", sans-serif; border: 1px solid #352e25; }
   .p-ink h3 { font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.04em; display: flex; align-items: center; gap: 12px; }
+  .p-club h3 { display: flex; align-items: center; gap: 12px; }
+  .p-club h3 .mark { width: .78em; height: .78em; }
+  .p-ink h3 .mark { width: .78em; height: .78em; border-radius: .2em; }
   .p-ink h3 .dot { width: .32em; height: .32em; border-radius: 50%; background: #e8442c; box-shadow: 0 0 0 0 #e8442c88; animation: rec 1.6s infinite; }
   @keyframes rec { 0% { box-shadow: 0 0 0 0 #e8442c88; } 70% { box-shadow: 0 0 0 12px #e8442c00; } 100% { box-shadow: 0 0 0 0 #e8442c00; } }
   .p-ink .mono { color: #9c907b; }
   .p-ink .tags span { border: 1px solid #352e25; background: #1d1914; color: #efe6d2; }
-  .p-ink .go b { background: #e8442c; color: #15120e; }
+  .p-ink .go-btn { border: 1px solid #352e25; color: #efe6d2; }
+  .p-ink .go-btn.primary { background: #e8442c; border-color: #e8442c; color: #fff; }
+  .p-ink .go-btn:hover { border-color: #9c907b; transform: translateY(-1px); }
+  .p-ink .go-btn.primary:hover { border-color: #e8442c; }
   .p-ink .stage { background: radial-gradient(120% 90% at 70% 20%, #27221b, #15120e 70%); border-top: 1px solid #352e25; }
   @media (min-width: 900px) { .p-ink .stage { border-top: 0; border-left: 1px solid #352e25; } }
   .sheet { position: relative; width: min(400px, 100%); background: #f3ead6; color: #1e1a14; border-radius: 4px; padding: 30px 22px 22px 46px; transform: rotate(2deg); box-shadow: 0 30px 50px -20px #000a; transition: transform .8s cubic-bezier(.2,.7,.1,1);
@@ -142,12 +155,25 @@
   .about { display: grid; gap: 40px; }
   @media (min-width: 900px) { .about { grid-template-columns: 5fr 7fr; } }
   .about .big { font-size: clamp(24px, 2.6vw, 34px); line-height: 1.25; letter-spacing: -.02em; margin: 0; }
-  .roles { list-style: none; margin: 0; padding: 0; }
-  .roles li { display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; padding: 18px 0; border-bottom: 1px solid var(--line); transition: padding .4s cubic-bezier(.2,.7,.1,1); }
-  .roles li:hover { padding-left: 10px; }
-  .roles b { font-weight: 500; }
-  .roles small { color: var(--mute); font-size: 14px; grid-column: 1; }
-  .roles .when { font-family: "Geist Mono"; font-size: 12.5px; color: var(--mute); grid-row: 1; grid-column: 2; }
+  .roles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .role { border-bottom: 1px solid var(--line); }
+  .role-h { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 1fr auto 22px; gap: 16px; align-items: center; padding: 18px 0; transition: padding .4s cubic-bezier(.2,.7,.1,1); }
+  .role-h:hover { padding-left: 8px; }
+  .role-h:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+  .rt b { display: block; font-weight: 600; }
+  .rt small { color: var(--mute); font-size: 14px; }
+  .role .when { font-family: "Geist Mono", monospace; font-size: 12.5px; color: var(--mute); white-space: nowrap; }
+  .pm { position: relative; width: 14px; height: 14px; justify-self: end; }
+  .pm::before, .pm::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; margin-top: -.75px; background: var(--ink); transition: transform .4s cubic-bezier(.2,.7,.1,1); }
+  .pm::after { transform: rotate(90deg); }
+  .role.open .pm::after { transform: rotate(0deg); }
+  .role-b { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.2,.7,.1,1); }
+  .role-b > div { overflow: hidden; }
+  .role.open .role-b { grid-template-rows: 1fr; }
+  .role-b ul { margin: 0; padding: 0 0 20px 18px; color: var(--mute); font-size: 15.5px; display: grid; gap: 8px; opacity: 0; transform: translateY(-6px); transition: opacity .3s, transform .4s; }
+  .role.open .role-b ul { opacity: 1; transform: none; transition-delay: .1s; }
+  .role-b li::marker { color: var(--line); }
+  @media (max-width: 560px) { .role-h { grid-template-columns: 1fr 22px; } .role .when { display: none; } }
 
   /* professional hero */
   .hero-name { font-weight: 800; font-size: clamp(64px, 13vw, 190px); letter-spacing: -.045em; line-height: .9; margin: 0 0 34px; }
@@ -164,10 +190,11 @@
   .btn { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; padding: 14px 20px; border-radius: 999px; border: 1px solid var(--ink); transition: background .3s, color .3s; }
   .btn:hover { background: var(--ink); color: var(--bg); }
   footer { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding: 22px 0 36px; margin-top: 90px; }
+
+  .ar { width: .95em; height: .95em; display: inline-block; vertical-align: -.12em; flex: none; }
 </style>
 </head>
 <body>
-<div class="progress"></div>
 
 <nav class="top"><div class="wrap">
   <a class="me" href="#top">Jacob Le</a>
@@ -179,9 +206,9 @@
   <h1 class="hero-name"><span class="line"><span>Jacob Le</span></span></h1>
   <p class="intro reveal" style="--d:250ms">Student engineer focused on mechanical design and full-stack software. I build products for real users, most recently <a class="pl pl-club" href="clubbie.html">Clubbie</a>, a club management platform, and <a class="pl pl-ink" href="inkbeat.html">Inkbeat</a>, a lyric-writing studio.</p>
   <div class="hero-foot" data-stagger="90">
-    <div><div class="mono">Education</div><p>Patrick Henry High School</p></div>
-    <div><div class="mono">Leadership</div><p>AAPI Club President · Key Club VP of Service · D21E Executive Assistant</p></div>
-    <div><div class="mono">Skills</div><p>TypeScript, React, Next.js, Python, Java, CAD, data analysis</p></div>
+    <div><div class="mono">Education</div><p>Patrick Henry High School, San Diego · Class of 2027 · 4.45 weighted GPA</p></div>
+    <div><div class="mono">Leadership</div><p>AAPI Club President · Patribots Marketing Director · Key Club D21E Executive Assistant</p></div>
+    <div><div class="mono">Skills</div><p>TypeScript, React, Next.js, Python, Java · Social media, photo &amp; video, event planning</p></div>
   </div>
 </header>
 
@@ -189,15 +216,15 @@
   <div class="sec-head reveal"><h2>Selected work</h2><span class="mono">02 projects</span></div>
   <div class="projects">
 
-    <a class="proj p-club reveal" href="clubbie.html">
+    <article class="proj p-club reveal">
       <div class="info">
         <div>
           <div class="mono">01 · Web app · 2026 · Live</div>
-          <h3>Clubbie</h3>
+          <h3><img class="mark" src="clubbie-icon.svg" alt="" width="40" height="40">Clubbie</h3>
           <p>Club management for high school and college clubs. QR attendance, service hours, events and an <span class="hl">end-of-year report</span>, all in one dashboard.</p>
           <div class="tags"><span>Next.js 15</span><span>TypeScript</span><span>SQLite</span><span>Tailwind</span></div>
         </div>
-        <span class="go"><b>→</b> Read the case study</span>
+        <div class="actions"><a class="go-btn primary" href="clubbie.html">Read the case study <span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="go-btn" href="https://clubbie.live" target="_blank" rel="noopener">Visit Clubbie <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
       </div>
       <div class="stage">
         <div class="sticker s1">46 members</div>
@@ -216,17 +243,17 @@
         </div>
         <div class="sticker s2">227 service hrs</div>
       </div>
-    </a>
+    </article>
 
-    <a class="proj p-ink reveal" href="inkbeat.html">
+    <article class="proj p-ink reveal">
       <div class="info">
         <div>
           <div class="mono">02 · Web app · 2026 · Live</div>
-          <h3>Inkbeat <span class="dot"></span></h3>
+          <h3><img class="mark" src="inkbeat-icon.svg" alt="" width="40" height="40">Inkbeat</h3>
           <p>A lyric pad for writing to a YouTube beat. Pin bars to timestamps, then record flow takes right over the spot they belong to.</p>
           <div class="tags"><span>React</span><span>TypeScript</span><span>IndexedDB</span><span>Web Audio</span></div>
         </div>
-        <span class="go"><b>→</b> Read the case study</span>
+        <div class="actions"><a class="go-btn primary" href="inkbeat.html">Read the case study <span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="go-btn" href="https://1jacobl.github.io/inkbeat/" target="_blank" rel="noopener">Open Inkbeat <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
       </div>
       <div class="stage">
         <div class="sheet">
@@ -239,29 +266,44 @@
           <div class="rec-chip"><i></i>REC · take 3</div>
         </div>
       </div>
-    </a>
+    </article>
 
   </div>
 
-  <div class="nums" data-stagger="80">
-    <div class="num"><b data-n="46">0</b><span>members on Clubbie's first club</span></div>
-    <div class="num"><b data-n="227">0</b><span>service hours logged</span></div>
-    <div class="num"><b data-n="6" data-plus>0</b><span>clubs and activities</span></div>
-    <div class="num"><b data-n="2">0</b><span>apps designed and shipped solo</span></div>
-  </div>
 </div></section>
 
 <section id="about"><div class="wrap">
   <div class="sec-head reveal"><h2>About</h2><span class="mono">Engineering · Data · Leadership</span></div>
   <div class="about">
     <p class="big reveal">I like taking a messy problem, breaking it into clear steps, and building something people actually use. Most of mine started with a spreadsheet I was tired of.</p>
-    <ul class="roles" data-stagger="70">
-      <li><b>D21E Executive Assistant</b><span class="when">May 2026 – now</span><small>Key Club International</small></li>
-      <li><b>Vice President of Service</b><span class="when">Apr 2026 – now</span><small>Key Club</small></li>
-      <li><b>AAPI Club President</b><span class="when">Apr 2026 – now</span><small>Patrick Henry High School</small></li>
-      <li><b>STEM Sprouts Tech Lead</b><span class="when">Apr 2026 – now</span><small>Teaching kids their first code</small></li>
-      <li><b>Teaching / Lab Assistant</b><span class="when">Jun 2024 – now</span><small>Elementary Institute of Science</small></li>
+    <ul class="roles" data-stagger="60">
+      <li class="role">
+        <button class="role-h" aria-expanded="false" aria-controls="r0"><span class="rt"><b>AAPI Club President</b><small>AAPI Club · Patrick Henry High School</small></span><span class="when">Apr 2026 – now</span><i class="pm" aria-hidden="true"></i></button>
+        <div class="role-b" id="r0"><div><ul><li>Lead the Asian American Pacific Islander Club with an 8-officer board, organizing cultural activities, meetings and large campus events.</li><li>Partnering with the San Diego Police Department’s Multi-Cultural Community Relations unit to plan and run community engagement events.</li></ul></div></div>
+      </li>
+      <li class="role">
+        <button class="role-h" aria-expanded="false" aria-controls="r1"><span class="rt"><b>Marketing Director</b><small>Patribots Robotics Team · Patrick Henry High School</small></span><span class="when"></span><i class="pm" aria-hidden="true"></i></button>
+        <div class="role-b" id="r1"><div><ul><li>Lead a team of 10+ students on the marketing strategy and social media campaigns that grow the team’s and brand’s visibility.</li><li>Run sponsorship outreach and professional writing to secure funding and community support for the program.</li><li>Direct event photography and videography, producing promotional media for team branding and public relations.</li></ul></div></div>
+      </li>
+      <li class="role">
+        <button class="role-h" aria-expanded="false" aria-controls="r2"><span class="rt"><b>D21E Executive Assistant</b><small>Key Club International</small></span><span class="when">May 2026 – now</span><i class="pm" aria-hidden="true"></i></button>
+        <div class="role-b" id="r2"><div><ul><li>Use management, event planning and communication skills across regional and organization-wide service chapters.</li><li>Previously Division Historian: documented events in photos and video and helped write articles for the division.</li></ul></div></div>
+      </li>
+      <li class="role">
+        <button class="role-h" aria-expanded="false" aria-controls="r3"><span class="rt"><b>Spirit Commissioner</b><small>Community Service Club</small></span><span class="when"></span><i class="pm" aria-hidden="true"></i></button>
+        <div class="role-b" id="r3"><div><ul><li>Produced photography, graphics and web design that grew social media engagement and drove volunteer recruitment.</li><li>Managed the club’s social accounts, answering DMs and sharing updates through stories and posts.</li></ul></div></div>
+      </li>
+      <li class="role">
+        <button class="role-h" aria-expanded="false" aria-controls="r4"><span class="rt"><b>Teaching / Lab Assistant</b><small>Elementary Institute of Science</small></span><span class="when">May 2024 – now</span><i class="pm" aria-hidden="true"></i></button>
+        <div class="role-b" id="r4"><div><ul><li>280+ volunteer hours as a lab assistant across the summers of 2024 and 2025, continuing in 2026.</li><li>Guide and support students in an educational setting, with a focus on patience, safety and clear communication with kids and program coordinators.</li></ul></div></div>
+      </li>
     </ul>
+  </div>
+  <div class="nums" data-stagger="80">
+    <div class="num"><b data-n="280" data-plus>0</b><span>volunteer hours teaching science</span></div>
+    <div class="num"><b data-n="4.45" data-dec="2">0</b><span>weighted GPA · Honor Roll</span></div>
+    <div class="num"><b data-n="10" data-plus>0</b><span>students led on Patribots marketing</span></div>
+    <div class="num"><b data-n="2">0</b><span>apps designed and shipped solo</span></div>
   </div>
 </div></section>
 
@@ -269,11 +311,11 @@
   <h2><span class="line"><span>Get in touch.</span></span></h2>
   <p class="intro reveal" style="margin-bottom:32px">Open to summer STEM internships and research opportunities.</p>
   <div class="contact-links reveal">
-    <a class="btn" href="https://github.com/1jacobl">GitHub ↗</a>
-    <a class="btn" href="https://clubbie.live">Clubbie ↗</a>
-    <a class="btn" href="https://1jacobl.github.io/inkbeat/">Inkbeat ↗</a>
+    <a class="btn" href="https://github.com/1jacobl">GitHub <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    <a class="btn" href="https://clubbie.live">Clubbie <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    <a class="btn" href="https://1jacobl.github.io/inkbeat/">Inkbeat <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
   </div>
-  <footer><span class="mono">© 2026 Jacob Le</span><a class="mono" href="#top" style="text-decoration:none">Back to top ↑</a></footer>
+  <footer><span class="mono">© 2026 Jacob Le</span><a class="mono" href="#top" style="text-decoration:none">Back to top <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a></footer>
 </div></section>
 
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
@@ -296,11 +338,17 @@
   });
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { addEventListener('scroll', grow, { passive: true }); grow(); }
 
+  // Roles open and close to show details.
+  document.querySelectorAll('.role-h').forEach(btn => btn.addEventListener('click', () => {
+    const li = btn.parentElement, open = !li.classList.contains('open');
+    li.classList.toggle('open', open); btn.setAttribute('aria-expanded', open);
+  }));
+
   // Numbers count up when they appear.
   document.querySelectorAll('[data-n]').forEach(el => {
     el.parentElement.addEventListener('reveal', () => {
       const end = +el.dataset.n, t0 = performance.now();
-      const tick = (t) => { const p = Math.min(1, (t - t0) / 1600); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 4))) + (p === 1 && el.hasAttribute('data-plus') ? '+' : ''); if (p < 1) requestAnimationFrame(tick); };
+      const tick = (t) => { const p = Math.min(1, (t - t0) / 1600); const dec = +(el.dataset.dec || 0); el.textContent = (end * (1 - Math.pow(1 - p, 4))).toFixed(dec) + (p === 1 && el.hasAttribute('data-plus') ? '+' : ''); if (p < 1) requestAnimationFrame(tick); };
       requestAnimationFrame(tick);
     }, { once: true });
   });
