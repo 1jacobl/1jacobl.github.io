@@ -24,6 +24,8 @@
   .card { background: #fff; border: 2px solid var(--ink); border-radius: 18px; box-shadow: 5px 5px 0 var(--ink); }
 
   nav.top { position: fixed; inset: 0 0 auto; z-index: 50; padding: 16px 0; }
+  nav.top { transition: background .35s, backdrop-filter .35s, box-shadow .35s; }
+  nav.top.solid { background: color-mix(in srgb, var(--paper) 95%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
   nav.top .wrap { display: flex; justify-content: space-between; align-items: center; }
   .back { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; background: #fff; border: 2px solid var(--ink); border-radius: 999px; padding: 8px 14px; box-shadow: 3px 3px 0 var(--ink); transition: transform .2s, box-shadow .2s; }
   .back:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }

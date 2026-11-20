@@ -324,9 +324,6 @@
   // Hero lines rise on load.
   requestAnimationFrame(() => document.querySelector('.hero').classList.add('ready'));
 
-  // Nav gets a backdrop once you've scrolled.
-  const nav = document.querySelector('nav.top');
-  addEventListener('scroll', () => nav.classList.toggle('solid', scrollY > 40), { passive: true });
 
 
   // Project cards grow from 94% to full size as they scroll into view.

@@ -42,4 +42,11 @@
   }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
   document.querySelectorAll('.reveal, [data-on-view], .line').forEach((el) => io.observe(el));
 
+  // Fixed nav gets a backdrop once the page has scrolled.
+  const nav = document.querySelector('nav.top');
+  if (nav) {
+    const solid = () => nav.classList.toggle('solid', scrollY > 30);
+    addEventListener('scroll', solid, { passive: true });
+    solid();
+  }
 })();
