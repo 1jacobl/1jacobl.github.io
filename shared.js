@@ -21,7 +21,12 @@
       const el = id.length > 1 && document.querySelector(id);
       if (!el) return;
       e.preventDefault();
-      if (lenis) lenis.scrollTo(el, { offset: -24 });
+      if (lenis) {
+        // Longer, ease-in-out glide for in-page jumps (feels smoother than the wheel easing over a long distance).
+        const dist = Math.abs(el.getBoundingClientRect().top);
+        const duration = Math.min(2.1, Math.max(1.1, 0.9 + dist / 1400));
+        lenis.scrollTo(el, { offset: -24, duration, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) });
+      }
       else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
     });
   });
