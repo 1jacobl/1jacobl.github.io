@@ -161,80 +161,76 @@
   /* The page transition is the entrance; the header doesn't animate a second time. */
   .js .hero .reveal, .js .hero .line > span { opacity: 1; transform: none; transition: none; }
 
-  /* App mock for the scroll demo: each step lights up the part of the app that does it. */
-  .mock { --dim2: #6b6152; background: var(--desk-2); border: 1px solid var(--edge); border-radius: 16px; padding: 14px; box-shadow: 0 40px 70px -30px #000c; font-size: 13px; }
+  /* Interactive Inkbeat mock. Scroll steps spotlight a part; everything is clickable. */
+  .mock { background: var(--desk-2); border: 1px solid var(--edge); border-radius: 16px; padding: 14px; box-shadow: 0 40px 70px -30px #000c; font-size: 13px; user-select: none; }
   .m-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .m-brand { display: inline-flex; align-items: center; gap: 7px; font-weight: 800; font-size: 15px; letter-spacing: -.02em; }
   .m-brand img { width: 20px; height: 20px; border-radius: 5px; }
-  .m-url { flex: 1; display: flex; align-items: center; background: var(--desk); border: 1px solid var(--edge); border-radius: 8px; padding: 7px 10px; font-family: "JetBrains Mono"; font-size: 11.5px; color: var(--dim); overflow: hidden; white-space: nowrap; }
-  .m-url-t { display: inline-block; vertical-align: top; clip-path: inset(0 100% 0 0); }
-  .m-main { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
-  .m-video { position: relative; aspect-ratio: 16/9; border-radius: 10px; background: radial-gradient(120% 120% at 30% 20%, #3a3128, #15120e); display: grid; place-items: center; overflow: hidden; }
-  .m-thumb { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; }
-  .mock.typed .m-thumb { opacity: 1; transition-delay: 1.4s; }
-  .m-video b { display: none; }
-  .m-yt { position: relative; z-index: 1; width: 40px; height: 28px; box-shadow: 0 6px 16px -6px #000; border-radius: 8px; background: #c4302b; color: #fff; display: grid; place-items: center; opacity: .25; transition: opacity .5s .5s; }
-  .m-ctrl { display: flex; flex-direction: column; gap: 8px; }
-  .m-trans { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 6px; margin-top: auto; }
-  .m-trans span { display: grid; place-items: center; height: 32px; border-radius: 8px; background: var(--desk-3); color: var(--dim); font-family: "JetBrains Mono"; font-size: 12px; }
-  .m-trans span.pl { background: var(--chalk); color: var(--desk); }
-  .m-time { font-family: "JetBrains Mono"; font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1; padding: 4px 2px 0; }
-  .m-btn { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 9px 11px; border-radius: 9px; font-weight: 600; transition: background .3s, color .3s, box-shadow .3s; }
-  .m-btn kbd { font-size: 10px; }
-  .m-drop { background: #3a3220; color: #b9a35a; }
-  .m-rec { background: var(--desk-3); color: var(--dim); justify-content: flex-start; }
-  .m-rec i { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
-  .m-meter { display: none; margin-left: auto; align-items: center; gap: 2px; height: 14px; }
-  .m-meter b { width: 3px; background: #fff; border-radius: 2px; animation: meter .6s ease-in-out infinite alternate; }
-  .m-meter b:nth-child(2) { animation-delay: .1s } .m-meter b:nth-child(3) { animation-delay: .25s } .m-meter b:nth-child(4) { animation-delay: .05s } .m-meter b:nth-child(5) { animation-delay: .3s }
-  @keyframes meter { from { height: 3px; } to { height: 14px; } }
-  .m-line { position: relative; height: 30px; margin: 30px 0 14px; border-radius: 8px; background: repeating-linear-gradient(90deg, #2c261e 0 2px, transparent 2px 7px); }
-  .m-mk { font-style: normal; position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--hi); transform: scaleY(0); transform-origin: bottom; transition: transform .45s cubic-bezier(.3,1.6,.5,1); }
-  .m-mk:nth-child(2) { transition-delay: .2s } .m-mk:nth-child(3) { transition-delay: .4s }
-  .m-mk span { position: absolute; top: -15px; left: 4px; font-family: "JetBrains Mono"; font-size: 10px; color: var(--hi); white-space: nowrap; }
-  .m-head { position: absolute; top: -4px; bottom: -4px; left: 34%; width: 2px; background: var(--chalk); border-radius: 2px; }
-  .mock.recording .m-head, .mock[data-step="3"] .m-head { background: var(--rec); }
-  .m-mk.user { transform: none; animation: drop-in .45s cubic-bezier(.3,1.6,.5,1); }
-  @keyframes drop-in { from { transform: scaleY(0); } }
-  .mock.recording .m-rec { background: var(--rec); color: #fff; }
-  .mock.recording .m-meter { display: inline-flex; }
-  .m-drop.flash { background: var(--hi) !important; color: var(--ink) !important; }
-  .m-reset { all: unset; cursor: pointer; margin-left: 8px; padding: 3px 10px; border: 1px solid var(--edge); border-radius: 999px; color: var(--dim); transition: border-color .2s, color .2s; }
-  .m-reset:hover { border-color: var(--dim); color: var(--chalk); }
-  .m-reset:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
-  .m-mk.nolabel span, .mk.user.nolabel::after { display: none; }
-  .m-hint { margin-top: 10px; font-family: "JetBrains Mono"; font-size: 11px; color: var(--faint); text-align: center; }
-  .m-page { position: relative; background: var(--paper); color: var(--ink); border-radius: 10px; padding: 16px 18px; min-height: 200px; }
-  .m-blank { position: absolute; inset: 14px 16px auto; font-family: "Courier Prime", monospace; font-size: 13px; color: var(--ink-soft); transition: opacity .3s; }
-  .m-tabs { display: flex; gap: 6px; height: 24px; margin-bottom: 12px; opacity: 0; transition: opacity .4s .5s; }
-  .m-tabs span { font-family: "JetBrains Mono"; font-size: 10.5px; padding: 4px 8px; border-radius: 5px; background: var(--paper-2); color: var(--ink-soft); }
-  .m-tabs span.on { background: var(--ink); color: var(--paper); }
-  .m-ly { font-family: "Courier Prime", monospace; font-size: 14.5px; line-height: 26px; height: 26px; white-space: nowrap; overflow: hidden; }
-  .m-ly span { display: inline-block; clip-path: inset(0 100% 0 0); transition: clip-path .7s steps(28); transition-delay: calc(var(--l) * .35s); }
-  .m-takes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--rule); opacity: 0; transition: opacity .4s; }
-  .m-take { white-space: nowrap; font-family: "JetBrains Mono"; font-size: 10.5px; padding: 4px 9px; border-radius: 999px; background: var(--paper-2); color: var(--ink-soft); }
-  .m-take.new { display: inline-flex; align-items: center; gap: 6px; background: var(--rec); color: #fff; transform: scale(.6); opacity: 0; transition: transform .45s cubic-bezier(.3,1.7,.5,1) .3s, opacity .3s .3s; }
-  .m-take.new i { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
-
-  /* step 0: paste a beat */
+  .m-url { flex: 1; display: flex; align-items: center; background: var(--desk); border: 1px solid var(--edge); border-radius: 8px; padding: 7px 10px; font-family: "JetBrains Mono"; font-size: 11.5px; color: var(--dim); overflow: hidden; white-space: nowrap; transition: border-color .3s, box-shadow .3s; }
+  .m-url-t { display: inline-block; clip-path: inset(0 100% 0 0); }
+  .m-url::after { content: ""; display: inline-block; width: 7px; height: 13px; margin-left: 1px; background: var(--hi); animation: blink 1s steps(2) infinite; }
   .mock.typed .m-url-t { clip-path: inset(0 0 0 0); transition: clip-path 1.3s steps(33); }
-  .m-url { position: relative; }
-  .m-url::after { content: ""; display: inline-block; width: 7px; height: 13px; margin-left: 1px; vertical-align: -2px; background: var(--hi); animation: blink 1s steps(2) infinite; }
   .mock.typed .m-url::after { animation: blink 1s steps(2) infinite, caret-off .3s ease 3.2s forwards; }
   @keyframes caret-off { to { opacity: 0; visibility: hidden; } }
-  .mock.typed .m-video b, .mock.typed .m-yt { opacity: 1; transition-delay: 1.4s; }
-  .mock[data-step="0"] .m-url { border-color: var(--hi); }
-  /* step 1+: markers */
-  .mock:not([data-step="0"]) .m-mk { transform: none; }
-  .mock:not([data-step="0"]) .m-blank { opacity: 0; }
-  .mock:not([data-step="0"]) .m-tabs { opacity: 1; }
-  .mock[data-step="1"] .m-drop { background: var(--hi); color: var(--ink); box-shadow: 0 0 0 3px #f6d64a33; }
-  /* step 2+: lyrics */
-  .mock:is([data-step="2"],[data-step="3"]) .m-ly span { clip-path: inset(0 0 0 0); }
-  /* step 3: record */
-  .mock[data-step="3"] .m-rec { background: var(--rec); color: #fff; }
-  .mock[data-step="3"] .m-meter { display: inline-flex; }
-    .mock[data-step="3"] .m-takes, .mock[data-step="3"] .m-take.new { opacity: 1; transform: none; }
+  .m-main { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+  .m-video { position: relative; aspect-ratio: 16/9; border-radius: 10px; background: #15120e; display: grid; place-items: center; overflow: hidden; }
+  .m-thumb { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; }
+  .mock.typed .m-thumb { opacity: 1; transition-delay: 1.4s; }
+  .m-video.playing .m-yt { opacity: 0; transform: scale(.8); }
+  .m-yt { position: relative; z-index: 1; width: 40px; height: 28px; border-radius: 8px; background: #c4302b; color: #fff; display: grid; place-items: center; box-shadow: 0 6px 16px -6px #000; transition: opacity .3s, transform .3s; }
+  .m-ctrl { display: flex; flex-direction: column; gap: 8px; }
+  .m-time { font-family: "JetBrains Mono"; font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1; padding: 2px 2px 0; font-variant-numeric: tabular-nums; }
+  .m-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+  .m-meta span { font-family: "JetBrains Mono"; font-size: 10.5px; color: var(--dim); background: var(--desk); border: 1px solid var(--edge); border-radius: 6px; padding: 3px 7px; }
+  .m-trans { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 6px; margin-top: auto; }
+  .m-b { all: unset; box-sizing: border-box; cursor: pointer; display: grid; place-items: center; height: 32px; border-radius: 8px; background: var(--desk-3); color: var(--dim); font-family: "JetBrains Mono"; font-size: 12px; transition: background .2s, color .2s, transform .1s; }
+  .m-b:hover { color: var(--chalk); }
+  .m-b:active { transform: scale(.96); }
+  .m-b.pl { background: var(--chalk); color: var(--desk); }
+  .m-btn { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 9px 11px; border-radius: 9px; font-weight: 600; transition: background .2s, color .2s, box-shadow .3s, transform .1s; }
+  .m-btn:active { transform: scale(.98); }
+  .m-btn kbd { font-size: 10px; }
+  .m-drop { background: #3a3220; color: #c8b25f; }
+  .m-drop:hover, .m-drop.flash { background: var(--hi); color: var(--ink); }
+  .m-rec { background: var(--desk-3); color: var(--dim); justify-content: flex-start; }
+  .m-rec:hover { color: var(--chalk); }
+  .m-rec i { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+  .m-rec .m-rt { margin-left: auto; font-family: "JetBrains Mono"; font-size: 11px; display: none; }
+  .mock.recording .m-rec { background: var(--rec); color: #fff; }
+  .mock.recording .m-rec i { animation: blink 1s steps(2) infinite; }
+  .mock.recording .m-rec .m-rt { display: inline; }
+  .m-line { position: relative; height: 30px; margin: 30px 0 14px; border-radius: 8px; cursor: pointer; touch-action: none; background: repeating-linear-gradient(90deg, #2c261e 0 2px, transparent 2px 7px); }
+  .m-line.dragging { cursor: grabbing; }
+  .m-mk { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--hi); font-style: normal; animation: drop-in .45s cubic-bezier(.3,1.6,.5,1); }
+  .m-mk::before { content: ""; position: absolute; inset: 0 -7px; }
+  .m-mk span { position: absolute; top: -16px; left: 4px; font-family: "JetBrains Mono"; font-size: 10px; color: var(--hi); white-space: nowrap; }
+  .m-mk.sel { background: #fff3b0; } .m-mk.sel span { color: #fff3b0; }
+  .m-mk.nolabel span { display: none; }
+  @keyframes drop-in { from { transform: scaleY(0); } }
+  .m-head { position: absolute; top: -6px; bottom: -6px; width: 2px; margin-left: -1px; background: var(--chalk); border-radius: 2px; pointer-events: none; }
+  .m-head::before { content: ""; position: absolute; top: -4px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: inherit; }
+  .mock.recording .m-head { background: var(--rec); }
+  .m-page { background: var(--paper); color: var(--ink); border-radius: 10px; padding: 14px 16px 16px; user-select: text; }
+  .m-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .m-tab { all: unset; cursor: pointer; font-family: "JetBrains Mono"; font-size: 10.5px; padding: 4px 8px; border-radius: 5px; background: var(--paper-2); color: var(--ink-soft); transition: background .2s, color .2s; }
+  .m-tab:hover { background: var(--rule); }
+  .m-tab.on { background: var(--ink); color: var(--paper); }
+  .m-lines { min-height: 84px; }
+  .m-ly { font-family: "Courier Prime", monospace; font-size: 14.5px; line-height: 28px; min-height: 28px; outline: none; border-bottom: 1px dashed transparent; caret-color: var(--rec); }
+  .m-ly:focus { border-bottom-color: var(--rule); }
+  .m-ly:empty::before { content: attr(data-ph); color: #b3a68c; }
+  .m-takes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--rule); min-height: 34px; align-items: center; }
+  .m-takes .none { font-size: 12px; color: #a3957c; }
+  .m-take { white-space: nowrap; font-family: "JetBrains Mono"; font-size: 10.5px; padding: 4px 9px; border-radius: 999px; background: var(--paper-2); color: var(--ink-soft); }
+  .m-take.new { background: var(--rec); color: #fff; animation: pop .45s cubic-bezier(.3,1.7,.5,1); }
+  @keyframes pop { from { transform: scale(.6); opacity: 0; } }
+  .m-hint { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; font-family: "JetBrains Mono"; font-size: 11px; color: var(--faint); }
+  .m-reset { all: unset; cursor: pointer; padding: 3px 10px; border: 1px solid var(--edge); border-radius: 999px; color: var(--dim); }
+  .m-reset:hover { border-color: var(--dim); color: var(--chalk); }
+  .m-reset:focus-visible, .m-btn:focus-visible, .m-b:focus-visible, .m-tab:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
+  /* scroll spotlight */
+  .mock .spot { box-shadow: 0 0 0 2px var(--hi), 0 0 24px -4px #f6d64a66; }
+  .m-page.spot { box-shadow: 0 0 0 2px var(--hi), 0 0 30px -6px #f6d64a55; }
   @media (max-width: 600px) { .m-main { grid-template-columns: 1fr; } .m-time { font-size: 20px; } }
 
   /* Covers & parodies */
@@ -301,13 +297,13 @@
         <li>Write per section<small>Each marker gets its own lyric page, timestamped.</small></li>
         <li>Record a flow<small>The mic starts and the beat plays from that marker with a lead-in.</small></li>
       </ol>
-      <div class="mock" id="mock" data-step="0">
+      <div class="mock" id="mock" data-step="-1">
         <div class="m-top">
           <span class="m-brand"><img src="inkbeat-icon.svg" alt="" width="20" height="20">Inkbeat</span>
-          <div class="m-url"><span class="m-url-t">youtube.com/watch?v=late-bus-beat</span></div>
+          <div class="m-url" data-spot="0"><span class="m-url-t">youtube.com/watch?v=late-bus-beat</span></div>
         </div>
         <div class="m-main">
-          <div class="m-player"><div class="m-video"><svg class="m-thumb" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <div class="m-video" id="mVideo"><svg class="m-thumb" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1436"/><stop offset=".55" stop-color="#5a2a3c"/><stop offset="1" stop-color="#e8442c"/></linearGradient></defs>
               <rect width="320" height="180" fill="url(#sky)"/>
               <circle cx="232" cy="112" r="34" fill="#f6d64a" opacity=".9"/>
@@ -317,25 +313,23 @@
               <g><rect x="150" y="132" width="92" height="28" rx="5" fill="#efe6d2"/><rect x="158" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="176" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="194" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="212" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="230" y="140" width="8" height="12" rx="1" fill="#e8442c"/><circle cx="166" cy="161" r="5" fill="#15120e"/><circle cx="226" cy="161" r="5" fill="#15120e"/></g>
               <text x="16" y="30" fill="#efe6d2" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="22" letter-spacing="-.5">late bus</text>
               <text x="16" y="46" fill="#efe6d2" opacity=".7" font-family="JetBrains Mono, monospace" font-size="9">prod. demo · 92 bpm</text>
-            </svg><b>late bus (prod. demo)</b><span class="m-yt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span></div></div>
+            </svg><span class="m-yt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span></div>
           <div class="m-ctrl">
             <div class="m-time" id="mTime">0:41.2</div>
-            <div class="m-trans"><span>−5</span><span class="pl"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span><span>+5</span></div>
-            <button class="m-btn m-drop" id="mDrop" type="button">Drop marker <kbd>M</kbd></button>
-            <button class="m-btn m-rec" id="mRec" type="button"><i></i><span class="m-rec-l">Record flow</span><span class="m-meter"><b></b><b></b><b></b><b></b><b></b></span></button>
+            <div class="m-meta"><span>92 BPM</span><span>A minor</span><span id="mCount">3 sections</span></div>
+            <div class="m-trans"><button class="m-b" id="mBack" type="button" aria-label="Back 5 seconds">−5</button><button class="m-b pl" id="mPlay" type="button" aria-label="Play"></button><button class="m-b" id="mFwd" type="button" aria-label="Forward 5 seconds">+5</button></div>
+            <button class="m-btn m-drop" id="mDrop" type="button" data-spot="1">Drop marker <kbd>M</kbd></button>
+            <button class="m-btn m-rec" id="mRec" type="button" data-spot="3"><i></i><span>Record flow</span><span class="m-rt" id="mRt">0:00</span></button>
           </div>
         </div>
-        <div class="m-line"><i class="m-mk" style="left:9%"><span>Verse 1</span></i><i class="m-mk hook" style="left:31%"><span>Hook</span></i><i class="m-mk" style="left:52%"><span>Verse 2</span></i><i class="m-head"></i></div>
-        <div class="m-page">
-          <div class="m-blank">Blank page. Play the beat and hit <kbd>M</kbd> wherever a section lands.</div>
-          <div class="m-tabs"><span>0:12 Verse 1</span><span class="on">0:41 Hook</span><span>1:05 Verse 2</span></div>
-          <div class="m-ly"><span style="--l:0">write it down before it fades out</span></div>
-          <div class="m-ly"><span style="--l:1">every bar got a place now</span></div>
-          <div class="m-ly"><span style="--l:2">run it back, I can feel it now</span></div>
-          <div class="m-takes"><span class="m-take old">Take 1 · 0:07</span><span class="m-take old">Take 2 · 0:09</span><span class="m-take new"><i></i>Take 3 · 0:08</span></div>
+        <div class="m-line" id="mLine" data-spot="1"><i class="m-head" id="mHead"></i></div>
+        <div class="m-page" id="mPage" data-spot="2">
+          <div class="m-tabs" id="mTabs"></div>
+          <div class="m-lines" id="mLines"></div>
+          <div class="m-takes" id="mTakes"></div>
         </div>
       </div>
-      <div class="m-hint">Try it: click Drop marker or press M. Click Record flow to start a take. <button class="m-reset" id="mReset" type="button">Reset</button></div>
+      <div class="m-hint">Drag the timeline, drop markers, type lyrics, record a take. <button class="m-reset" id="mReset" type="button">Reset</button></div>
     </div>
   </div>
 </div>
@@ -461,35 +455,100 @@
   // Scroll-scrubbed demo: progress through the tall section picks the active step + lyric section.
   const scrub = document.getElementById('scrub');
   const steps = [...document.querySelectorAll('#steps li')];
-  const sheet = document.getElementById('mock');
-  // Make the mock usable: a playhead runs, Drop marker / M drops a marker there, Record flow toggles a take.
-  const mHead = sheet.querySelector('.m-head'), mLine = sheet.querySelector('.m-line'), mTime = document.getElementById('mTime');
-  const mDrop = document.getElementById('mDrop'), mRec = document.getElementById('mRec');
-  let mPos = .34, mUser = 0;
-  const mFmt = (p) => { const t = p * 168; return `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}.${Math.floor((t * 10) % 10)}`; };
+  // Interactive mock: sections, scrubbing, transport, markers, lyrics and takes.
+  const mLine = document.getElementById('mLine'), mHead = document.getElementById('mHead'), mTime = document.getElementById('mTime');
+  const mTabs = document.getElementById('mTabs'), mLines = document.getElementById('mLines'), mTakes = document.getElementById('mTakes');
+  const mDrop = document.getElementById('mDrop'), mRec = document.getElementById('mRec'), mRt = document.getElementById('mRt');
+  const mPlay = document.getElementById('mPlay'), mVideo = document.getElementById('mVideo'), mCount = document.getElementById('mCount');
+  const SONG = 168, PLAY_I = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>', PAUSE_I = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+  const preset = () => [
+    { id: 1, t: 12, label: 'Verse 1', lines: ['late bus home, city in my headphones', 'counting streetlights like they owe me'], takes: [] },
+    { id: 2, t: 41, label: 'Hook', lines: ['write it down before it fades out', 'every bar got a place now', 'run it back, I can feel it now'], takes: ['Take 1 · 0:07', 'Take 2 · 0:09'] },
+    { id: 3, t: 65, label: 'Verse 2', lines: ['margin full of arrows, coffee rings', ''], takes: [] },
+  ];
+  let secs, sel, mSec, mPlaying, mRecAt, nextId, newTake;
+  const fmtS = (t, tenths) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}${tenths ? '.' + Math.floor((t * 10) % 10) : ''}`;
+  const current = () => secs.find((x) => x.id === sel);
+  const setMPlaying = (v) => { mPlaying = v; mPlay.innerHTML = v ? PAUSE_I : PLAY_I; mPlay.setAttribute('aria-label', v ? 'Pause' : 'Play'); mVideo.classList.toggle('playing', v); };
+  const drawLine = () => {
+    mLine.querySelectorAll('.m-mk').forEach((m) => m.remove());
+    let lastX = -1;
+    [...secs].sort((a, b) => a.t - b.t).forEach((x) => {
+      const m = document.createElement('i'); m.className = 'm-mk' + (x.id === sel ? ' sel' : ''); m.style.left = (x.t / SONG * 100) + '%';
+      const close = Math.abs(x.t / SONG - lastX) < .08; if (close) m.classList.add('nolabel'); else lastX = x.t / SONG;
+      m.innerHTML = `<span>${x.label}</span>`; m.dataset.id = x.id; mLine.appendChild(m);
+    });
+    mCount.textContent = secs.length + (secs.length === 1 ? ' section' : ' sections');
+  };
+  const drawPage = () => {
+    mTabs.innerHTML = '';
+    [...secs].sort((a, b) => a.t - b.t).forEach((x) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'm-tab' + (x.id === sel ? ' on' : ''); b.textContent = `${fmtS(x.t)} ${x.label}`;
+      b.addEventListener('click', () => { select(x.id, true); }); mTabs.appendChild(b);
+    });
+    const c = current(); mLines.innerHTML = '';
+    c.lines.forEach((ln, i) => {
+      const d = document.createElement('div'); d.className = 'm-ly'; d.contentEditable = 'true'; d.spellcheck = false; d.dataset.ph = 'write a bar…'; d.textContent = ln;
+      d.addEventListener('input', () => { c.lines[i] = d.textContent; });
+      d.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); if (i === c.lines.length - 1 && c.lines.length < 4) { c.lines.push(''); drawPage(); mLines.lastChild.focus(); } else d.blur(); } });
+      mLines.appendChild(d);
+    });
+    mTakes.innerHTML = c.takes.length ? '' : '<span class="none">No takes yet. Hit Record flow.</span>';
+    c.takes.forEach((t) => { const s2 = document.createElement('span'); s2.className = 'm-take' + (t === newTake ? ' new' : ''); s2.textContent = t; mTakes.appendChild(s2); });
+  };
+  const select = (id, seekTo) => { sel = id; if (seekTo) mSec = current().t; drawLine(); drawPage(); drawHead(); };
+  const drawHead = () => { mHead.style.left = (mSec / SONG * 100) + '%'; mTime.textContent = fmtS(mSec, true); if (mRecAt != null) mRt.textContent = fmtS(Math.max(0, mSec - mRecAt)); };
+  const mReset = () => { secs = preset(); sel = 2; mSec = 41.2; mRecAt = null; nextId = 4; newTake = null; document.getElementById('mock').classList.remove('recording'); setMPlaying(false); drawLine(); drawPage(); drawHead(); };
+  mReset();
   let mLast = performance.now();
-  const mLoop = (t) => { mPos += (t - mLast) / 60000; mLast = t; if (mPos > .98) mPos = .02; mHead.style.left = (mPos * 100) + '%'; mTime.textContent = mFmt(mPos); requestAnimationFrame(mLoop); };
+  const mLoop = (t) => { const dt = (t - mLast) / 1000; mLast = t; if (mPlaying && !mDragging) { mSec += dt; if (mSec >= SONG) mSec = 0; drawHead(); } requestAnimationFrame(mLoop); };
+  let mDragging = false;
   requestAnimationFrame(mLoop);
+  // scrub
+  const mSeek = (e) => { const r = mLine.getBoundingClientRect(); mSec = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * SONG; drawHead(); };
+  mLine.addEventListener('pointerdown', (e) => {
+    const mk = e.target.closest('.m-mk'); if (mk) { select(+mk.dataset.id, true); return; }
+    mDragging = true; mLine.classList.add('dragging'); mLine.setPointerCapture(e.pointerId); mSeek(e);
+  });
+  mLine.addEventListener('pointermove', (e) => { if (mDragging) mSeek(e); });
+  const mEnd = () => { mDragging = false; mLine.classList.remove('dragging'); };
+  mLine.addEventListener('pointerup', mEnd); mLine.addEventListener('pointercancel', mEnd);
+  // transport
+  mPlay.addEventListener('click', () => setMPlaying(!mPlaying));
+  document.getElementById('mBack').addEventListener('click', () => { mSec = Math.max(0, mSec - 5); drawHead(); });
+  document.getElementById('mFwd').addEventListener('click', () => { mSec = Math.min(SONG, mSec + 5); drawHead(); });
+  // markers
   let mLastDrop = 0, mFlashT;
   const mDropMarker = () => {
-    const now = performance.now(); if (now - mLastDrop < 160) return; mLastDrop = now;
-    mUser++;
-    const m = document.createElement('i'); m.className = 'm-mk user'; m.style.left = (mPos * 100) + '%'; m.dataset.p = mPos;
-    if ([...mLine.querySelectorAll('.m-mk')].some((o) => Math.abs(parseFloat(o.style.left) / 100 - mPos) < .07)) m.classList.add('nolabel');
-    m.innerHTML = `<span>M${mUser}</span>`; mLine.appendChild(m);
-    const mine = mLine.querySelectorAll('.m-mk.user'); if (mine.length > 8) mine[0].remove();
+    const now = performance.now(); if (now - mLastDrop < 200) return; mLastDrop = now;
+    const near = secs.find((x) => Math.abs(x.t - mSec) < 1.5); if (near) { select(near.id); return; }
+    if (secs.length >= 8) secs.splice(secs.findIndex((x) => x.id >= 4), 1);
+    const id = nextId++; secs.push({ id, t: Math.round(mSec * 10) / 10, label: 'Section ' + (id - 3), lines: [''], takes: [] });
+    select(id);
     clearTimeout(mFlashT); mDrop.classList.add('flash'); mFlashT = setTimeout(() => mDrop.classList.remove('flash'), 180);
   };
   mDrop.addEventListener('click', mDropMarker);
-  mRec.addEventListener('click', () => sheet.classList.toggle('recording'));
   window.__mDropMarker = mDropMarker;
+  // record: start at the selected section with a lead-in; stopping saves a take with its real length
+  mRec.addEventListener('click', () => {
+    const mock = document.getElementById('mock');
+    if (mRecAt == null) { const c = current(); mSec = Math.max(0, c.t - 2); mRecAt = c.t; mock.classList.add('recording'); setMPlaying(true); }
+    else {
+      const len = Math.max(1, Math.round(mSec - mRecAt)); const c = current();
+      newTake = `Take ${c.takes.length + 1} · ${fmtS(len)}`; c.takes.push(newTake); if (c.takes.length > 4) c.takes.shift();
+      mRecAt = null; mock.classList.remove('recording'); setMPlaying(false); drawPage();
+    }
+  });
+  document.getElementById('mReset').addEventListener('click', () => { mReset(); if (window.__heroReset) window.__heroReset(); });
+  [mPlay, mDrop, mRec, document.getElementById('mBack'), document.getElementById('mFwd'), document.getElementById('mReset')].forEach((b) => b.addEventListener('mousedown', (e) => e.preventDefault()));
+  const sheet = document.getElementById('mock');
   new IntersectionObserver(([e], o) => { if (e.isIntersecting) { sheet.classList.add('typed'); o.disconnect(); } }, { threshold: .4 }).observe(sheet);
   const onScroll = () => {
     const r = scrub.getBoundingClientRect();
     const p = Math.min(.999, Math.max(0, -r.top / (r.height - innerHeight)));
     const k = Math.floor(p * 4);
     steps.forEach((s, i) => s.classList.toggle('now', i === k));
-    if (sheet.dataset.step !== String(k)) sheet.dataset.step = k;
+    if (sheet.dataset.step !== String(k)) { sheet.dataset.step = k; sheet.querySelectorAll('[data-spot]').forEach((el) => el.classList.toggle('spot', el.dataset.spot === String(k))); }
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
@@ -556,14 +615,8 @@
   const cvK = document.getElementById('cvK'), cvKl = document.getElementById('cvKl');
   cvK.addEventListener('mousedown', (e) => e.preventDefault());
   cvK.addEventListener('click', () => { const on = cvK.getAttribute('aria-pressed') !== 'true'; cvK.setAttribute('aria-pressed', on); cvKl.textContent = on ? 'night drive (instrumental)' : 'night drive (original, with vocals)'; });
-  // Reset the demos.
-  const mReset = document.getElementById('mReset');
-  mReset.addEventListener('mousedown', (e) => e.preventDefault());
-  mReset.addEventListener('click', () => {
-    mLine.querySelectorAll('.m-mk.user').forEach((m) => m.remove()); mUser = 0; mPos = .34;
-    sheet.classList.remove('recording');
-    wave.querySelectorAll('.mk.user').forEach((m) => m.remove()); markers = 4; rec = false; syncReadout();
-  });
+  // Reset hook for the hero player (called by the mock's Reset).
+  window.__heroReset = () => { wave.querySelectorAll('.mk.user').forEach((m) => m.remove()); markers = 4; rec = false; syncReadout(); };
 </script>
 </body>
 </html>
