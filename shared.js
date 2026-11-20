@@ -53,21 +53,4 @@
     update();
   }
 
-  // Page wipe between pages: a panel in the destination's colour slides up, then we navigate.
-  const wipe = document.querySelector('.wipe');
-  document.querySelectorAll('a[data-wipe]').forEach((a) => {
-    a.addEventListener('click', (e) => {
-      if (reduce || !wipe || e.metaKey || e.ctrlKey) return;
-      e.preventDefault();
-      wipe.style.background = a.dataset.wipe;
-      wipe.classList.add('cover');
-      setTimeout(() => { location.href = a.href; }, 520);
-    });
-  });
-  // Arriving: the wipe starts covering and slides away.
-  if (wipe && wipe.classList.contains('arrive')) {
-    requestAnimationFrame(() => requestAnimationFrame(() => wipe.classList.add('leave')));
-  }
-  // Coming back with the back button restores a page that may still be covered.
-  addEventListener('pageshow', (e) => { if (e.persisted && wipe) wipe.classList.remove('cover'); });
 })();

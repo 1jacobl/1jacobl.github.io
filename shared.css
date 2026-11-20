@@ -30,17 +30,20 @@ a { color: inherit; }
   background: var(--progress, currentColor); transform-origin: 0 50%; transform: scaleX(0);
 }
 
-.wipe {
-  position: fixed; inset: 0; z-index: 100; pointer-events: none;
-  transform: translateY(100%);
-  transition: transform .55s cubic-bezier(.7,0,.2,1);
+/* Page-to-page: the browser cross-fades between pages (Chrome, Edge, Safari 18.2+). */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out .28s cubic-bezier(.4,0,1,1) both; }
+::view-transition-new(root) { animation: vt-in .55s cubic-bezier(.16,1,.3,1) both; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
+/* Browsers without it get a quick fade-in instead of a hard cut. */
+@supports not (view-transition-name: none) {
+  body { animation: page-in .45s cubic-bezier(.16,1,.3,1) both; }
+  @keyframes page-in { from { opacity: 0; } }
 }
-.wipe.cover { transform: translateY(0); pointer-events: all; }
-.wipe.arrive { transform: translateY(0); transition: none; }
-.wipe.arrive.leave { transform: translateY(-100%); transition: transform .7s cubic-bezier(.7,0,.2,1) .05s; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .js .reveal, .js .line > span { opacity: 1; transform: none; }
-  .wipe.arrive { transform: translateY(-100%); }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
