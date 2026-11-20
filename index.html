@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jacob Le</title>
+<meta name="description" content="Jacob Le — student engineer. Builder of Clubbie and Inkbeat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Unbounded:wght@700;800&family=Figtree:wght@500;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root {
+    --bg: #f3f1ec; --ink: #16151a; --mute: #6d6a73; --line: #dcd8d0; --card: #fbfaf7;
+    --progress: #16151a;
+  }
+  body { background: var(--bg); color: var(--ink); font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 17px; line-height: 1.55; }
+  .mono { font-family: "Geist Mono", ui-monospace, monospace; font-size: 12.5px; letter-spacing: .02em; text-transform: uppercase; color: var(--mute); }
+
+  /* nav */
+  nav.top { position: fixed; inset: 0 0 auto 0; z-index: 50; padding: 18px 0; transition: background .4s, backdrop-filter .4s; }
+  nav.top.solid { background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); }
+  nav.top .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .me { font-weight: 800; text-decoration: none; letter-spacing: -.01em; }
+  .links { display: flex; gap: 22px; }
+  .links a { text-decoration: none; color: var(--mute); font-size: 15px; position: relative; transition: color .25s; }
+  .links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .35s cubic-bezier(.2,.7,.1,1); }
+  .links a:hover { color: var(--ink); }
+  .links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  /* hero */
+  .hero { min-height: 92vh; display: grid; align-content: end; padding: 140px 0 72px; }
+  .hero h1 { font-weight: 800; font-size: clamp(42px, 8.4vw, 118px); line-height: 1; letter-spacing: -.035em; margin: 0 0 40px; max-width: 13ch; }
+  .hero h1 em { font-style: normal; color: var(--mute); }
+  .hero-foot { display: grid; gap: 24px; border-top: 1px solid var(--line); padding-top: 22px; }
+  @media (min-width: 820px) { .hero-foot { grid-template-columns: 1fr 1fr 1fr; } }
+  .hero-foot p { margin: 6px 0 0; max-width: 34ch; }
+  .scroll-cue { display: inline-flex; gap: 10px; align-items: center; text-decoration: none; }
+  .scroll-cue i { width: 1px; height: 34px; background: var(--line); position: relative; overflow: hidden; }
+  .scroll-cue i::after { content: ""; position: absolute; inset: 0; background: var(--ink); animation: drip 1.8s cubic-bezier(.6,0,.2,1) infinite; }
+  @keyframes drip { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
+
+
+  /* hero words that are tiny pieces of each app */
+  .hero .line { overflow: visible; }
+  .hero .line > span { clip-path: inset(-20% -20% 0 -20%); }
+  .status { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--mute); margin-bottom: 28px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 12px; background: var(--card); width: fit-content; }
+  .status i { width: 8px; height: 8px; border-radius: 50%; background: #2ED3A0; box-shadow: 0 0 0 0 #2ED3A066; animation: ping 2s infinite; }
+  @keyframes ping { 70% { box-shadow: 0 0 0 8px #2ED3A000; } 100% { box-shadow: 0 0 0 0 #2ED3A000; } }
+  .w-club, .w-ink { text-decoration: none; display: inline-block; position: relative; vertical-align: baseline; transition: transform .5s cubic-bezier(.3,1.6,.5,1), box-shadow .3s; }
+  .w-club { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: .78em; letter-spacing: -.05em; color: #1B1340; background: #FF6FB5; border: .045em solid #1B1340; border-radius: .22em; padding: .02em .16em .08em; box-shadow: .07em .07em 0 #1B1340; transform: rotate(-4deg); }
+  .w-club:hover { transform: rotate(3deg) translateY(-.04em); box-shadow: .1em .12em 0 #1B1340; }
+  .w-ink { font-family: "Courier Prime", monospace; font-weight: 700; font-size: .82em; letter-spacing: -.04em; color: #1e1a14; background: #f3ead6; padding: .04em .2em .1em; transform: rotate(2.5deg); box-shadow: 0 .14em .25em -.1em #0005;
+    background-image: repeating-linear-gradient(transparent 0 .48em, #d8c9a9 .48em .5em); }
+  .w-ink b { position: absolute; top: -.16em; left: 50%; width: 1.1em; height: .3em; margin-left: -.55em; background: #c8b083cc; transform: rotate(-4deg); }
+  .w-ink::after { content: ""; position: absolute; right: -.12em; top: -.08em; width: .16em; height: .16em; border-radius: 50%; background: #e8442c; animation: blinkr 1.2s steps(2) infinite; }
+  @keyframes blinkr { 50% { opacity: 0; } }
+  .w-ink:hover { transform: rotate(-1.5deg) translateY(-.04em); }
+  .js .w-club, .js .w-ink { scale: 0; }
+  .js .ready .w-club, .js .ready .w-ink { scale: 1; transition: scale .7s cubic-bezier(.3,1.7,.5,1), transform .5s cubic-bezier(.3,1.6,.5,1); }
+  .js .ready .w-club { transition-delay: .7s, 0s; } .js .ready .w-ink { transition-delay: .85s, 0s; }
+
+  /* scroll-linked card growth */
+  .proj { transform: scale(var(--s, 1)); }
+  .proj:hover { transform: scale(var(--s, 1)) translateY(-6px); }
+
+  /* numbers row */
+  .nums { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; margin-top: 64px; }
+  @media (min-width: 820px) { .nums { grid-template-columns: repeat(4, 1fr); } }
+  .num { background: var(--card); padding: 26px 22px; }
+  .num b { display: block; font-weight: 800; font-size: clamp(40px, 5vw, 64px); letter-spacing: -.05em; line-height: 1; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  .num span { color: var(--mute); font-size: 15px; }
+
+  /* work */
+  section { padding: 96px 0; }
+  .sec-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 40px; }
+  .sec-head h2 { font-size: 15px; font-weight: 500; margin: 0; }
+  .projects { display: grid; gap: 28px; }
+  .proj { display: grid; gap: 0; text-decoration: none; border-radius: 22px; overflow: hidden; transition: transform .6s cubic-bezier(.2,.7,.1,1); }
+  @media (min-width: 900px) { .proj { grid-template-columns: 5fr 7fr; min-height: 520px; } }
+  .proj .info { padding: 34px 32px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; }
+  .proj h3 { margin: 10px 0 12px; line-height: 1; }
+  .proj p { margin: 0; max-width: 38ch; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .tags span { font-size: 13px; padding: 4px 10px; border-radius: 999px; }
+  .go { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
+  .go b { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; transition: transform .5s cubic-bezier(.2,.7,.1,1); }
+  .proj:hover .go b { transform: rotate(-45deg); }
+  .stage { position: relative; min-height: 340px; display: grid; place-items: center; padding: 28px; overflow: hidden; }
+
+  /* Clubbie card — Clubbie's own palette: grape ink, lavender paper, sticker shadows */
+  .p-club { background: #F5F4FF; color: #1B1340; border: 2px solid #1B1340; box-shadow: 6px 6px 0 #1B1340; font-family: "Figtree", sans-serif; }
+  .p-club:hover { box-shadow: 10px 12px 0 #1B1340; }
+  .p-club h3 { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.03em; }
+  .p-club .mono { color: #6F6896; }
+  .p-club .tags span { border: 1.5px solid #1B1340; background: #fff; }
+  .p-club .go b { background: #7B0AFF; color: #fff; border: 2px solid #1B1340; box-shadow: 2px 2px 0 #1B1340; }
+  .p-club .stage { background: #EEECFA; border-top: 2px solid #1B1340; }
+  @media (min-width: 900px) { .p-club .stage { border-top: 0; border-left: 2px solid #1B1340; } }
+  .hl { background: linear-gradient(transparent 55%, #FFE14D 55%); padding: 0 2px; }
+  .mini { width: min(420px, 100%); background: #fff; border: 2px solid #1B1340; border-radius: 16px; box-shadow: 5px 5px 0 #1B1340; padding: 18px; transition: transform .7s cubic-bezier(.2,.7,.1,1); }
+  .p-club:hover .mini { transform: rotate(-1.2deg) scale(1.02); }
+  .mini-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+  .pill { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; border: 1.5px solid #1B1340; background: #2ED3A0; }
+  .mini-body { display: grid; grid-template-columns: 112px 1fr; gap: 16px; margin-top: 16px; }
+  .qr { aspect-ratio: 1; border: 2px solid #1B1340; border-radius: 10px; padding: 8px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: #fff; }
+  .qr i { background: #1B1340; border-radius: 1.5px; }
+  .qr i.o { background: transparent; }
+  .count { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -.03em; line-height: 1; }
+  .bars { display: flex; align-items: end; gap: 6px; height: 58px; margin-top: 12px; }
+  .bars i { flex: 1; background: #7B0AFF; border: 1.5px solid #1B1340; border-radius: 4px 4px 0 0; height: var(--h); transform-origin: bottom; transform: scaleY(.08); transition: transform 1s cubic-bezier(.2,.8,.2,1) var(--d); }
+  .in .bars i, .bars.in i { transform: none; }
+  .sticker { position: absolute; font-family: "Unbounded"; font-weight: 800; font-size: 13px; padding: 8px 12px; border: 2px solid #1B1340; border-radius: 12px; box-shadow: 3px 3px 0 #1B1340; transition: transform .6s cubic-bezier(.3,1.6,.5,1); }
+  .s1 { top: 26px; right: 26px; background: #FF6FB5; transform: rotate(6deg); }
+  .s2 { bottom: 28px; left: 24px; background: #FFE14D; transform: rotate(-5deg); }
+  .p-club:hover .s1 { transform: rotate(-4deg) translate(-4px, 4px); }
+  .p-club:hover .s2 { transform: rotate(4deg) translate(4px, -4px); }
+
+  /* Inkbeat card — late-night studio desk */
+  .p-ink { background: #15120e; color: #efe6d2; font-family: "Bricolage Grotesque", sans-serif; border: 1px solid #352e25; }
+  .p-ink h3 { font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.04em; display: flex; align-items: center; gap: 12px; }
+  .p-ink h3 .dot { width: .32em; height: .32em; border-radius: 50%; background: #e8442c; box-shadow: 0 0 0 0 #e8442c88; animation: rec 1.6s infinite; }
+  @keyframes rec { 0% { box-shadow: 0 0 0 0 #e8442c88; } 70% { box-shadow: 0 0 0 12px #e8442c00; } 100% { box-shadow: 0 0 0 0 #e8442c00; } }
+  .p-ink .mono { color: #9c907b; }
+  .p-ink .tags span { border: 1px solid #352e25; background: #1d1914; color: #efe6d2; }
+  .p-ink .go b { background: #e8442c; color: #15120e; }
+  .p-ink .stage { background: radial-gradient(120% 90% at 70% 20%, #27221b, #15120e 70%); border-top: 1px solid #352e25; }
+  @media (min-width: 900px) { .p-ink .stage { border-top: 0; border-left: 1px solid #352e25; } }
+  .sheet { position: relative; width: min(400px, 100%); background: #f3ead6; color: #1e1a14; border-radius: 4px; padding: 30px 22px 22px 46px; transform: rotate(2deg); box-shadow: 0 30px 50px -20px #000a; transition: transform .8s cubic-bezier(.2,.7,.1,1);
+    background-image: linear-gradient(90deg, transparent 34px, #e3a99b 34px, #e3a99b 35px, transparent 35px), repeating-linear-gradient(transparent 0 27px, #d8c9a9 27px 28px); background-position: 0 0, 0 22px; }
+  .p-ink:hover .sheet { transform: rotate(0deg) translateY(-6px); }
+  .tape { position: absolute; top: -12px; left: 50%; width: 92px; height: 24px; margin-left: -46px; background: #c8b083cc; transform: rotate(-3deg); }
+  .bar-row { display: flex; gap: 10px; align-items: baseline; font-family: "Courier Prime", monospace; font-size: 15px; line-height: 28px; white-space: nowrap; overflow: hidden; }
+  .bar-row .t { font-family: "Geist Mono", monospace; font-size: 11px; background: #1e1a14; color: #f3ead6; padding: 0 6px; border-radius: 3px; line-height: 18px; flex: none; }
+  .bar-row.lit .t { background: #e8442c; }
+  .bar-row span.txt { overflow: hidden; text-overflow: ellipsis; }
+  .rec-chip { position: absolute; right: 18px; bottom: -16px; display: flex; align-items: center; gap: 8px; background: #e8442c; color: #fff; font-family: "Geist Mono"; font-size: 12px; padding: 7px 12px; border-radius: 999px; box-shadow: 0 10px 24px -8px #e8442c; }
+  .rec-chip i { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+
+  /* about */
+  .about { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .about { grid-template-columns: 5fr 7fr; } }
+  .about .big { font-size: clamp(24px, 2.6vw, 34px); line-height: 1.25; letter-spacing: -.02em; margin: 0; }
+  .roles { list-style: none; margin: 0; padding: 0; }
+  .roles li { display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; padding: 18px 0; border-bottom: 1px solid var(--line); transition: padding .4s cubic-bezier(.2,.7,.1,1); }
+  .roles li:hover { padding-left: 10px; }
+  .roles b { font-weight: 500; }
+  .roles small { color: var(--mute); font-size: 14px; grid-column: 1; }
+  .roles .when { font-family: "Geist Mono"; font-size: 12.5px; color: var(--mute); grid-row: 1; grid-column: 2; }
+
+  /* professional hero */
+  .hero-name { font-weight: 800; font-size: clamp(64px, 13vw, 190px); letter-spacing: -.045em; line-height: .9; margin: 0 0 34px; }
+  .intro { font-size: clamp(21px, 2.3vw, 31px); line-height: 1.32; letter-spacing: -.015em; max-width: 34ch; margin: 0 0 64px; color: var(--mute); }
+  .pl { color: var(--ink); text-decoration: none; background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 2px; transition: background-size .45s cubic-bezier(.2,.7,.1,1), color .3s; padding: 0 .06em; }
+  .pl-club { background-image: linear-gradient(#7B0AFF, #7B0AFF); }
+  .pl-ink { background-image: linear-gradient(#e8442c, #e8442c); }
+  .pl:hover { background-size: 100% 100%; color: #fff; }
+
+  /* contact */
+  .contact { padding: 120px 0 60px; }
+  .contact h2 { font-weight: 800; font-size: clamp(44px, 9vw, 128px); letter-spacing: -.05em; line-height: .95; margin: 0 0 40px; }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; padding: 14px 20px; border-radius: 999px; border: 1px solid var(--ink); transition: background .3s, color .3s; }
+  .btn:hover { background: var(--ink); color: var(--bg); }
+  footer { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding: 22px 0 36px; margin-top: 90px; }
+</style>
+</head>
+<body>
+<div class="progress"></div>
+<div class="wipe"></div>
+
+<nav class="top"><div class="wrap">
+  <a class="me" href="#top">Jacob Le</a>
+  <div class="links"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+</div></nav>
+
+<header class="hero wrap" id="top">
+  <div class="mono reveal" style="margin-bottom:22px">Engineering &amp; Software · Portfolio 2026</div>
+  <h1 class="hero-name"><span class="line"><span>Jacob Le</span></span></h1>
+  <p class="intro reveal" style="--d:250ms">Student engineer focused on mechanical design and full-stack software. I build products for real users, most recently <a class="pl pl-club" href="clubbie.html" data-wipe="#F5F4FF">Clubbie</a>, a club management platform, and <a class="pl pl-ink" href="inkbeat.html" data-wipe="#15120e">Inkbeat</a>, a lyric-writing studio.</p>
+  <div class="hero-foot" data-stagger="90">
+    <div><div class="mono">Education</div><p>Patrick Henry High School</p></div>
+    <div><div class="mono">Leadership</div><p>AAPI Club President · Key Club VP of Service · D21E Executive Assistant</p></div>
+    <div><div class="mono">Skills</div><p>TypeScript, React, Next.js, Python, Java, CAD, data analysis</p></div>
+  </div>
+</header>
+
+<section id="work"><div class="wrap">
+  <div class="sec-head reveal"><h2>Selected work</h2><span class="mono">02 projects</span></div>
+  <div class="projects">
+
+    <a class="proj p-club reveal" href="clubbie.html" data-wipe="#F5F4FF">
+      <div class="info">
+        <div>
+          <div class="mono">01 · Web app · 2026 · Live</div>
+          <h3>Clubbie</h3>
+          <p>Club management for high school and college clubs. QR attendance, service hours, events and an <span class="hl">end-of-year report</span>, all in one dashboard.</p>
+          <div class="tags"><span>Next.js 15</span><span>TypeScript</span><span>SQLite</span><span>Tailwind</span></div>
+        </div>
+        <span class="go"><b>→</b> Read the case study</span>
+      </div>
+      <div class="stage">
+        <div class="sticker s1">46 members</div>
+        <div class="mini">
+          <div class="mini-top">General meeting <span class="pill">Check-in open</span></div>
+          <div class="mini-body">
+            <div class="qr" id="qr"></div>
+            <div>
+              <div class="mono" style="color:#6F6896">Checked in</div>
+              <div class="count" data-count="38">0</div>
+              <div class="bars" data-on-view>
+                <i style="--h:40%;--d:0ms"></i><i style="--h:62%;--d:60ms"></i><i style="--h:48%;--d:120ms"></i><i style="--h:80%;--d:180ms"></i><i style="--h:70%;--d:240ms"></i><i style="--h:94%;--d:300ms"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sticker s2">227 service hrs</div>
+      </div>
+    </a>
+
+    <a class="proj p-ink reveal" href="inkbeat.html" data-wipe="#15120e">
+      <div class="info">
+        <div>
+          <div class="mono">02 · Web app · 2026 · Live</div>
+          <h3>Inkbeat <span class="dot"></span></h3>
+          <p>A lyric pad for writing to a YouTube beat. Pin bars to timestamps, then record flow takes right over the spot they belong to.</p>
+          <div class="tags"><span>React</span><span>TypeScript</span><span>IndexedDB</span><span>Web Audio</span></div>
+        </div>
+        <span class="go"><b>→</b> Read the case study</span>
+      </div>
+      <div class="stage">
+        <div class="sheet">
+          <div class="tape"></div>
+          <div class="bar-row"><span class="t">0:12</span><span class="txt">Verse 1</span></div>
+          <div class="bar-row"><span class="t">0:14</span><span class="txt">late bus home, city in my headphones</span></div>
+          <div class="bar-row lit"><span class="t">0:18</span><span class="txt">counting streetlights like they owe me</span></div>
+          <div class="bar-row"><span class="t">0:22</span><span class="txt">notebook full of maybes, half-done</span></div>
+          <div class="bar-row"><span class="t">0:41</span><span class="txt">Hook</span></div>
+          <div class="rec-chip"><i></i>REC · take 3</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="nums" data-stagger="80">
+    <div class="num"><b data-n="46">0</b><span>members on Clubbie's first club</span></div>
+    <div class="num"><b data-n="227">0</b><span>service hours logged</span></div>
+    <div class="num"><b data-n="6" data-plus>0</b><span>clubs and activities</span></div>
+    <div class="num"><b data-n="2">0</b><span>apps designed and shipped solo</span></div>
+  </div>
+</div></section>
+
+<section id="about"><div class="wrap">
+  <div class="sec-head reveal"><h2>About</h2><span class="mono">Engineering · Data · Leadership</span></div>
+  <div class="about">
+    <p class="big reveal">I like taking a messy problem, breaking it into clear steps, and building something people actually use. Most of mine started with a spreadsheet I was tired of.</p>
+    <ul class="roles" data-stagger="70">
+      <li><b>D21E Executive Assistant</b><span class="when">May 2026 – now</span><small>Key Club International</small></li>
+      <li><b>Vice President of Service</b><span class="when">Apr 2026 – now</span><small>Key Club</small></li>
+      <li><b>AAPI Club President</b><span class="when">Apr 2026 – now</span><small>Patrick Henry High School</small></li>
+      <li><b>STEM Sprouts Tech Lead</b><span class="when">Apr 2026 – now</span><small>Teaching kids their first code</small></li>
+      <li><b>Teaching / Lab Assistant</b><span class="when">Jun 2024 – now</span><small>Elementary Institute of Science</small></li>
+    </ul>
+  </div>
+</div></section>
+
+<section class="contact" id="contact"><div class="wrap">
+  <h2><span class="line"><span>Get in touch.</span></span></h2>
+  <p class="intro reveal" style="margin-bottom:32px">Open to summer STEM internships and research opportunities.</p>
+  <div class="contact-links reveal">
+    <a class="btn" href="https://github.com/1jacobl">GitHub ↗</a>
+    <a class="btn" href="https://clubbie.live">Clubbie ↗</a>
+    <a class="btn" href="https://1jacobl.github.io/inkbeat/">Inkbeat ↗</a>
+  </div>
+  <footer><span class="mono">© 2026 Jacob Le</span><a class="mono" href="#top" style="text-decoration:none">Back to top ↑</a></footer>
+</div></section>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="shared.js"></script>
+<script>
+  // Hero lines rise on load.
+  requestAnimationFrame(() => document.querySelector('.hero').classList.add('ready'));
+
+  // Nav gets a backdrop once you've scrolled.
+  const nav = document.querySelector('nav.top');
+  addEventListener('scroll', () => nav.classList.toggle('solid', scrollY > 40), { passive: true });
+
+
+  // Project cards grow from 94% to full size as they scroll into view.
+  const projs = [...document.querySelectorAll('.proj')];
+  const grow = () => projs.forEach(p => {
+    const r = p.getBoundingClientRect();
+    const t = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight * .6)));
+    p.style.setProperty('--s', (.94 + .06 * t).toFixed(4));
+  });
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { addEventListener('scroll', grow, { passive: true }); grow(); }
+
+  // Numbers count up when they appear.
+  document.querySelectorAll('[data-n]').forEach(el => {
+    el.parentElement.addEventListener('reveal', () => {
+      const end = +el.dataset.n, t0 = performance.now();
+      const tick = (t) => { const p = Math.min(1, (t - t0) / 1600); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 4))) + (p === 1 && el.hasAttribute('data-plus') ? '+' : ''); if (p < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }, { once: true });
+  });
+
+  // Fake-but-plausible QR grid (finder squares in three corners).
+  const qr = document.getElementById('qr');
+  const finder = (r, c) => (r < 3 && c < 3) || (r < 3 && c > 3) || (r > 3 && c < 3);
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) {
+    const i = document.createElement('i');
+    const on = finder(r, c) || ((r * 7 + c) * 37) % 5 < 2;
+    if (!on) i.className = 'o';
+    qr.appendChild(i);
+  }
+
+  // Count up when the Clubbie card comes into view.
+  const count = document.querySelector('[data-count]');
+  const card = document.querySelector('.p-club');
+  card.addEventListener('reveal', () => {
+    const end = +count.dataset.count, t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / 1400);
+      count.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, { once: true });
+
+  // Inkbeat sheet: the lit bar walks down like a playhead.
+  const rows = [...document.querySelectorAll('.p-ink .bar-row')];
+  let k = 2;
+  setInterval(() => { rows.forEach(r => r.classList.remove('lit')); k = (k % (rows.length - 1)) + 1; rows[k].classList.add('lit'); }, 1500);
+</script>
+</body>
+</html>

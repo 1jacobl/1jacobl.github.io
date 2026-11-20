@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clubbie · Jacob Le</title>
+<meta name="description" content="Clubbie — club management for high school and college clubs, designed and built by Jacob Le.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;700&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root {
+    --paper: #F5F4FF; --ink: #1B1340; --ink-2: #544D7A; --ink-3: #9790BD; --line: #DEDAF2; --tint: #EEECFA;
+    --grape: #7B0AFF; --grape-soft: #EDE2FF; --hl: #FFE14D; --pink: #FF6FB5; --mint: #2ED3A0;
+    --progress: var(--grape); --sel: var(--hl); --sel-ink: var(--ink);
+  }
+  body { background: var(--paper); color: var(--ink); font-family: "Figtree", system-ui, sans-serif; font-size: 18px; line-height: 1.55; }
+  h1, h2, h3 { font-family: "Unbounded", sans-serif; letter-spacing: -.035em; line-height: 1.02; margin: 0; }
+  .eyebrow { font-family: "Geist Mono", monospace; font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); }
+  .hl { background: linear-gradient(var(--hl), var(--hl)) no-repeat 0 85% / 0% 42%; transition: background-size 1s cubic-bezier(.6,0,.2,1) .5s; padding: 0 .08em; }
+  .ready .hl, .in .hl, .hl.in { background-size: 100% 42%; }
+  .card { background: #fff; border: 2px solid var(--ink); border-radius: 18px; box-shadow: 5px 5px 0 var(--ink); }
+
+  nav.top { position: fixed; inset: 0 0 auto; z-index: 50; padding: 16px 0; }
+  nav.top .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .back { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; background: #fff; border: 2px solid var(--ink); border-radius: 999px; padding: 8px 14px; box-shadow: 3px 3px 0 var(--ink); transition: transform .2s, box-shadow .2s; }
+  .back:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+  .back:active { transform: translate(3px,3px); box-shadow: 0 0 0 var(--ink); }
+
+  /* hero */
+  .hero { position: relative; min-height: 100vh; display: grid; align-content: center; padding: 120px 0 80px; }
+  .hero h1 { font-size: clamp(64px, 15vw, 210px); font-weight: 800; letter-spacing: -.06em; }
+  .hero .tag { font-family: "Unbounded"; font-weight: 500; font-size: clamp(20px, 2.6vw, 34px); letter-spacing: -.03em; margin: 22px 0 0; max-width: 30ch; }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 44px; }
+  .meta div { min-width: 120px; }
+  .meta b { display: block; font-weight: 700; }
+  .float { position: absolute; font-family: "Unbounded"; font-weight: 700; font-size: 14px; padding: 10px 14px; border: 2px solid var(--ink); border-radius: 14px; box-shadow: 4px 4px 0 var(--ink); will-change: transform; }
+  .f1 { right: 6%; top: 22%; background: var(--pink); --r: 7deg; }
+  .f2 { right: 12%; top: 66%; background: var(--hl); --r: -6deg; }
+  .f3 { right: 4%; bottom: 16%; background: var(--mint); --r: 4deg; }
+  .float { transform: rotate(var(--r)) translateY(var(--py, 0px)); }
+  .js .float { opacity: 0; scale: .6; transition: opacity .5s, scale .7s cubic-bezier(.3,1.7,.5,1); }
+  .js .ready .float { opacity: 1; scale: 1; }
+  .ready .f1 { transition-delay: .5s; } .ready .f2 { transition-delay: .65s; } .ready .f3 { transition-delay: .8s; }
+  @media (max-width: 1100px) { .float { display: none; } }
+
+  section { padding: 110px 0; }
+  .sec-title { font-size: clamp(34px, 5.4vw, 72px); font-weight: 800; max-width: 16ch; }
+  .lede { font-size: clamp(19px, 1.7vw, 22px); color: var(--ink-2); max-width: 54ch; margin: 22px 0 0; }
+
+  .ctas { display: flex; gap: 10px; margin-top: 30px; }
+  .cta { text-decoration: none; font-weight: 700; padding: 12px 18px; border: 2px solid var(--ink); border-radius: 999px; background: #fff; box-shadow: 3px 3px 0 var(--ink); transition: transform .2s, box-shadow .2s; }
+  .cta.main { background: var(--grape); color: #fff; }
+  .cta:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+
+  /* before / after: scattered tools fade out, one dashboard takes over */
+  .ba { display: grid; gap: 28px; align-items: center; margin-top: 64px; }
+  @media (min-width: 900px) { .ba { grid-template-columns: 1fr auto 1.15fr; gap: 36px; } }
+  .ba-label { margin-bottom: 14px; }
+  .tools { display: grid; gap: 10px; }
+  .tool { display: flex; align-items: center; gap: 14px; background: #fff; border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; box-shadow: 3px 3px 0 var(--ink);
+    transition: opacity .6s var(--d, 0ms), transform .6s cubic-bezier(.2,.7,.1,1) var(--d, 0ms), box-shadow .6s var(--d, 0ms), border-color .6s var(--d, 0ms); }
+  .tool .ti { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: var(--tint); flex: none; }
+  .tool b { display: block; font-size: 16px; }
+  .tool small { color: var(--ink-2); font-size: 14px; }
+  .ba.in .tool { opacity: .38; transform: scale(.97); box-shadow: 0 0 0 var(--ink); border-color: var(--ink-3); }
+  .arrow-mid { display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto; border-radius: 50%; border: 2px solid var(--ink); background: var(--hl); box-shadow: 3px 3px 0 var(--ink); transition: transform .6s cubic-bezier(.3,1.6,.5,1) .7s; }
+  .ba.in .arrow-mid { transform: rotate(0deg) scale(1.08); }
+  @media (max-width: 899px) { .arrow-mid { transform: rotate(90deg); } .ba.in .arrow-mid { transform: rotate(90deg) scale(1.08); } }
+  .one { padding: 24px; opacity: .25; transform: translateY(14px); transition: opacity .7s .8s, transform .9s cubic-bezier(.3,1.4,.5,1) .8s; }
+  .ba.in .one { opacity: 1; transform: none; }
+  .one-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .one-head b { font-family: "Unbounded"; font-size: 18px; letter-spacing: -.02em; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .stat { border: 2px solid var(--ink); border-radius: 12px; padding: 14px; }
+  .stat b { display: block; font-family: "Unbounded"; font-size: 28px; letter-spacing: -.04em; margin-top: 4px; }
+  .stat:nth-child(1) { background: var(--grape-soft); } .stat:nth-child(2) { background: #FFF6C2; } .stat:nth-child(3) { background: #D3F7EA; }
+  .one-rows { margin-top: 16px; display: grid; gap: 8px; }
+  .one-rows div { display: flex; justify-content: space-between; font-size: 15px; padding: 10px 2px; border-bottom: 1px solid #F0EEF8; }
+  .one-rows span { color: var(--ink-3); }
+
+  /* flow */
+  .flow { display: grid; gap: 16px; margin-top: 56px; counter-reset: s; }
+  @media (min-width: 820px) { .flow { grid-template-columns: repeat(3, 1fr); } }
+  .step { padding: 24px; position: relative; transition: transform .35s cubic-bezier(.3,1.6,.5,1), box-shadow .35s; }
+  .step:hover { transform: translate(-3px,-3px) rotate(-.6deg); box-shadow: 8px 8px 0 var(--ink); }
+  .step::before { counter-increment: s; content: counter(s, decimal-leading-zero); font-family: "Unbounded"; font-weight: 800; font-size: 14px; display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--ink); background: var(--hl); margin-bottom: 18px; }
+  .step:nth-child(3n+2)::before { background: var(--pink); } .step:nth-child(3n)::before { background: var(--mint); }
+  .step h3 { font-size: 20px; letter-spacing: -.02em; margin-bottom: 8px; }
+  .step p { margin: 0; color: var(--ink-2); font-size: 16px; }
+
+  /* live check-in demo */
+  .demo { display: grid; gap: 56px; align-items: center; }
+  @media (min-width: 900px) { .demo { grid-template-columns: 1fr 1fr; } }
+  .panel { width: min(520px, 100%); margin-inline: auto; padding: 24px; border-radius: 22px; }
+  .p-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .p-head h4 { font-family: "Unbounded"; font-size: 19px; letter-spacing: -.02em; margin: 0; }
+  .p-sub { color: var(--ink-3); font-size: 14px; margin-top: 4px; }
+  .live { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 700; color: #0f8a63; background: #D3F7EA; padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+  .live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #14b37f; animation: pulse 1.4s infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  .p-body { display: grid; grid-template-columns: 128px 1fr; gap: 22px; align-items: center; margin: 22px 0; padding: 18px; background: var(--tint); border-radius: 16px; }
+  .qr2 { background: #fff; border: 2px solid var(--ink); border-radius: 12px; padding: 9px; display: grid; grid-template-columns: repeat(21, 1fr); aspect-ratio: 1; }
+  .qr2 i { background: var(--ink); aspect-ratio: 1; }
+  .qr2 i.o { background: transparent; }
+  .count2 { display: flex; align-items: baseline; gap: 6px; }
+  .count2 b { font-family: "Unbounded"; font-weight: 800; font-size: 40px; letter-spacing: -.05em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .count2 span { color: var(--ink-2); font-size: 16px; }
+  .p-cap { font-size: 14px; color: var(--ink-2); margin: 4px 0 14px; }
+  .meter { height: 8px; border-radius: 999px; background: #fff; border: 1.5px solid var(--ink); overflow: hidden; }
+  .meter i { display: block; height: 100%; width: var(--w, 0%); background: var(--grape); transition: width .6s cubic-bezier(.2,.7,.1,1); }
+  .p-list-h { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); margin-bottom: 4px; }
+  .rows { height: 200px; overflow: hidden; }
+  .row { display: flex; align-items: center; gap: 12px; height: 50px; border-bottom: 1px solid #F0EEF8; font-size: 15px; font-weight: 500; overflow: hidden; animation: drop .55s cubic-bezier(.2,.8,.2,1) both; }
+  .row .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; }
+  .row .tm { margin-left: auto; font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  @keyframes drop { from { opacity: 0; height: 0; } 50% { opacity: 0; } to { opacity: 1; height: 50px; } }
+  @media (max-width: 520px) { .p-body { grid-template-columns: 96px 1fr; gap: 16px; padding: 14px; } .count2 b { font-size: 32px; } }
+
+  /* features */
+  .features { display: grid; gap: 16px; margin-top: 56px; }
+  @media (min-width: 720px) { .features { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .features { grid-template-columns: repeat(3, 1fr); } }
+  .feat { padding: 26px; }
+  .feat .ic { color: var(--ink); width: 48px; height: 48px; border-radius: 12px; border: 2px solid var(--ink); display: grid; place-items: center; margin-bottom: 20px; box-shadow: 2px 2px 0 var(--ink); }
+  .feat h3 { font-size: 19px; letter-spacing: -.02em; margin-bottom: 8px; }
+  .feat p { margin: 0; font-size: 16px; color: var(--ink-2); }
+
+  /* build */
+  .build { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .build { grid-template-columns: 1fr 1fr; } }
+  .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .stack span { font-family: "Geist Mono", monospace; font-size: 13px; color: var(--ink-2); padding: 6px 12px; border-radius: 8px; background: var(--tint); }
+  .notes { list-style: none; padding: 0; margin: 0; }
+  .notes li { padding: 18px 0; border-bottom: 2px dashed var(--line); }
+  .notes b { display: block; font-family: "Unbounded"; font-size: 16px; letter-spacing: -.02em; margin-bottom: 4px; }
+  .notes span { color: var(--ink-2); font-size: 16px; }
+
+  /* next */
+  .next { display: block; text-decoration: none; background: #15120e; color: #efe6d2; border-radius: 26px; padding: 48px 32px; margin: 40px 0 70px; transition: transform .6s cubic-bezier(.2,.7,.1,1); overflow: hidden; position: relative; }
+  .next:hover { transform: translateY(-6px); }
+  .next .eyebrow { color: #9c907b; }
+  .next h2 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: clamp(46px, 9vw, 120px); letter-spacing: -.05em; margin-top: 12px; display: flex; align-items: center; gap: 18px; }
+  .next h2 i { width: .26em; height: .26em; border-radius: 50%; background: #e8442c; }
+  .next .arrow { position: absolute; right: 32px; bottom: 40px; font-size: 40px; transition: transform .5s cubic-bezier(.2,.7,.1,1); }
+  .next:hover .arrow { transform: translateX(10px); }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="progress"></div>
+<div class="wipe arrive" style="background:#F5F4FF"></div>
+
+<nav class="top"><div class="wrap">
+  <a class="back" href="index.html#work" data-wipe="#f3f1ec">← Jacob Le</a>
+  <span class="eyebrow">Case study 01</span>
+</div></nav>
+
+<header class="hero wrap">
+  <div class="eyebrow reveal">Web app · Designed &amp; built solo · 2026</div>
+  <h1><span class="line"><span>Clubbie</span></span></h1>
+  <p class="tag reveal" style="--d:200ms">Everything your club needs. <span class="hl">One dashboard.</span></p>
+  <div class="meta" data-stagger="80">
+    <div><span class="eyebrow">Role</span><b>Design, code, product</b></div>
+    <div><span class="eyebrow">For</span><b>High school &amp; college clubs</b></div>
+    <div><span class="eyebrow">Stack</span><b>Next.js · SQLite</b></div>
+  </div>
+  <div class="ctas reveal" style="--d:300ms"><a class="cta main" href="https://clubbie.live" target="_blank" rel="noopener">Open Clubbie ↗</a></div>
+  <div class="float f1" data-par="0.18">QR check-in ✓</div>
+  <div class="float f2" data-par="0.32">+3 service hrs</div>
+  <div class="float f3" data-par="0.1">Club report.pdf</div>
+</header>
+
+<section><div class="wrap">
+  <div class="eyebrow reveal">The problem</div>
+  <h2 class="sec-title reveal" style="margin-top:14px">Running a club meant five tabs and a clipboard.</h2>
+  <p class="lede reveal">As AAPI president I tracked members in one spreadsheet, meeting sign-ins in Google Forms, service hours in another sheet, and events in a group chat. Every report at the end of the year was a weekend of copy-paste. Clubbie pulls all of it into one place.</p>
+
+  <div class="ba" id="mess">
+    <div>
+      <div class="eyebrow ba-label">Before</div>
+      <div class="tools">
+        <div class="tool" style="--d:0ms"><span class="ti"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M3.5 15h17M9.5 4v16"/></svg></span><div><b>Club directory</b><small>Spreadsheet</small></div></div>
+        <div class="tool" style="--d:90ms"><span class="ti"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><div><b>Meeting sign-ins</b><small>Google Forms</small></div></div>
+        <div class="tool" style="--d:180ms"><span class="ti"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Service hours</b><small>Another spreadsheet</small></div></div>
+        <div class="tool" style="--d:270ms"><span class="ti"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><div><b>Event updates</b><small>Group chat</small></div></div>
+      </div>
+    </div>
+    <div class="arrow-mid"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div>
+      <div class="eyebrow ba-label">After</div>
+      <div class="one card">
+        <div class="one-head"><b>AAPI Club</b><span class="eyebrow">Dashboard</span></div>
+        <div class="stats">
+          <div class="stat"><span class="eyebrow">Members</span><b>46</b></div>
+          <div class="stat"><span class="eyebrow">Meetings</span><b>12</b></div>
+          <div class="stat"><span class="eyebrow">Hours</span><b>227</b></div>
+        </div>
+        <div class="one-rows">
+          <div>Next meeting<span>Thu · 3:10 PM</span></div>
+          <div>Hours to approve<span>3 pending</span></div>
+          <div>Upcoming event<span>Lunar New Year</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section style="background:var(--tint);border-block:2px solid var(--ink)"><div class="wrap">
+  <div class="eyebrow reveal">How it works</div>
+  <h2 class="sec-title reveal" style="margin-top:14px">From join code to <span class="hl">year-end report</span>.</h2>
+  <div class="flow" data-stagger="80">
+    <div class="step card"><h3>Start a club</h3><p>Sign up, create your club, and get a join code plus a /join link to share.</p></div>
+    <div class="step card"><h3>Members join</h3><p>Members sign up and enter the code or tap the link. Nobody adds anyone by hand.</p></div>
+    <div class="step card"><h3>Make a meeting</h3><p>Every meeting gets its own QR code with a check-in window that opens and closes on its own.</p></div>
+    <div class="step card"><h3>Scan to check in</h3><p>Project the QR. Members scan from their phones and show up on the list live.</p></div>
+    <div class="step card"><h3>Log service hours</h3><p>Members submit hours with proof. Officers approve, and everyone's totals update automatically.</p></div>
+    <div class="step card"><h3>Print the report</h3><p>Analytics and a printable end-of-year report come straight from the real data.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap demo">
+  <div>
+    <div class="eyebrow reveal">QR attendance</div>
+    <h2 class="sec-title reveal" style="margin-top:14px">Check-in takes about four seconds.</h2>
+    <p class="lede reveal">Each meeting has a unique token. Duplicate check-ins are blocked, attendance shows up live, and officers can still fix any record by hand.</p>
+  </div>
+  <div class="panel card reveal" id="phone">
+    <div class="p-head"><h4>General meeting</h4><span class="live">Check-in open</span></div>
+    <div class="p-sub">Thursday · 3:10 PM · Room 204</div>
+    <div class="p-body">
+      <div class="qr2" id="qr2"></div>
+      <div>
+        <div class="count2"><b id="n">0</b><span>/ 46 here</span></div>
+        <div class="p-cap">Scan the code to check in</div>
+        <div class="meter"><i id="meter"></i></div>
+      </div>
+    </div>
+    <div class="p-list-h">Just checked in</div>
+    <div class="rows" id="list"></div>
+  </div>
+</div></section>
+
+<section style="padding-top:40px"><div class="wrap">
+  <div class="eyebrow reveal">Everything else</div>
+  <h2 class="sec-title reveal" style="margin-top:14px">The parts clubs actually use.</h2>
+  <div class="features" data-stagger="70">
+    <div class="feat card"><div class="ic" style="background:var(--grape-soft)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18.5 14.4c1.9.8 3 2.8 3 5.6"/></svg></div><h3>Members</h3><p>A searchable roster with each member's attendance and hours history. Promote, deactivate or fix records in a click.</p></div>
+    <div class="feat card"><div class="ic" style="background:#FFF6C2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Service hours</h3><p>Submit with optional proof, then an approval queue. Rejected entries stay in the history.</p></div>
+    <div class="feat card"><div class="ic" style="background:#FFE0EF"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.5 12.9l1.5 8.6-5-3-5 3 1.5-8.6"/></svg></div><h3>Ranks</h3><p>Create custom ranks with their own name and color, put them in order, and choose which ones get officer or admin access.</p></div>
+    <div class="feat card"><div class="ic" style="background:#D3F7EA"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></div><h3>Events &amp; RSVPs</h3><p>Capacity limits, going / can't-go, and a live count of spots left.</p></div>
+    <div class="feat card"><div class="ic" style="background:var(--grape-soft)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M8 17v-3M13 17V5M18 17V9"/></svg></div><h3>Analytics</h3><p>Attendance over time, membership growth and top members, drawn with hand-built SVG charts.</p></div>
+    <div class="feat card"><div class="ic" style="background:#FFF6C2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div><h3>Club report</h3><p>A print-ready end-of-year summary. It's the thing advisors and schools ask for.</p></div>
+  </div>
+</div></section>
+
+<section style="background:#fff;border-block:2px solid var(--ink)"><div class="wrap build">
+  <div>
+    <div class="eyebrow reveal">Under the hood</div>
+    <h2 class="sec-title reveal" style="margin-top:14px">Small stack. Strict rules.</h2>
+    <div class="stack" data-stagger="50"><span>Next.js 15</span><span>Server Actions</span><span>TypeScript</span><span>SQLite</span><span>Tailwind</span><span>zod</span></div>
+  </div>
+  <ul class="notes" data-stagger="80">
+    <li><b>The server checks every action</b><span>Session, club membership and role (owner, officer or member) are re-verified on the server for every action. The browser is never trusted.</span></li>
+    <li><b>Zero-config storage</b><span>SQLite in WAL mode keeps it fast and easy to deploy. Nothing to provision.</span></li>
+    <li><b>Private by default</b><span>Only name, email and school are collected. Proof uploads are stored privately, and club data is visible only to that club's members.</span></li>
+    <li><b>Feels like a real product</b><span>Confirm dialogs, toasts, a sidebar on desktop and a bottom nav on mobile, plus a swappable brand accent.</span></li>
+  </ul>
+</div></section>
+
+<div class="wrap">
+  <a class="next reveal" href="inkbeat.html" data-wipe="#15120e">
+    <div class="eyebrow">Next project · 02</div>
+    <h2>Inkbeat <i></i></h2>
+    <span class="arrow">→</span>
+  </a>
+</div>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="shared.js"></script>
+<script>
+  requestAnimationFrame(() => document.querySelector('.hero').classList.add('ready'));
+
+  // Floating stickers drift at different speeds as you scroll.
+  const floats = [...document.querySelectorAll('[data-par]')];
+  addEventListener('scroll', () => floats.forEach(f => f.style.setProperty('--py', `${-scrollY * f.dataset.par}px`)), { passive: true });
+
+  // The scattered tools merge into one dashboard once the area is near the middle of the screen.
+  const mess = document.getElementById('mess');
+  const mo = new IntersectionObserver(([e]) => { if (e.isIntersecting) { mess.classList.add('in'); mo.disconnect(); } }, { rootMargin: '-30% 0px -30% 0px' });
+  mo.observe(mess);
+
+  // Live check-in demo: QR on the left, names arrive in the list, counting up to 38 of 46.
+  const qr2 = document.getElementById('qr2');
+  const N = 21;
+  const finder = (r, c) => {
+    for (const [r0, c0] of [[0, 0], [0, N - 7], [N - 7, 0]]) {
+      const y = r - r0, x = c - c0;
+      if (y >= -1 && y <= 7 && x >= -1 && x <= 7) {
+        if (y < 0 || y > 6 || x < 0 || x > 6) return 0;               // quiet ring
+        if (y === 0 || y === 6 || x === 0 || x === 6) return 1;        // outer square
+        if (y >= 2 && y <= 4 && x >= 2 && x <= 4) return 1;            // centre
+        return 0;
+      }
+    }
+    return null;
+  };
+  let seed = 7;
+  const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+    const i = document.createElement('i');
+    const f = finder(r, c);
+    const on = f !== null ? f === 1 : (r === 6 || c === 6) ? (r + c) % 2 === 0 : rnd() < .48;
+    if (!on) i.className = 'o';
+    qr2.appendChild(i);
+  }
+  const people = [['Priya S.','#EDE2FF'],['Marcus T.','#FFF6C2'],['Ana R.','#D3F7EA'],['Kevin N.','#FFE0EF'],['Hana L.','#EDE2FF'],['Diego M.','#FFF6C2'],['Sam W.','#D3F7EA'],['Linh P.','#FFE0EF']];
+  const list = document.getElementById('list'), n = document.getElementById('n'), meter = document.getElementById('meter');
+  let total = 0, timer = null;
+  const add = (animate = true) => {
+    const [name, bg] = people[total % people.length];
+    const min = 6 + Math.floor(total / 5);
+    const row = document.createElement('div');
+    row.className = 'row';
+    if (!animate) row.style.animation = 'none';
+    row.innerHTML = `<span class="av" style="background:${bg}">${name[0]}</span>${name}<span class="tm">3:${String(min).padStart(2, '0')} PM</span>`;
+    list.prepend(row);
+    while (list.children.length > 5) list.lastChild.remove();
+    total++;
+    n.textContent = total;
+    meter.style.setProperty('--w', (total / 46 * 100) + '%');
+  };
+  for (let k = 0; k < 4; k++) add(false);
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !timer) timer = setInterval(() => { if (total >= 38) { clearInterval(timer); return; } add(); }, 1400);
+    else if (!e.isIntersecting && timer) { clearInterval(timer); timer = null; }
+  }, { threshold: .3 }).observe(document.getElementById('phone'));
+</script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inkbeat · Jacob Le</title>
+<meta name="description" content="Inkbeat — a lyric pad for writing to a YouTube beat, designed and built by Jacob Le.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root {
+    --desk: #15120e; --desk-2: #1d1914; --desk-3: #27221b; --edge: #352e25;
+    --chalk: #efe6d2; --dim: #9c907b; --faint: #6b6152;
+    --paper: #f3ead6; --paper-2: #ebe0c8; --rule: #d8c9a9; --margin: #e3a99b; --ink: #1e1a14; --ink-soft: #5b5143;
+    --rec: #e8442c; --hi: #f6d64a; --tape: #c8b083;
+    --progress: var(--rec); --sel: var(--hi); --sel-ink: var(--ink);
+  }
+  body { background: var(--desk); color: var(--chalk); font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; line-height: 1.55; }
+  h1, h2, h3 { font-weight: 800; letter-spacing: -.04em; line-height: 1; margin: 0; }
+  .mono { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--dim); }
+  .type { font-family: "Courier Prime", monospace; }
+  kbd { font-family: "JetBrains Mono"; font-size: 13px; padding: 3px 8px; border: 1px solid var(--edge); border-bottom-width: 3px; border-radius: 6px; background: var(--desk-3); color: var(--chalk); }
+
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+  .cta { text-decoration: none; padding: 12px 18px; border-radius: 999px; border: 1px solid var(--edge); font-weight: 500; transition: border-color .3s, transform .3s; }
+  .cta:hover { border-color: var(--dim); transform: translateY(-2px); }
+  .cta.main { background: var(--rec); border-color: var(--rec); color: #fff; }
+  .transport { margin-top: 40px !important; }
+
+  /* subtle film grain so the desk doesn't feel flat */
+  body::before { content: ""; position: fixed; inset: -50%; z-index: 0; pointer-events: none; opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  main, nav { position: relative; z-index: 1; }
+
+  nav.top { position: fixed; inset: 0 0 auto; z-index: 50; padding: 16px 0; }
+  nav.top .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .back { display: inline-flex; gap: 8px; align-items: center; text-decoration: none; font-weight: 500; padding: 8px 14px; border: 1px solid var(--edge); border-radius: 999px; background: color-mix(in srgb, var(--desk-2) 85%, transparent); backdrop-filter: blur(8px); transition: border-color .3s; }
+  .back:hover { border-color: var(--dim); }
+
+  /* hero */
+  .hero { min-height: 100vh; display: grid; align-content: center; padding: 120px 0 60px; }
+  .hero h1 { font-size: clamp(72px, 16vw, 230px); letter-spacing: -.065em; display: flex; align-items: center; gap: .12em; }
+  .hero h1 .rec { width: .22em; height: .22em; border-radius: 50%; background: var(--rec); flex: none; animation: rec 1.6s infinite; }
+  @keyframes rec { 0% { box-shadow: 0 0 0 0 #e8442c99; } 70% { box-shadow: 0 0 0 .14em #e8442c00; } 100% { box-shadow: 0 0 0 0 #e8442c00; } }
+  .hero .tag { font-size: clamp(22px, 2.6vw, 34px); font-weight: 500; letter-spacing: -.025em; margin: 18px 0 0; color: var(--dim); max-width: 26ch; }
+  .hero .tag b { color: var(--chalk); font-weight: 500; }
+  .transport { margin-top: 56px; border: 1px solid var(--edge); background: var(--desk-2); border-radius: 14px; padding: 16px 18px; display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 18px; align-items: center; }
+  .play { width: 42px; height: 42px; border-radius: 50%; background: var(--chalk); color: var(--desk); display: grid; place-items: center; font-size: 14px; }
+  .wave { position: relative; height: 48px; display: flex; align-items: center; gap: 3px; }
+  .wave i { flex: 1; background: var(--edge); border-radius: 2px; height: var(--h); transition: background .2s; }
+  .wave i.on { background: var(--chalk); }
+  .wave .mk { position: absolute; top: -8px; bottom: -8px; width: 2px; background: var(--hi); }
+  .wave .mk::after { content: attr(data-l); position: absolute; top: -14px; left: 4px; font-family: "JetBrains Mono"; font-size: 10px; color: var(--hi); white-space: nowrap; }
+  .time { font-family: "JetBrains Mono"; font-size: 13px; color: var(--dim); min-width: 80px; text-align: right; }
+
+  section { padding: 120px 0; }
+  .sec-title { font-size: clamp(38px, 6vw, 84px); max-width: 15ch; }
+  .lede { font-size: clamp(19px, 1.7vw, 22px); color: var(--dim); max-width: 52ch; margin: 22px 0 0; }
+
+  /* scroll-scrubbed writing demo */
+  .scrub { height: 300vh; position: relative; }
+  .scrub-inner { position: sticky; top: 0; height: 100vh; display: grid; align-content: center; gap: 34px; }
+  .desk > * { min-width: 0; }
+  .desk { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 900px) { .desk { grid-template-columns: 5fr 7fr; } }
+  .sheet { position: relative; background: var(--paper); color: var(--ink); border-radius: 4px; padding: 34px 26px 30px 58px; box-shadow: 0 40px 70px -30px #000c; transform: rotate(-1deg);
+    background-image: linear-gradient(90deg, transparent 42px, var(--margin) 42px, var(--margin) 43px, transparent 43px), repeating-linear-gradient(transparent 0 31px, var(--rule) 31px 32px); background-position: 0 0, 0 26px; }
+  .sheet .tape { position: absolute; top: -13px; left: 40%; width: 110px; height: 26px; background: #c8b083cc; transform: rotate(2deg); }
+  .sec { padding: 0 0 6px; transition: opacity .4s; opacity: .35; }
+  .sec.now { opacity: 1; }
+  .sec-h { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; line-height: 32px; }
+  .chip { font-family: "JetBrains Mono"; font-size: 11px; background: var(--ink); color: var(--paper); padding: 1px 7px; border-radius: 4px; line-height: 18px; transition: background .3s; }
+  .sec.now .chip { background: var(--rec); }
+  .ly { font-family: "Courier Prime", monospace; font-size: 17px; line-height: 32px; white-space: nowrap; overflow: hidden; }
+  .ly span { display: inline-block; clip-path: inset(0 100% 0 0); transition: clip-path .9s steps(28); }
+  .sec.now .ly span, .sec.done .ly span { clip-path: inset(0 0 0 0); }
+  .sec.done { opacity: .75; }
+  .scrub-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+  .scrub-steps li { font-size: clamp(22px, 2.4vw, 32px); font-weight: 800; letter-spacing: -.03em; color: var(--faint); transition: color .4s; }
+  .scrub-steps li.now { color: var(--chalk); }
+  .scrub-steps li small { display: block; font-weight: 500; font-size: 16px; letter-spacing: 0; color: var(--dim); max-height: 0; overflow: hidden; transition: max-height .5s; }
+  .scrub-steps li.now small { max-height: 80px; }
+  .take { display: inline-flex; gap: 8px; align-items: center; margin-top: 10px; font-family: "JetBrains Mono"; font-size: 12px; background: var(--rec); color: #fff; padding: 6px 12px; border-radius: 999px; opacity: 0; transform: translateY(6px); transition: .4s; }
+  .sec.now .take.show { opacity: 1; transform: none; }
+  .take i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+  @media (max-width: 899px) { .scrub-steps li small { display: none; } .scrub-steps { display: flex; flex-wrap: wrap; gap: 4px 14px; } .time { display: none; } .transport { grid-template-columns: auto minmax(0,1fr); } .scrub-steps li { font-size: 18px; } .sheet { padding-left: 50px; } .ly { font-size: 15px; } }
+
+  /* index cards */
+  .cards { display: grid; gap: 26px; margin-top: 60px; }
+  @media (min-width: 760px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+  .icard { position: relative; background: var(--paper); color: var(--ink); padding: 28px 24px 24px; border-radius: 3px; box-shadow: 0 24px 40px -24px #000; transform: rotate(var(--r, 0deg)); transition: transform .6s cubic-bezier(.2,.7,.1,1); }
+  .icard:hover { transform: rotate(0deg) translateY(-6px); }
+  .icard::before { content: ""; position: absolute; top: -11px; left: 50%; width: 76px; height: 22px; margin-left: -38px; background: #c8b083cc; transform: rotate(var(--tr, -3deg)); }
+  .icard .n { font-family: "JetBrains Mono"; font-size: 12px; color: var(--rec); font-weight: 700; }
+  .icard h3 { font-size: 24px; margin: 8px 0 10px; letter-spacing: -.03em; }
+  .icard p { margin: 0; font-family: "Courier Prime"; font-size: 16px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* keys */
+  .keys { display: grid; gap: 1px; background: var(--edge); border: 1px solid var(--edge); border-radius: 14px; overflow: hidden; margin-top: 50px; }
+  @media (min-width: 760px) { .keys { grid-template-columns: repeat(3, 1fr); } }
+  .key { background: var(--desk-2); padding: 22px; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: background .3s; }
+  .key:hover { background: var(--desk-3); }
+  .key.hit kbd { background: var(--hi); color: var(--ink); border-color: var(--hi); transform: translateY(2px); border-bottom-width: 1px; }
+  kbd { transition: transform .1s, background .1s; display: inline-block; }
+
+  /* build */
+  .build { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .build { grid-template-columns: 1fr 1fr; } }
+  .notes { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--edge); }
+  .notes li { padding: 20px 0; border-bottom: 1px solid var(--edge); display: grid; grid-template-columns: 34px 1fr; }
+  .notes .mono { padding-top: 4px; color: var(--rec); }
+  .notes b { display: block; font-size: 19px; letter-spacing: -.02em; margin-bottom: 4px; }
+  .notes span { color: var(--dim); font-size: 16px; }
+  .gh { display: inline-flex; gap: 10px; align-items: center; margin-top: 30px; text-decoration: none; padding: 12px 18px; border-radius: 999px; background: var(--chalk); color: var(--desk); font-weight: 500; transition: transform .3s; }
+  .gh:hover { transform: translateY(-2px); }
+
+  /* next */
+  .next { display: block; text-decoration: none; background: #F5F4FF; color: #1B1340; border: 2px solid #1B1340; box-shadow: 6px 6px 0 #7B0AFF; border-radius: 26px; padding: 48px 32px; margin: 40px 0 70px; position: relative; transition: transform .6s cubic-bezier(.2,.7,.1,1); }
+  .next:hover { transform: translateY(-6px); }
+  .next .mono { color: #6F6896; }
+  .next h2 { font-family: "Unbounded", sans-serif; font-size: clamp(46px, 9vw, 120px); letter-spacing: -.06em; margin-top: 12px; }
+  .next .arrow { position: absolute; right: 32px; bottom: 40px; font-size: 40px; transition: transform .5s cubic-bezier(.2,.7,.1,1); }
+  .next:hover .arrow { transform: translateX(10px); }
+</style>
+</head>
+<body>
+<div class="progress"></div>
+<div class="wipe arrive" style="background:#15120e"></div>
+
+<nav class="top"><div class="wrap">
+  <a class="back" href="index.html#work" data-wipe="#f3f1ec">← Jacob Le</a>
+  <span class="mono">Case study 02</span>
+</div></nav>
+
+<main>
+<header class="hero wrap">
+  <div class="mono reveal">Web app · Designed &amp; built solo · 2026</div>
+  <h1><span class="line"><span>Inkbeat</span></span><span class="rec"></span></h1>
+  <p class="tag reveal" style="--d:200ms">A lyric pad that keeps your <b>words pinned to the beat</b>, and your takes right next to them.</p>
+  <div class="ctas reveal" style="--d:280ms"><a class="cta main" href="https://1jacobl.github.io/inkbeat/" target="_blank" rel="noopener">Open Inkbeat ↗</a><a class="cta" href="https://github.com/1jacobl/inkbeat" target="_blank" rel="noopener">View code ↗</a></div>
+  <div class="transport reveal" style="--d:320ms">
+    <div class="play">▶</div>
+    <div class="wave" id="wave"></div>
+    <div class="time" id="time">0:00 / 2:48</div>
+  </div>
+</header>
+
+<section style="padding-top:40px"><div class="wrap">
+  <div class="mono reveal">The problem</div>
+  <h2 class="sec-title reveal" style="margin-top:14px">Notes app on one side, YouTube scrubbing on the other.</h2>
+  <p class="lede reveal">When you write to a beat you spend half your time dragging the scrubber back to the hook and trying to remember which bar went where. Voice memos pile up with names like "new recording 47." Inkbeat ties every lyric and every take to the exact second it belongs to.</p>
+</div></section>
+
+<div class="scrub" id="scrub">
+  <div class="scrub-inner wrap">
+    <div class="desk">
+      <ol class="scrub-steps" id="steps">
+        <li>Paste a beat<small>Drop in a YouTube link. The song takes the video's title.</small></li>
+        <li>Drop markers<small>Hit <kbd>M</kbd> while it plays, wherever a verse or hook lands.</small></li>
+        <li>Write per section<small>Each marker gets its own lyric page, timestamped.</small></li>
+        <li>Record a flow<small>The mic starts and the beat plays from that marker with a lead-in.</small></li>
+      </ol>
+      <div class="sheet">
+        <div class="tape"></div>
+        <div class="sec" data-i="0"><div class="sec-h"><span class="chip">0:00</span>Intro</div><div class="ly"><span>(beat rides, no words yet)</span></div></div>
+        <div class="sec" data-i="1"><div class="sec-h"><span class="chip">0:12</span>Verse 1</div><div class="ly"><span>late bus home, city in my headphones</span></div><div class="ly"><span>counting streetlights like they owe me</span></div></div>
+        <div class="sec" data-i="2"><div class="sec-h"><span class="chip">0:41</span>Hook</div><div class="ly"><span>write it down before it fades out</span></div><div class="ly"><span>every bar got a place now</span></div></div>
+        <div class="sec" data-i="3"><div class="sec-h"><span class="chip">1:05</span>Verse 2</div><div class="ly"><span>margin full of arrows, coffee rings</span></div><div class="take" id="take"><i></i>REC · take 3 · 0:08</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="mono reveal">Recording</div>
+  <h2 class="sec-title reveal" style="margin-top:14px">Takes live where they were written.</h2>
+  <div class="cards" data-stagger="90">
+    <div class="icard" style="--r:-1.5deg"><span class="n">01</span><h3>Record flow</h3><p>Start recording on any marker. The mic opens and the beat plays from that spot.</p></div>
+    <div class="icard" style="--r:1deg;--tr:4deg"><span class="n">02</span><h3>Keep every take</h3><p>Record as many takes as you want per marker. Rename them, download them, delete the bad ones.</p></div>
+    <div class="icard" style="--r:-.6deg"><span class="n">03</span><h3>Play it back over the beat</h3><p>Hear any take mixed over the beat from the same second, or switch the beat off to hear just your voice.</p></div>
+    <div class="icard" style="--r:1.4deg;--tr:-5deg"><span class="n">04</span><h3>Lead-in</h3><p>Get 2–8 seconds of beat before the marker so you come in on time.</p></div>
+    <div class="icard" style="--r:-1deg"><span class="n">05</span><h3>Sync</h3><p>Nudge takes earlier or later in milliseconds when Bluetooth lag throws the timing off.</p></div>
+    <div class="icard" style="--r:.8deg;--tr:3deg"><span class="n">06</span><h3>Backups</h3><p>Everything saves in the browser on its own. Export the whole notebook as one file whenever you want.</p></div>
+  </div>
+</div></section>
+
+<section style="padding-top:20px"><div class="wrap">
+  <div class="mono reveal">Built for the keyboard</div>
+  <h2 class="sec-title reveal" style="margin-top:14px">Hands stay on the keys.</h2>
+  <div class="keys" data-stagger="60" id="keys">
+    <div class="key"><span>Play / pause</span><kbd>Space</kbd></div>
+    <div class="key"><span>Drop a marker</span><kbd>M</kbd></div>
+    <div class="key"><span>Marker while typing</span><kbd>⌘ ↵</kbd></div>
+    <div class="key"><span>Record at marker</span><kbd>R</kbd></div>
+    <div class="key"><span>Skip 5 seconds</span><kbd>← →</kbd></div>
+    <div class="key"><span>Stop recording</span><kbd>Esc</kbd></div>
+  </div>
+</div></section>
+
+<section><div class="wrap build">
+  <div>
+    <div class="mono reveal">Under the hood</div>
+    <h2 class="sec-title reveal" style="margin-top:14px">No server. No account.</h2>
+    <p class="lede reveal">It all runs in the browser, so it opens instantly and your lyrics never leave your laptop.</p>
+    <a class="gh reveal" href="https://1jacobl.github.io/inkbeat/" target="_blank" rel="noopener">Try it live ↗</a>
+  </div>
+  <ul class="notes" data-stagger="80">
+    <li><span class="mono">01</span><div><b>React + TypeScript + Vite</b><span>A two-pane studio layout: song rail on the left, lyric pages on the right.</span></div></li>
+    <li><span class="mono">02</span><div><b>YouTube IFrame API</b><span>The beat streams from YouTube. Markers seek it exactly and follow the playhead.</span></div></li>
+    <li><span class="mono">03</span><div><b>MediaRecorder + Web Audio</b><span>Takes record from the mic and play back in time with the beat, with a sync offset in milliseconds.</span></div></li>
+    <li><span class="mono">04</span><div><b>IndexedDB + service worker</b><span>Songs, lyrics and audio save locally. It installs like an app and works offline.</span></div></li>
+  </ul>
+</div></section>
+
+<div class="wrap">
+  <a class="next reveal" href="clubbie.html" data-wipe="#F5F4FF">
+    <div class="mono">Next project · 01</div>
+    <h2>Clubbie</h2>
+    <span class="arrow">→</span>
+  </a>
+</div>
+</main>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="shared.js"></script>
+<script>
+  requestAnimationFrame(() => document.querySelector('.hero').classList.add('ready'));
+
+  // Hero waveform with markers; a playhead lights bars as it sweeps.
+  const wave = document.getElementById('wave'), time = document.getElementById('time');
+  const N = 72, bars = [];
+  for (let i = 0; i < N; i++) {
+    const b = document.createElement('i');
+    const h = 22 + Math.abs(Math.sin(i * .55) * 52 + Math.sin(i * 1.7) * 22);
+    b.style.setProperty('--h', Math.min(100, h) + '%');
+    wave.appendChild(b); bars.push(b);
+  }
+  [['VERSE', 7], ['HOOK', 24], ['VERSE 2', 39], ['BRIDGE', 62]].forEach(([l, p]) => {
+    const m = document.createElement('div'); m.className = 'mk'; m.dataset.l = l; m.style.left = p + '%'; wave.appendChild(m);
+  });
+  const total = 168;
+  const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  let t0 = performance.now();
+  const loop = (t) => {
+    const p = ((t - t0) / 14000) % 1, k = Math.floor(p * N);
+    bars.forEach((b, i) => b.classList.toggle('on', i <= k));
+    time.textContent = `${fmt(p * total)} / ${fmt(total)}`;
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+
+  // Scroll-scrubbed demo: progress through the tall section picks the active step + lyric section.
+  const scrub = document.getElementById('scrub');
+  const steps = [...document.querySelectorAll('#steps li')];
+  const secs = [...document.querySelectorAll('.sheet .sec')];
+  const take = document.getElementById('take');
+  const onScroll = () => {
+    const r = scrub.getBoundingClientRect();
+    const p = Math.min(.999, Math.max(0, -r.top / (r.height - innerHeight)));
+    const k = Math.floor(p * 4);
+    steps.forEach((s, i) => s.classList.toggle('now', i === k));
+    secs.forEach((s, i) => { s.classList.toggle('now', i === k); s.classList.toggle('done', i < k); });
+    take.classList.toggle('show', k === 3);
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // Keyboard grid: keys press themselves one after another, and real key presses light them too.
+  const keys = [...document.querySelectorAll('#keys .key')];
+  let ki = 0;
+  setInterval(() => { const k = keys[ki++ % keys.length]; k.classList.add('hit'); setTimeout(() => k.classList.remove('hit'), 220); }, 900);
+  const map = { ' ': 0, m: 1, Enter: 2, r: 3, ArrowLeft: 4, ArrowRight: 4, Escape: 5 };
+  addEventListener('keydown', (e) => { const i = map[e.key]; if (i == null || e.key === ' ') return; keys[i].classList.add('hit'); setTimeout(() => keys[i].classList.remove('hit'), 220); });
+</script>
+</body>
+</html>
