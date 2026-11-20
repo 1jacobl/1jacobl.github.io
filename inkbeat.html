@@ -75,15 +75,15 @@
   .desk > * { min-width: 0; }
   .desk { display: grid; gap: 40px; align-items: center; }
   @media (min-width: 900px) { .desk { grid-template-columns: 5fr 7fr; } }
-  .sheet { position: relative; background: var(--paper); color: var(--ink); border-radius: 4px; padding: 34px 26px 30px 58px; box-shadow: 0 40px 70px -30px #000c; transform: rotate(-1deg);
+  .sheet { position: relative; background: var(--paper); color: var(--ink); border-radius: 4px; padding: 32px 26px 32px 58px; box-shadow: 0 40px 70px -30px #000c; transform: rotate(-1deg);
     background-image: linear-gradient(90deg, transparent 42px, var(--margin) 42px, var(--margin) 43px, transparent 43px), repeating-linear-gradient(transparent 0 31px, var(--rule) 31px 32px); background-position: 0 0, 0 26px; }
   .sheet .tape { position: absolute; top: -13px; left: 40%; width: 110px; height: 26px; background: #c8b083cc; transform: rotate(2deg); }
-  .sec { padding: 0 0 6px; transition: opacity .4s; opacity: .35; }
+  .sec { padding: 0; transition: opacity .4s; opacity: .35; }
   .sec.now { opacity: 1; }
-  .sec-h { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; line-height: 32px; }
+  .sec-h { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; line-height: 32px; height: 32px; }
   .chip { font-family: "JetBrains Mono"; font-size: 11px; background: var(--ink); color: var(--paper); padding: 1px 7px; border-radius: 4px; line-height: 18px; transition: background .3s; }
   .sec.now .chip { background: var(--rec); }
-  .ly { font-family: "Courier Prime", monospace; font-size: 17px; line-height: 32px; white-space: nowrap; overflow: hidden; }
+  .ly { font-family: "Courier Prime", monospace; font-size: 17px; line-height: 32px; height: 32px; white-space: nowrap; overflow: hidden; }
   .ly span { display: inline-block; clip-path: inset(0 100% 0 0); transition: clip-path .9s steps(28); }
   .sec.now .ly span, .sec.done .ly span { clip-path: inset(0 0 0 0); }
   .sec.done { opacity: .75; }
@@ -92,7 +92,7 @@
   .scrub-steps li.now { color: var(--chalk); }
   .scrub-steps li small { display: block; font-weight: 500; font-size: 16px; letter-spacing: 0; color: var(--dim); max-height: 0; overflow: hidden; transition: max-height .5s; }
   .scrub-steps li.now small { max-height: 80px; }
-  .take { display: inline-flex; gap: 8px; align-items: center; margin-top: 10px; font-family: "JetBrains Mono"; font-size: 12px; background: var(--rec); color: #fff; padding: 6px 12px; border-radius: 999px; opacity: 0; transform: translateY(6px); transition: .4s; }
+  .take { position: absolute; right: 22px; bottom: -16px; display: inline-flex; gap: 8px; align-items: center; font-family: "JetBrains Mono"; font-size: 12px; background: var(--rec); color: #fff; padding: 6px 12px; border-radius: 999px; opacity: 0; transform: translateY(6px); transition: .4s; }
   .sec.now .take.show { opacity: 1; transform: none; }
   .take i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
   @keyframes blink { 50% { opacity: .2; } }
