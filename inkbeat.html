@@ -165,9 +165,9 @@
   .mock { --dim2: #6b6152; background: var(--desk-2); border: 1px solid var(--edge); border-radius: 16px; padding: 14px; box-shadow: 0 40px 70px -30px #000c; font-size: 13px; }
   .m-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .m-brand { display: inline-flex; align-items: center; gap: 7px; font-weight: 800; font-size: 15px; letter-spacing: -.02em; }
-  .m-brand i { width: 10px; height: 10px; border-radius: 50%; background: var(--rec); }
-  .m-url { flex: 1; background: var(--desk); border: 1px solid var(--edge); border-radius: 8px; padding: 7px 10px; font-family: "JetBrains Mono"; font-size: 11.5px; color: var(--dim); overflow: hidden; white-space: nowrap; }
-  .m-url-t { display: inline-block; clip-path: inset(0 100% 0 0); transition: clip-path .8s steps(30); }
+  .m-brand img { width: 20px; height: 20px; border-radius: 5px; }
+  .m-url { flex: 1; display: flex; align-items: center; background: var(--desk); border: 1px solid var(--edge); border-radius: 8px; padding: 7px 10px; font-family: "JetBrains Mono"; font-size: 11.5px; color: var(--dim); overflow: hidden; white-space: nowrap; }
+  .m-url-t { display: inline-block; vertical-align: top; clip-path: inset(0 100% 0 0); }
   .m-main { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
   .m-video { position: relative; aspect-ratio: 16/9; border-radius: 10px; background: radial-gradient(120% 120% at 30% 20%, #3a3128, #15120e); display: grid; place-items: center; overflow: hidden; }
   .m-video b { position: absolute; left: 10px; top: 8px; font-size: 12px; opacity: 0; transition: opacity .5s .5s; }
@@ -211,8 +211,11 @@
   .m-take.new i { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
 
   /* step 0: paste a beat */
-  .mock .m-url-t { clip-path: inset(0 0 0 0); }
-  .mock .m-video b, .mock .m-yt { opacity: 1; }
+  .mock.typed .m-url-t { clip-path: inset(0 0 0 0); transition: clip-path 1.3s steps(33); }
+  .m-url { position: relative; }
+  .m-url::after { content: ""; display: inline-block; width: 7px; height: 13px; margin-left: 1px; vertical-align: -2px; background: var(--hi); animation: blink 1s steps(2) infinite; }
+  .mock.typed .m-url::after { animation: blink 1s steps(2) 1.4s 3 forwards; }
+  .mock.typed .m-video b, .mock.typed .m-yt { opacity: 1; transition-delay: 1.4s; }
   .mock[data-step="0"] .m-url { border-color: var(--hi); }
   /* step 1+: markers */
   .mock:not([data-step="0"]) .m-mk { transform: none; }
@@ -247,10 +250,13 @@
   .cv-row b { display: block; font-weight: 400; font-family: "Courier Prime", monospace; font-size: 15px; white-space: nowrap; overflow: hidden; }
   .js .cv-row b { clip-path: inset(0 100% 0 0); }
   .cv.in .cv-row b { clip-path: inset(0 0 0 0); transition: clip-path .9s steps(30); transition-delay: calc(.4s + var(--i) * .6s); }
-  .cv-foot { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 13px; color: var(--ink-soft); }
+  .cv-foot { all: unset; cursor: pointer; display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 12px; width: 100%; font-size: 13px; color: var(--ink-soft); border-top: 1px dashed var(--rule); }
+  .cv-foot:focus-visible { outline: 2px solid var(--rec); outline-offset: 4px; border-radius: 6px; }
   .cv-k { font-weight: 800; color: var(--ink); }
-  .cv-sw { width: 30px; height: 18px; border-radius: 999px; background: var(--ink); position: relative; }
-  .cv-sw i { position: absolute; top: 3px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--hi); }
+  .cv-sw { width: 30px; height: 18px; border-radius: 999px; background: var(--ink); position: relative; transition: background .25s; }
+  .cv-foot[aria-pressed="false"] .cv-sw { background: var(--rule); }
+  .cv-foot[aria-pressed="false"] .cv-sw i { left: 3px; background: #fff; }
+  .cv-sw i { position: absolute; top: 3px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--hi); transition: left .25s cubic-bezier(.3,1.4,.5,1), background .25s; }
 </style>
 </head>
 <body>
@@ -290,7 +296,7 @@
       </ol>
       <div class="mock" id="mock" data-step="0">
         <div class="m-top">
-          <span class="m-brand"><i></i>Inkbeat</span>
+          <span class="m-brand"><img src="inkbeat-icon.svg" alt="" width="20" height="20">Inkbeat</span>
           <div class="m-url"><span class="m-url-t">youtube.com/watch?v=late-bus-beat</span></div>
         </div>
         <div class="m-main">
@@ -335,7 +341,7 @@
     <div class="cv-row"><span class="t">0:22</span><div><s>I keep a quiet song for you</s><b style="--i:1">I keep a notebook full for you</b></div></div>
     <div class="cv-sec"><span class="chip">0:41</span>Hook</div>
     <div class="cv-row"><span class="t">0:41</span><div><s>and we ride, ride till morning</s><b style="--i:2">and I write, write till morning</b></div></div>
-    <div class="cv-foot"><span class="cv-k">Karaoke</span><span class="cv-sw"><i></i></span><span>night drive (instrumental)</span></div>
+    <button class="cv-foot" id="cvK" type="button" aria-pressed="true"><span class="cv-k">Karaoke</span><span class="cv-sw"><i></i></span><span id="cvKl">night drive (instrumental)</span></button>
   </div>
 </div></section>
 
@@ -447,15 +453,19 @@
   let mLast = performance.now();
   const mLoop = (t) => { mPos += (t - mLast) / 60000; mLast = t; if (mPos > .98) mPos = .02; mHead.style.left = (mPos * 100) + '%'; mTime.textContent = mFmt(mPos); requestAnimationFrame(mLoop); };
   requestAnimationFrame(mLoop);
+  let mLastDrop = 0, mFlashT;
   const mDropMarker = () => {
+    const now = performance.now(); if (now - mLastDrop < 160) return; mLastDrop = now;
     mUser++;
     const m = document.createElement('i'); m.className = 'm-mk user'; m.style.left = (mPos * 100) + '%';
     m.innerHTML = `<span>M${mUser}</span>`; mLine.appendChild(m);
-    mDrop.classList.add('flash'); setTimeout(() => mDrop.classList.remove('flash'), 180);
+    const mine = mLine.querySelectorAll('.m-mk.user'); if (mine.length > 8) mine[0].remove();
+    clearTimeout(mFlashT); mDrop.classList.add('flash'); mFlashT = setTimeout(() => mDrop.classList.remove('flash'), 180);
   };
   mDrop.addEventListener('click', mDropMarker);
   mRec.addEventListener('click', () => sheet.classList.toggle('recording'));
   window.__mDropMarker = mDropMarker;
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { sheet.classList.add('typed'); o.disconnect(); } }, { threshold: .4 }).observe(sheet);
   const onScroll = () => {
     const r = scrub.getBoundingClientRect();
     const p = Math.min(.999, Math.max(0, -r.top / (r.height - innerHeight)));
@@ -470,10 +480,14 @@
   const transport = document.querySelector('.transport'), readout = document.getElementById('readout');
   const roState = document.getElementById('roState'), roTime = document.getElementById('roTime'), roMk = document.getElementById('roMk');
   let markers = 4, rec = false;
-  const flash = (i) => { keys[i].classList.add('hit'); setTimeout(() => keys[i].classList.remove('hit'), 200); };
+  const flashT = [];
+  const flash = (i) => { clearTimeout(flashT[i]); keys[i].classList.add('hit'); flashT[i] = setTimeout(() => keys[i].classList.remove('hit'), 200); };
+  let lastDrop = 0;
   const addMarker = () => {
+    const now = performance.now(); if (now - lastDrop < 160) return; lastDrop = now;
     markers++;
     const m = document.createElement('div'); m.className = 'mk user'; m.dataset.l = 'M' + (markers - 4); m.style.left = (pos * 100) + '%'; wave.appendChild(m);
+    const mine = wave.querySelectorAll('.mk.user'); if (mine.length > 8) mine[0].remove();
   };
   const actions = [
     () => setPlaying(!playing),
@@ -490,8 +504,10 @@
     readout.classList.toggle('rec', rec); transport.classList.toggle('rec', rec);
   };
   keys.forEach((k, i) => k.addEventListener('click', () => run(i)));
+  [...keys, playBtn, mDrop, mRec].forEach((b) => b.addEventListener('mousedown', (e) => e.preventDefault()));
   addEventListener('keydown', (e) => {
     if (e.target.closest && e.target.closest('input, textarea, [contenteditable]')) return;
+    if (e.repeat && !['ArrowLeft', 'ArrowRight'].includes(e.key)) { if (e.key === ' ') e.preventDefault(); return; }
     const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     if (key === ' ') { e.preventDefault(); run(0); }
     else if ((e.metaKey || e.ctrlKey) && key === 'Enter') { e.preventDefault(); run(2); }
@@ -504,6 +520,10 @@
   playBtn.addEventListener('click', syncReadout);
   setInterval(() => { roTime.textContent = fmt(pos * total); }, 200);
   syncReadout();
+  // Karaoke toggle in the covers demo.
+  const cvK = document.getElementById('cvK'), cvKl = document.getElementById('cvKl');
+  cvK.addEventListener('mousedown', (e) => e.preventDefault());
+  cvK.addEventListener('click', () => { const on = cvK.getAttribute('aria-pressed') !== 'true'; cvK.setAttribute('aria-pressed', on); cvKl.textContent = on ? 'night drive (instrumental)' : 'night drive (original, with vocals)'; });
 </script>
 </body>
 </html>
