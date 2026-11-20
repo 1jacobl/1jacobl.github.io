@@ -126,9 +126,6 @@
   /* Inkbeat card — late-night studio desk */
   .p-ink { background: #15120e; color: #efe6d2; font-family: "Bricolage Grotesque", sans-serif; border: 1px solid #352e25; }
   .p-ink h3 { font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.04em; display: flex; align-items: center; gap: 12px; }
-  .p-club h3 { display: flex; align-items: center; gap: 12px; }
-  .p-club h3 .mark { width: .78em; height: .78em; }
-  .p-ink h3 .mark { width: .78em; height: .78em; border-radius: .2em; }
   .p-ink h3 .dot { width: .32em; height: .32em; border-radius: 50%; background: #e8442c; box-shadow: 0 0 0 0 #e8442c88; animation: rec 1.6s infinite; }
   @keyframes rec { 0% { box-shadow: 0 0 0 0 #e8442c88; } 70% { box-shadow: 0 0 0 12px #e8442c00; } 100% { box-shadow: 0 0 0 0 #e8442c00; } }
   .p-ink .mono { color: #9c907b; }
@@ -189,6 +186,8 @@
   .contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
   .btn { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; padding: 14px 20px; border-radius: 999px; border: 1px solid var(--ink); transition: background .3s, color .3s; }
   .btn:hover { background: var(--ink); color: var(--bg); }
+  .btn-solid { background: var(--ink); color: var(--bg); }
+  .btn-solid:hover { background: transparent; color: var(--ink); }
   footer { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding: 22px 0 36px; margin-top: 90px; }
 
   .ar { width: .95em; height: .95em; display: inline-block; vertical-align: -.12em; flex: none; }
@@ -198,7 +197,7 @@
 
 <nav class="top"><div class="wrap">
   <a class="me" href="#top">Jacob Le</a>
-  <div class="links"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+  <div class="links"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a><a href="JacobLe_Resume.pdf" target="_blank" rel="noopener">Resume</a></div>
 </div></nav>
 
 <header class="hero wrap" id="top">
@@ -220,7 +219,7 @@
       <div class="info">
         <div>
           <div class="mono">01 · Web app · 2026 · Live</div>
-          <h3><img class="mark" src="clubbie-icon.svg" alt="" width="40" height="40">Clubbie</h3>
+          <h3>Clubbie</h3>
           <p>Club management for high school and college clubs. QR attendance, service hours, events and an <span class="hl">end-of-year report</span>, all in one dashboard.</p>
           <div class="tags"><span>Next.js 15</span><span>TypeScript</span><span>SQLite</span><span>Tailwind</span></div>
         </div>
@@ -249,7 +248,7 @@
       <div class="info">
         <div>
           <div class="mono">02 · Web app · 2026 · Live</div>
-          <h3><img class="mark" src="inkbeat-icon.svg" alt="" width="40" height="40">Inkbeat</h3>
+          <h3>Inkbeat</h3>
           <p>A lyric pad for writing to a YouTube beat. Pin bars to timestamps, then record flow takes right over the spot they belong to.</p>
           <div class="tags"><span>React</span><span>TypeScript</span><span>IndexedDB</span><span>Web Audio</span></div>
         </div>
@@ -311,6 +310,7 @@
   <h2><span class="line"><span>Get in touch.</span></span></h2>
   <p class="intro reveal" style="margin-bottom:32px">Open to summer STEM internships and research opportunities.</p>
   <div class="contact-links reveal">
+    <a class="btn btn-solid" href="JacobLe_Resume.pdf" target="_blank" rel="noopener">Resume <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     <a class="btn" href="https://github.com/1jacobl">GitHub <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     <a class="btn" href="https://clubbie.live">Clubbie <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     <a class="btn" href="https://1jacobl.github.io/inkbeat/">Inkbeat <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
