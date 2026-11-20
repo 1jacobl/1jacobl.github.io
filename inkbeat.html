@@ -225,6 +225,31 @@
   .mock[data-step="3"] .m-meter { display: inline-flex; }
     .mock[data-step="3"] .m-takes, .mock[data-step="3"] .m-take.new { opacity: 1; transform: none; }
   @media (max-width: 600px) { .m-main { grid-template-columns: 1fr; } .m-time { font-size: 20px; } }
+
+  /* Covers & parodies */
+  .cover { display: grid; gap: 48px; align-items: center; }
+  .cover > *, .cv-row > div { min-width: 0; }
+  .cv-row s, .cv-row b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (min-width: 960px) { .cover { grid-template-columns: 1fr 1fr; } }
+  .cover-pts { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 14px; }
+  .cover-pts li { display: grid; gap: 2px; padding-left: 16px; border-left: 2px solid var(--edge); }
+  .cover-pts b { font-size: 17px; }
+  .cover-pts span { color: var(--dim); font-size: 15.5px; }
+  .cv { background: var(--paper); color: var(--ink); border-radius: 14px; padding: 18px 20px; box-shadow: 0 40px 70px -30px #000c; }
+  .cv-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .cv-search { display: inline-flex; align-items: center; gap: 8px; font-family: "JetBrains Mono"; font-size: 12px; padding: 7px 11px; border-radius: 8px; background: var(--paper-2); color: var(--ink-soft); }
+  .cv-pill { font-family: "JetBrains Mono"; font-size: 11px; padding: 4px 9px; border-radius: 999px; background: var(--ink); color: var(--paper); }
+  .cv-sec { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; margin: 12px 0 6px; }
+  .cv-row { display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: start; padding: 6px 0; border-bottom: 1px dashed var(--rule); }
+  .cv-row .t { font-family: "JetBrains Mono"; font-size: 11px; color: var(--ink-soft); padding-top: 3px; }
+  .cv-row s { display: block; text-decoration: none; font-family: "Courier Prime", monospace; font-size: 13.5px; color: #a3957c; }
+  .cv-row b { display: block; font-weight: 400; font-family: "Courier Prime", monospace; font-size: 15px; white-space: nowrap; overflow: hidden; }
+  .js .cv-row b { clip-path: inset(0 100% 0 0); }
+  .cv.in .cv-row b { clip-path: inset(0 0 0 0); transition: clip-path .9s steps(30); transition-delay: calc(.4s + var(--i) * .6s); }
+  .cv-foot { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 13px; color: var(--ink-soft); }
+  .cv-k { font-weight: 800; color: var(--ink); }
+  .cv-sw { width: 30px; height: 18px; border-radius: 999px; background: var(--ink); position: relative; }
+  .cv-sw i { position: absolute; top: 3px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--hi); }
 </style>
 </head>
 <body>
@@ -290,6 +315,28 @@
     </div>
   </div>
 </div>
+
+<section class="cover-sec"><div class="wrap cover">
+  <div>
+    <div class="mono reveal">Covers &amp; parodies</div>
+    <h2 class="sec-title reveal" style="margin-top:14px">Import a song. Rewrite it line by line.</h2>
+    <p class="lede reveal">Search any song and Inkbeat pulls in its timed lyrics, already split into sections. Write your own words under each original line, then swap in a karaoke track and record your version over it.</p>
+    <ul class="cover-pts" data-stagger="70">
+      <li><b>Timed import</b><span>Every original line lands on the second it's sung.</span></li>
+      <li><b>Side by side</b><span>Show or hide the original while you write.</span></li>
+      <li><b>Karaoke swap</b><span>One click finds the instrumental; playback picks up at the same spot.</span></li>
+    </ul>
+  </div>
+  <div class="cv reveal" id="cv">
+    <div class="cv-top"><span class="cv-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>night drive · some artist</span><span class="cv-pill">Imported 3 sections</span></div>
+    <div class="cv-sec"><span class="chip">0:18</span>Verse 1</div>
+    <div class="cv-row"><span class="t">0:18</span><div><s>headlights slipping down the avenue</s><b style="--i:0">bus lights blinking on the avenue</b></div></div>
+    <div class="cv-row"><span class="t">0:22</span><div><s>I keep a quiet song for you</s><b style="--i:1">I keep a notebook full for you</b></div></div>
+    <div class="cv-sec"><span class="chip">0:41</span>Hook</div>
+    <div class="cv-row"><span class="t">0:41</span><div><s>and we ride, ride till morning</s><b style="--i:2">and I write, write till morning</b></div></div>
+    <div class="cv-foot"><span class="cv-k">Karaoke</span><span class="cv-sw"><i></i></span><span>night drive (instrumental)</span></div>
+  </div>
+</div></section>
 
 <section><div class="wrap">
   <div class="mono reveal">Recording</div>
