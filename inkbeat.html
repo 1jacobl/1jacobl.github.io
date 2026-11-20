@@ -43,7 +43,7 @@
   /* hero */
   .hero { min-height: 100vh; display: grid; align-content: center; padding: 120px 0 60px; }
   .hero h1 { font-size: clamp(72px, 16vw, 230px); letter-spacing: -.065em; display: flex; align-items: center; gap: .12em; }
-  .hero h1 .rec { width: .22em; height: .22em; border-radius: 50%; background: var(--rec); flex: none; margin-left: .1em; animation: rec 1.6s infinite; }
+  .hero h1 .rec { width: .22em; height: .22em; border-radius: 50%; background: var(--rec); flex: none; margin-top: -.02em; animation: rec 1.6s infinite; }
   @keyframes rec { 0% { box-shadow: 0 0 0 0 #e8442c99; } 70% { box-shadow: 0 0 0 .12em #e8442c00; } 100% { box-shadow: 0 0 0 0 #e8442c00; } }
   .brand-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
   .app-icon { width: 44px; height: 44px; border-radius: 11px; flex: none; }
@@ -141,7 +141,7 @@
 
 <main>
 <header class="hero wrap">
-  <div class="brand-row reveal"><img class="app-icon" src="inkbeat-icon.svg" alt="Inkbeat logo" width="44" height="44"><span class="mono">Web app · Designed &amp; built solo · 2026</span></div>
+  <div class="mono reveal">Web app · Designed &amp; built solo · 2026</div>
   <h1><span class="line"><span>Inkbeat</span></span><span class="rec"></span></h1>
   <p class="tag reveal" style="--d:200ms">A lyric pad that keeps your <b>words pinned to the beat</b>, and your takes right next to them.</p>
   <div class="ctas reveal" style="--d:280ms"><a class="cta main" href="https://1jacobl.github.io/inkbeat/" target="_blank" rel="noopener">Open Inkbeat <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="cta" href="https://github.com/1jacobl/inkbeat" target="_blank" rel="noopener">View code <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
