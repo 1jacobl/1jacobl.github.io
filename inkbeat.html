@@ -112,8 +112,20 @@
   /* keys */
   .keys { display: grid; gap: 1px; background: var(--edge); border: 1px solid var(--edge); border-radius: 14px; overflow: hidden; margin-top: 50px; }
   @media (min-width: 760px) { .keys { grid-template-columns: repeat(3, 1fr); } }
-  .key { background: var(--desk-2); padding: 22px; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: background .3s; }
+  .key { all: unset; box-sizing: border-box; cursor: pointer; color: var(--chalk); background: var(--desk-2); padding: 22px; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: background .3s; }
   .key:hover { background: var(--desk-3); }
+  .key:focus-visible { outline: 2px solid var(--hi); outline-offset: -2px; }
+  .readout { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 40px; padding: 14px 18px; border: 1px solid var(--edge); border-radius: 14px; background: var(--desk-2); font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--dim); }
+  .ro-state { color: var(--chalk); }
+  .ro-time { color: var(--chalk); font-variant-numeric: tabular-nums; }
+  .ro-rec { display: none; align-items: center; gap: 6px; color: #fff; background: var(--rec); padding: 2px 9px; border-radius: 999px; }
+  .ro-rec i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
+  .readout.rec .ro-rec { display: inline-flex; }
+  .ro-hint { margin-left: auto; color: var(--faint); }
+  .keys { margin-top: 12px !important; }
+  .transport.rec { border-color: var(--rec); box-shadow: 0 0 0 1px var(--rec); }
+  .wave .mk.user { background: var(--rec); }
+  .wave .mk.user::after { color: var(--rec); }
   .key.hit kbd { background: var(--hi); color: var(--ink); border-color: var(--hi); transform: translateY(2px); border-bottom-width: 1px; }
   kbd { transition: transform .1s, background .1s; display: inline-block; }
 
@@ -204,13 +216,14 @@
 <section style="padding-top:20px"><div class="wrap">
   <div class="mono reveal">Built for the keyboard</div>
   <h2 class="sec-title reveal" style="margin-top:14px">Hands stay on the keys.</h2>
+  <div class="readout reveal" id="readout"><span class="ro-state" id="roState">Playing</span><span class="ro-time" id="roTime">0:00</span><span class="ro-mk" id="roMk">4 markers</span><span class="ro-rec" id="roRec"><i></i>REC</span><span class="ro-hint">Press a key or tap a row. It drives the player at the top.</span></div>
   <div class="keys" data-stagger="60" id="keys">
-    <div class="key"><span>Play / pause</span><kbd>Space</kbd></div>
-    <div class="key"><span>Drop a marker</span><kbd>M</kbd></div>
-    <div class="key"><span>Marker while typing</span><kbd>⌘ ↵</kbd></div>
-    <div class="key"><span>Record at marker</span><kbd>R</kbd></div>
-    <div class="key"><span>Skip 5 seconds</span><kbd>← →</kbd></div>
-    <div class="key"><span>Stop recording</span><kbd>Esc</kbd></div>
+    <button class="key" type="button"><span>Play / pause</span><kbd>Space</kbd></button>
+    <button class="key" type="button"><span>Drop a marker</span><kbd>M</kbd></button>
+    <button class="key" type="button"><span>Marker while typing</span><kbd>⌘ ↵</kbd></button>
+    <button class="key" type="button"><span>Record at marker</span><kbd>R</kbd></button>
+    <button class="key" type="button"><span>Skip 5 seconds</span><kbd>← →</kbd></button>
+    <button class="key" type="button"><span>Stop recording</span><kbd>Esc</kbd></button>
   </div>
 </div></section>
 
@@ -298,12 +311,45 @@
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-  // Keyboard grid: keys press themselves one after another, and real key presses light them too.
+  // Keyboard grid: real key presses (or clicking a row) drive the hero player.
   const keys = [...document.querySelectorAll('#keys .key')];
-  let ki = 0;
-  setInterval(() => { const k = keys[ki++ % keys.length]; k.classList.add('hit'); setTimeout(() => k.classList.remove('hit'), 220); }, 900);
-  const map = { ' ': 0, m: 1, Enter: 2, r: 3, ArrowLeft: 4, ArrowRight: 4, Escape: 5 };
-  addEventListener('keydown', (e) => { const i = map[e.key]; if (i == null || e.key === ' ') return; keys[i].classList.add('hit'); setTimeout(() => keys[i].classList.remove('hit'), 220); });
+  const transport = document.querySelector('.transport'), readout = document.getElementById('readout');
+  const roState = document.getElementById('roState'), roTime = document.getElementById('roTime'), roMk = document.getElementById('roMk');
+  let markers = 4, rec = false;
+  const flash = (i) => { keys[i].classList.add('hit'); setTimeout(() => keys[i].classList.remove('hit'), 200); };
+  const addMarker = () => {
+    markers++;
+    const m = document.createElement('div'); m.className = 'mk user'; m.dataset.l = 'M' + (markers - 4); m.style.left = (pos * 100) + '%'; wave.appendChild(m);
+  };
+  const actions = [
+    () => setPlaying(!playing),
+    addMarker,
+    addMarker,
+    () => { rec = true; setPlaying(true); },
+    (dir) => { pos = Math.min(1, Math.max(0, pos + (dir || 1) * 5 / total)); render(); },
+    () => { rec = false; },
+  ];
+  const run = (i, arg) => { flash(i); actions[i](arg); syncReadout(); };
+  const syncReadout = () => {
+    roState.textContent = playing ? 'Playing' : 'Paused';
+    roMk.textContent = markers + ' markers';
+    readout.classList.toggle('rec', rec); transport.classList.toggle('rec', rec);
+  };
+  keys.forEach((k, i) => k.addEventListener('click', () => run(i)));
+  addEventListener('keydown', (e) => {
+    if (e.target.closest && e.target.closest('input, textarea, [contenteditable]')) return;
+    const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (key === ' ') { e.preventDefault(); run(0); }
+    else if ((e.metaKey || e.ctrlKey) && key === 'Enter') { e.preventDefault(); run(2); }
+    else if (key === 'm') run(1);
+    else if (key === 'r') run(3);
+    else if (key === 'ArrowLeft') { e.preventDefault(); run(4, -1); }
+    else if (key === 'ArrowRight') { e.preventDefault(); run(4, 1); }
+    else if (key === 'Escape') run(5);
+  });
+  playBtn.addEventListener('click', syncReadout);
+  setInterval(() => { roTime.textContent = fmt(pos * total); }, 200);
+  syncReadout();
 </script>
 </body>
 </html>
