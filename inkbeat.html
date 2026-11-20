@@ -512,19 +512,21 @@
     if ((e.metaKey || e.ctrlKey) && key === 'Enter') return 2;
     return { m: 1, r: 3, ArrowLeft: 4, ArrowRight: 4, Escape: 5 }[key];
   };
-  const held = new Map();
+  const held = new Map(), pressedAt = [];
   addEventListener('keydown', (e) => {
     if (e.target.closest && e.target.closest('input, textarea, [contenteditable]')) return;
     const i = keyIndex(e); if (i == null) return;
     if (i !== 1 && i !== 3 && i !== 5 || e.key === ' ') e.preventDefault();
-    clearTimeout(flashT[i]); keys[i].classList.add('hit'); held.set(e.code, i);
+    clearTimeout(flashT[i]); keys[i].classList.add('hit'); if (!e.repeat) pressedAt[i] = performance.now(); held.set(e.code, i);
     if (e.repeat && i !== 4) return;           // holding: stay lit, don't repeat the action
     actions[i](i === 4 ? (e.key === 'ArrowLeft' ? -1 : 1) : undefined); syncReadout();
     if (i === 1 && window.__mDropMarker) window.__mDropMarker();
   });
   addEventListener('keyup', (e) => {
     const i = held.get(e.code); if (i == null) return;
-    held.delete(e.code); if (![...held.values()].includes(i)) keys[i].classList.remove('hit');
+    held.delete(e.code); if ([...held.values()].includes(i)) return;
+    const wait = Math.max(0, 200 - (performance.now() - (pressedAt[i] || 0)));
+    clearTimeout(flashT[i]); flashT[i] = setTimeout(() => keys[i].classList.remove('hit'), wait);
   });
   addEventListener('blur', () => { held.clear(); keys.forEach((k) => k.classList.remove('hit')); });
   playBtn.addEventListener('click', syncReadout);
