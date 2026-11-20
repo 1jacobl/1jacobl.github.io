@@ -132,6 +132,7 @@
   .cp-meter { height: 8px; border-radius: 999px; background: #fff; border: 1.5px solid #1B1340; overflow: hidden; }
   .cp-meter i { display: block; height: 100%; width: 0; background: #7B0AFF; transition: width 1.4s cubic-bezier(.2,.7,.1,1); }
   .in .cp-meter i { width: 82%; }
+  .settling .cp-meter i { transition: none; }
   .cp-row { display: flex; align-items: center; gap: 10px; height: 42px; border-top: 1px solid #F0EEF8; font-size: 14px; font-weight: 500; }
   .cp-row .av { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
   .cp-row .tm { margin-left: auto; color: #9790BD; font-size: 12.5px; }
@@ -421,6 +422,7 @@
   const card = document.querySelector('.p-club');
   card.addEventListener('reveal', () => {
     const end = +count.dataset.count, t0 = performance.now();
+    if (document.documentElement.classList.contains('settling')) { count.textContent = end; return; }
     const tick = (t) => {
       const p = Math.min(1, (t - t0) / 1400);
       count.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));

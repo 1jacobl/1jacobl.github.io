@@ -31,6 +31,11 @@
       c.style.setProperty('--d', `${i * step}ms`);
     });
   });
+  // Whatever is already on screen when the page opens shows at once (the page fade is its entrance);
+  // only things you scroll to animate in. This stops the "loads twice" stutter.
+  const root = document.documentElement;
+  root.classList.add('settling');
+  let first = true;
   const io = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
@@ -38,6 +43,7 @@
       en.target.dispatchEvent(new CustomEvent('reveal'));
       io.unobserve(en.target);
     });
+    if (first) { first = false; requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('settling'))); }
   }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
   document.querySelectorAll('.reveal, [data-on-view], .line').forEach((el) => io.observe(el));
 
