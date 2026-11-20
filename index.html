@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add("js");addEventListener("pagereveal",function(e){if(e.viewTransition)document.documentElement.classList.add("vt-arrive")});</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jacob Le</title>
 <meta name="description" content="Jacob Le — student engineer. Builder of Clubbie and Inkbeat.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Unbounded:wght@700;800&family=Figtree:wght@500;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Unbounded:wght@700;800&family=Figtree:wght@500;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,800&family=Courier+Prime:wght@400;700&display=block" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
   :root {
@@ -208,6 +209,9 @@
   .me { opacity: 0; transform: translateY(-6px); transition: opacity .4s, transform .5s cubic-bezier(.16,1,.3,1); pointer-events: none; }
   .me.show { opacity: 1; transform: none; pointer-events: auto; }
   @media (prefers-reduced-motion: reduce) { .js .hero-name .ch, .js .in-1, .js .in-2, .js .in-3 { opacity: 1; transform: none; filter: none; } }
+
+  /* Coming back from a project page: the page fade is the entrance, so skip the intro. */
+  .vt-arrive .hero .ch, .vt-arrive .hero .in-1, .vt-arrive .hero .in-2, .vt-arrive .hero .in-3 { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
 
   /* professional hero */
   .hero-name { font-weight: 800; font-size: clamp(64px, 13vw, 190px); letter-spacing: -.045em; line-height: .9; margin: 0 0 34px; }

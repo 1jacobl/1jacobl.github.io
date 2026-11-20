@@ -1,7 +1,6 @@
 // Shared motion: smooth scrolling and scroll reveals.
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.documentElement.classList.add('js');
 
   // Smooth scrolling (Lenis). Falls back to native scroll if it didn't load.
   let lenis = null;
