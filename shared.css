@@ -32,6 +32,10 @@ a { color: inherit; }
 ::view-transition-new(root) { animation: vt-in .3s ease both; }
 @keyframes vt-out { to { opacity: 0; } }
 @keyframes vt-in { from { opacity: 0; } }
+/* Project names fly from the home card into the page title (and back). */
+::view-transition-group(club-title), ::view-transition-group(ink-title) { animation-duration: .6s; animation-timing-function: cubic-bezier(.2,.75,.1,1); }
+::view-transition-old(club-title), ::view-transition-new(club-title),
+::view-transition-old(ink-title), ::view-transition-new(ink-title) { animation-duration: .6s; height: 100%; object-fit: contain; }
 /* Browsers without it get a quick fade-in instead of a hard cut. */
 @supports not (view-transition-name: none) {
   body { animation: page-in .45s cubic-bezier(.16,1,.3,1) both; }
@@ -41,5 +45,5 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .js .reveal, .js .line > span { opacity: 1; transform: none; }
-  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+  ::view-transition-old(root), ::view-transition-new(root), ::view-transition-group(*) { animation: none !important; }
 }
