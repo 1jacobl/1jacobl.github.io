@@ -171,8 +171,11 @@
   .m-video { position: relative; aspect-ratio: 16/9; border-radius: 10px; background: radial-gradient(120% 120% at 30% 20%, #3a3128, #15120e); display: grid; place-items: center; overflow: hidden; }
   .m-video b { position: absolute; left: 10px; top: 8px; font-size: 12px; opacity: 0; transition: opacity .5s .5s; }
   .m-yt { width: 40px; height: 28px; border-radius: 8px; background: #c4302b; color: #fff; display: grid; place-items: center; opacity: .25; transition: opacity .5s .5s; }
-  .m-ctrl { display: grid; gap: 8px; align-content: start; }
-  .m-time { font-family: "JetBrains Mono"; font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+  .m-ctrl { display: flex; flex-direction: column; gap: 8px; }
+  .m-trans { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 6px; margin-top: auto; }
+  .m-trans span { display: grid; place-items: center; height: 32px; border-radius: 8px; background: var(--desk-3); color: var(--dim); font-family: "JetBrains Mono"; font-size: 12px; }
+  .m-trans span.pl { background: var(--chalk); color: var(--desk); }
+  .m-time { font-family: "JetBrains Mono"; font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1; padding: 4px 2px 0; }
   .m-btn { display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 9px 11px; border-radius: 9px; font-weight: 600; transition: background .3s, color .3s, box-shadow .3s; }
   .m-btn kbd { font-size: 10px; }
   .m-drop { background: #3a3220; color: #b9a35a; }
@@ -182,20 +185,19 @@
   .m-meter b { width: 3px; background: #fff; border-radius: 2px; animation: meter .6s ease-in-out infinite alternate; }
   .m-meter b:nth-child(2) { animation-delay: .1s } .m-meter b:nth-child(3) { animation-delay: .25s } .m-meter b:nth-child(4) { animation-delay: .05s } .m-meter b:nth-child(5) { animation-delay: .3s }
   @keyframes meter { from { height: 3px; } to { height: 14px; } }
-  .m-line { position: relative; height: 34px; margin: 14px 0 12px; border-radius: 8px; background: repeating-linear-gradient(90deg, #2c261e 0 2px, transparent 2px 7px); }
-  .m-mk { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--hi); transform: scaleY(0); transform-origin: bottom; transition: transform .45s cubic-bezier(.3,1.6,.5,1); }
+  .m-line { position: relative; height: 30px; margin: 30px 0 14px; border-radius: 8px; background: repeating-linear-gradient(90deg, #2c261e 0 2px, transparent 2px 7px); }
+  .m-mk { font-style: normal; position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--hi); transform: scaleY(0); transform-origin: bottom; transition: transform .45s cubic-bezier(.3,1.6,.5,1); }
   .m-mk:nth-child(2) { transition-delay: .2s } .m-mk:nth-child(3) { transition-delay: .4s }
   .m-mk span { position: absolute; top: -15px; left: 4px; font-family: "JetBrains Mono"; font-size: 10px; color: var(--hi); white-space: nowrap; }
   .m-head { position: absolute; top: -4px; bottom: -4px; left: 34%; width: 2px; background: var(--rec); opacity: 0; transition: opacity .3s; }
-  .m-page { position: relative; background: var(--paper); color: var(--ink); border-radius: 10px; padding: 14px 16px; min-height: 190px;
-    background-image: repeating-linear-gradient(transparent 0 27px, var(--rule) 27px 28px); background-position: 0 40px; }
+  .m-page { position: relative; background: var(--paper); color: var(--ink); border-radius: 10px; padding: 16px 18px; min-height: 200px; }
   .m-blank { position: absolute; inset: 14px 16px auto; font-family: "Courier Prime", monospace; font-size: 13px; color: var(--ink-soft); transition: opacity .3s; }
-  .m-tabs { display: flex; gap: 6px; height: 26px; margin-bottom: 8px; opacity: 0; transition: opacity .4s .5s; }
+  .m-tabs { display: flex; gap: 6px; height: 24px; margin-bottom: 12px; opacity: 0; transition: opacity .4s .5s; }
   .m-tabs span { font-family: "JetBrains Mono"; font-size: 10.5px; padding: 4px 8px; border-radius: 5px; background: var(--paper-2); color: var(--ink-soft); }
   .m-tabs span.on { background: var(--ink); color: var(--paper); }
-  .m-ly { font-family: "Courier Prime", monospace; font-size: 14.5px; line-height: 28px; height: 28px; white-space: nowrap; overflow: hidden; }
+  .m-ly { font-family: "Courier Prime", monospace; font-size: 14.5px; line-height: 26px; height: 26px; white-space: nowrap; overflow: hidden; }
   .m-ly span { display: inline-block; clip-path: inset(0 100% 0 0); transition: clip-path .7s steps(28); transition-delay: calc(var(--l) * .35s); }
-  .m-takes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; opacity: 0; transition: opacity .4s; }
+  .m-takes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--rule); opacity: 0; transition: opacity .4s; }
   .m-take { white-space: nowrap; font-family: "JetBrains Mono"; font-size: 10.5px; padding: 4px 9px; border-radius: 999px; background: var(--paper-2); color: var(--ink-soft); }
   .m-take.new { display: inline-flex; align-items: center; gap: 6px; background: var(--rec); color: #fff; transform: scale(.6); opacity: 0; transition: transform .45s cubic-bezier(.3,1.7,.5,1) .3s, opacity .3s .3s; }
   .m-take.new i { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: blink 1s steps(2) infinite; }
@@ -263,6 +265,7 @@
           <div class="m-player"><div class="m-video"><b>late bus (prod. demo)</b><span class="m-yt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span></div></div>
           <div class="m-ctrl">
             <div class="m-time" id="mTime">0:41.2</div>
+            <div class="m-trans"><span>−5</span><span class="pl"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span><span>+5</span></div>
             <div class="m-btn m-drop">Drop marker <kbd>M</kbd></div>
             <div class="m-btn m-rec"><i></i><span class="m-rec-l">Record flow</span><span class="m-meter"><b></b><b></b><b></b><b></b><b></b></span></div>
           </div>
