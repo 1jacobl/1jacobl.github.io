@@ -170,8 +170,10 @@
   .m-url-t { display: inline-block; vertical-align: top; clip-path: inset(0 100% 0 0); }
   .m-main { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
   .m-video { position: relative; aspect-ratio: 16/9; border-radius: 10px; background: radial-gradient(120% 120% at 30% 20%, #3a3128, #15120e); display: grid; place-items: center; overflow: hidden; }
-  .m-video b { position: absolute; left: 10px; top: 8px; font-size: 12px; opacity: 0; transition: opacity .5s .5s; }
-  .m-yt { width: 40px; height: 28px; border-radius: 8px; background: #c4302b; color: #fff; display: grid; place-items: center; opacity: .25; transition: opacity .5s .5s; }
+  .m-thumb { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; }
+  .mock.typed .m-thumb { opacity: 1; transition-delay: 1.4s; }
+  .m-video b { display: none; }
+  .m-yt { position: relative; z-index: 1; width: 40px; height: 28px; box-shadow: 0 6px 16px -6px #000; border-radius: 8px; background: #c4302b; color: #fff; display: grid; place-items: center; opacity: .25; transition: opacity .5s .5s; }
   .m-ctrl { display: flex; flex-direction: column; gap: 8px; }
   .m-trans { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 6px; margin-top: auto; }
   .m-trans span { display: grid; place-items: center; height: 32px; border-radius: 8px; background: var(--desk-3); color: var(--dim); font-family: "JetBrains Mono"; font-size: 12px; }
@@ -197,6 +199,10 @@
   .mock.recording .m-rec { background: var(--rec); color: #fff; }
   .mock.recording .m-meter { display: inline-flex; }
   .m-drop.flash { background: var(--hi) !important; color: var(--ink) !important; }
+  .m-reset { all: unset; cursor: pointer; margin-left: 8px; padding: 3px 10px; border: 1px solid var(--edge); border-radius: 999px; color: var(--dim); transition: border-color .2s, color .2s; }
+  .m-reset:hover { border-color: var(--dim); color: var(--chalk); }
+  .m-reset:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
+  .m-mk.nolabel span, .mk.user.nolabel::after { display: none; }
   .m-hint { margin-top: 10px; font-family: "JetBrains Mono"; font-size: 11px; color: var(--faint); text-align: center; }
   .m-page { position: relative; background: var(--paper); color: var(--ink); border-radius: 10px; padding: 16px 18px; min-height: 200px; }
   .m-blank { position: absolute; inset: 14px 16px auto; font-family: "Courier Prime", monospace; font-size: 13px; color: var(--ink-soft); transition: opacity .3s; }
@@ -214,7 +220,8 @@
   .mock.typed .m-url-t { clip-path: inset(0 0 0 0); transition: clip-path 1.3s steps(33); }
   .m-url { position: relative; }
   .m-url::after { content: ""; display: inline-block; width: 7px; height: 13px; margin-left: 1px; vertical-align: -2px; background: var(--hi); animation: blink 1s steps(2) infinite; }
-  .mock.typed .m-url::after { animation: blink 1s steps(2) 1.4s 3 forwards; }
+  .mock.typed .m-url::after { animation: blink 1s steps(2) infinite, caret-off .3s ease 3.2s forwards; }
+  @keyframes caret-off { to { opacity: 0; visibility: hidden; } }
   .mock.typed .m-video b, .mock.typed .m-yt { opacity: 1; transition-delay: 1.4s; }
   .mock[data-step="0"] .m-url { border-color: var(--hi); }
   /* step 1+: markers */
@@ -300,7 +307,17 @@
           <div class="m-url"><span class="m-url-t">youtube.com/watch?v=late-bus-beat</span></div>
         </div>
         <div class="m-main">
-          <div class="m-player"><div class="m-video"><b>late bus (prod. demo)</b><span class="m-yt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span></div></div>
+          <div class="m-player"><div class="m-video"><svg class="m-thumb" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1436"/><stop offset=".55" stop-color="#5a2a3c"/><stop offset="1" stop-color="#e8442c"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#sky)"/>
+              <circle cx="232" cy="112" r="34" fill="#f6d64a" opacity=".9"/>
+              <g fill="#15120e"><rect x="0" y="104" width="26" height="76"/><rect x="24" y="86" width="34" height="94"/><rect x="56" y="118" width="22" height="62"/><rect x="76" y="72" width="30" height="108"/><rect x="104" y="98" width="40" height="82"/><rect x="142" y="80" width="24" height="100"/><rect x="164" y="122" width="34" height="58"/><rect x="262" y="94" width="28" height="86"/><rect x="288" y="110" width="32" height="70"/></g>
+              <g fill="#f6d64a" opacity=".75"><rect x="32" y="96" width="4" height="5"/><rect x="44" y="110" width="4" height="5"/><rect x="84" y="84" width="4" height="5"/><rect x="94" y="102" width="4" height="5"/><rect x="112" y="108" width="4" height="5"/><rect x="128" y="122" width="4" height="5"/><rect x="150" y="92" width="4" height="5"/><rect x="270" y="104" width="4" height="5"/><rect x="298" y="120" width="4" height="5"/></g>
+              <rect x="0" y="150" width="320" height="30" fill="#0e0c0a"/>
+              <g><rect x="150" y="132" width="92" height="28" rx="5" fill="#efe6d2"/><rect x="158" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="176" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="194" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="212" y="138" width="14" height="10" rx="2" fill="#2a2420"/><rect x="230" y="140" width="8" height="12" rx="1" fill="#e8442c"/><circle cx="166" cy="161" r="5" fill="#15120e"/><circle cx="226" cy="161" r="5" fill="#15120e"/></g>
+              <text x="16" y="30" fill="#efe6d2" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="22" letter-spacing="-.5">late bus</text>
+              <text x="16" y="46" fill="#efe6d2" opacity=".7" font-family="JetBrains Mono, monospace" font-size="9">prod. demo · 92 bpm</text>
+            </svg><b>late bus (prod. demo)</b><span class="m-yt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span></div></div>
           <div class="m-ctrl">
             <div class="m-time" id="mTime">0:41.2</div>
             <div class="m-trans"><span>−5</span><span class="pl"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span><span>+5</span></div>
@@ -318,7 +335,7 @@
           <div class="m-takes"><span class="m-take old">Take 1 · 0:07</span><span class="m-take old">Take 2 · 0:09</span><span class="m-take new"><i></i>Take 3 · 0:08</span></div>
         </div>
       </div>
-      <div class="m-hint">Try it: click Drop marker or press M. Click Record flow to start a take.</div>
+      <div class="m-hint">Try it: click Drop marker or press M. Click Record flow to start a take. <button class="m-reset" id="mReset" type="button">Reset</button></div>
     </div>
   </div>
 </div>
@@ -457,7 +474,8 @@
   const mDropMarker = () => {
     const now = performance.now(); if (now - mLastDrop < 160) return; mLastDrop = now;
     mUser++;
-    const m = document.createElement('i'); m.className = 'm-mk user'; m.style.left = (mPos * 100) + '%';
+    const m = document.createElement('i'); m.className = 'm-mk user'; m.style.left = (mPos * 100) + '%'; m.dataset.p = mPos;
+    if ([...mLine.querySelectorAll('.m-mk')].some((o) => Math.abs(parseFloat(o.style.left) / 100 - mPos) < .07)) m.classList.add('nolabel');
     m.innerHTML = `<span>M${mUser}</span>`; mLine.appendChild(m);
     const mine = mLine.querySelectorAll('.m-mk.user'); if (mine.length > 8) mine[0].remove();
     clearTimeout(mFlashT); mDrop.classList.add('flash'); mFlashT = setTimeout(() => mDrop.classList.remove('flash'), 180);
@@ -486,7 +504,9 @@
   const addMarker = () => {
     const now = performance.now(); if (now - lastDrop < 160) return; lastDrop = now;
     markers++;
-    const m = document.createElement('div'); m.className = 'mk user'; m.dataset.l = 'M' + (markers - 4); m.style.left = (pos * 100) + '%'; wave.appendChild(m);
+    const m = document.createElement('div'); m.className = 'mk user'; m.dataset.l = 'M' + (markers - 4); m.style.left = (pos * 100) + '%';
+    if ([...wave.querySelectorAll('.mk')].some((o) => Math.abs(parseFloat(o.style.left) / 100 - pos) < .06)) m.classList.add('nolabel');
+    wave.appendChild(m);
     const mine = wave.querySelectorAll('.mk.user'); if (mine.length > 8) mine[0].remove();
   };
   const actions = [
@@ -536,6 +556,14 @@
   const cvK = document.getElementById('cvK'), cvKl = document.getElementById('cvKl');
   cvK.addEventListener('mousedown', (e) => e.preventDefault());
   cvK.addEventListener('click', () => { const on = cvK.getAttribute('aria-pressed') !== 'true'; cvK.setAttribute('aria-pressed', on); cvKl.textContent = on ? 'night drive (instrumental)' : 'night drive (original, with vocals)'; });
+  // Reset the demos.
+  const mReset = document.getElementById('mReset');
+  mReset.addEventListener('mousedown', (e) => e.preventDefault());
+  mReset.addEventListener('click', () => {
+    mLine.querySelectorAll('.m-mk.user').forEach((m) => m.remove()); mUser = 0; mPos = .34;
+    sheet.classList.remove('recording');
+    wave.querySelectorAll('.mk.user').forEach((m) => m.remove()); markers = 4; rec = false; syncReadout();
+  });
 </script>
 </body>
 </html>
