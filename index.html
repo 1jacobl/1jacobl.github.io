@@ -30,9 +30,13 @@
   .links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
   /* hero */
-  .hero { padding: 168px 0 72px; }
+  .hero { padding: 150px 0 24px; }
   .hero-top { display: grid; gap: 8px; margin-bottom: 56px; }
-  @media (min-width: 960px) { .hero-top { grid-template-columns: auto minmax(0, 1fr); gap: 64px; align-items: end; } .hero-top .intro { margin: 0 0 .6em; font-size: clamp(19px, 1.6vw, 24px); max-width: 30ch; justify-self: end; } }
+  @media (min-width: 960px) { .hero-top { grid-template-columns: auto minmax(0, 1fr); gap: 64px; align-items: end; } .intro-col { justify-self: end; max-width: 31ch; margin-bottom: .4em; } .hero-top .intro { margin: 0; font-size: clamp(19px, 1.6vw, 24px); } }
+  .hero-cta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+  .intro-col .intro { margin-bottom: 0; }
+  .intro-col { margin-bottom: 48px; }
+  @media (min-width: 960px) { .intro-col { margin-bottom: .4em; } }
 
   .hero h1 { font-weight: 800; font-size: clamp(42px, 8.4vw, 118px); line-height: 1; letter-spacing: -.035em; margin: 0 0 40px; max-width: 13ch; }
   .hero h1 em { font-style: normal; color: var(--mute); }
@@ -76,7 +80,7 @@
   .num span { display: block; color: var(--mute); font-size: 15px; line-height: 1.4; }
 
   /* work */
-  section { padding: 96px 0; }
+  section { padding: 72px 0; }
   .sec-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 40px; }
   .sec-head h2 { font-size: 15px; font-weight: 500; margin: 0; }
   .projects { display: grid; gap: 28px; }
@@ -252,7 +256,10 @@
       <div class="mono in-1" style="margin-bottom:22px">Engineering &amp; Software · Portfolio 2026</div>
       <h1 class="hero-name" aria-label="Jacob Le">Jacob Le</h1>
     </div>
-    <p class="intro in-2">Student engineer focused on mechanical design and full-stack software. I build products for real users, most recently <a class="pl pl-club" href="clubbie.html">Clubbie</a>, a club management platform, and <a class="pl pl-ink" href="inkbeat.html">Inkbeat</a>, a lyric-writing studio.</p>
+    <div class="intro-col in-2">
+      <p class="intro">Student engineer focused on mechanical design and full-stack software. I build products for real users, most recently <a class="pl pl-club" href="clubbie.html">Clubbie</a>, a club management platform, and <a class="pl pl-ink" href="inkbeat.html">Inkbeat</a>, a lyric-writing studio.</p>
+      <div class="hero-cta"><a class="btn btn-solid" href="#work">View work <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a><a class="btn" href="JacobLe_Resume.pdf" target="_blank" rel="noopener">Resume <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+    </div>
   </div>
   <div class="hero-foot">
     <div class="in-3" style="--k:0"><div class="mono">Education</div><p>Patrick Henry High School, San Diego · Class of 2027 · 4.45 weighted GPA</p></div>
@@ -281,7 +288,7 @@
           <div class="cp-body">
             <div class="qr" id="qr"></div>
             <div>
-              <div class="cp-count"><b data-count="38">0</b><span>/ 46 here</span></div>
+              <div class="cp-count"><b>38</b><span>/ 46 here</span></div>
               <div class="cp-cap">Scan to check in</div>
               <div class="cp-meter"><i></i></div>
             </div>
@@ -423,19 +430,6 @@
   const mwLoop = (t) => { const k = Math.floor((((t - mwT0) / 9000) % 1) * mwBars.length); mwBars.forEach((b, i) => b.classList.toggle('on', i <= k)); requestAnimationFrame(mwLoop); };
   requestAnimationFrame(mwLoop);
 
-  // Count up when the Clubbie card comes into view.
-  const count = document.querySelector('[data-count]');
-  const card = document.querySelector('.p-club');
-  card.addEventListener('reveal', () => {
-    const end = +count.dataset.count, t0 = performance.now();
-    if (document.documentElement.classList.contains('settling')) { count.textContent = end; return; }
-    const tick = (t) => {
-      const p = Math.min(1, (t - t0) / 1400);
-      count.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, { once: true });
 
   // Inkbeat sheet: the lit bar walks down like a playhead.
   const rows = [...document.querySelectorAll('.p-ink .bar-row')];
