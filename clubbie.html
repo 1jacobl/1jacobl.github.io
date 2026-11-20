@@ -60,6 +60,16 @@
   .cta.main { background: var(--grape); color: #fff; }
   .cta:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
 
+  .launch { padding: 0 0 40px; }
+  .lstats { display: grid; gap: 16px; margin-top: 18px; }
+  @media (min-width: 640px) { .lstats { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .lstats { grid-template-columns: repeat(4, 1fr); } }
+  .lstat { padding: 22px 22px 20px; }
+  .lstat b { display: block; font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(38px, 4vw, 52px); letter-spacing: -.03em; line-height: 1; margin-bottom: 12px; font-variant-numeric: tabular-nums; }
+  .lstat span { display: block; font-weight: 700; font-size: 16px; }
+  .lstat small { display: block; color: var(--ink-2); font-size: 14px; margin-top: 2px; }
+  .lstat:nth-child(1) { background: var(--grape-soft); } .lstat:nth-child(2) { background: #D3F7EA; } .lstat:nth-child(3) { background: #FFF6C2; } .lstat:nth-child(4) { background: #FFE0EF; }
+
   /* before / after: scattered tools fade out, one dashboard takes over */
   .ba { display: grid; gap: 28px; align-items: center; margin-top: 64px; }
   @media (min-width: 900px) { .ba { grid-template-columns: 1fr auto 1.15fr; gap: 36px; } }
@@ -181,6 +191,16 @@
   <div class="float f3" data-par="0.1">Club report.pdf</div>
 </header>
 
+<section class="launch"><div class="wrap">
+  <div class="eyebrow reveal">Since launch · Nov 2026</div>
+  <div class="lstats" data-stagger="80">
+    <div class="lstat card"><b data-n="55">0</b><span>people signed up</span><small>43 in the last 30 days</small></div>
+    <div class="lstat card"><b data-n="365">0</b><span>QR check-ins</span><small>across 14 meetings</small></div>
+    <div class="lstat card"><b data-n="309">0</b><span>service hours approved</span><small>logged and verified in-app</small></div>
+    <div class="lstat card"><b data-n="4">0</b><span>clubs at 2 schools</span><small>plus 16 events run</small></div>
+  </div>
+</div></section>
+
 <section><div class="wrap">
   <div class="eyebrow reveal">The problem</div>
   <h2 class="sec-title reveal" style="margin-top:14px">Running a club meant five tabs and a clipboard.</h2>
@@ -299,6 +319,15 @@
   const mess = document.getElementById('mess');
   const mo = new IntersectionObserver(([e]) => { if (e.isIntersecting) { mess.classList.add('in'); mo.disconnect(); } }, { rootMargin: '-30% 0px -30% 0px' });
   mo.observe(mess);
+
+  // Launch stats count up when they appear.
+  document.querySelectorAll('.lstat b[data-n]').forEach(el => {
+    el.parentElement.addEventListener('reveal', () => {
+      const end = +el.dataset.n, t0 = performance.now();
+      const tick = (t) => { const p = Math.min(1, (t - t0) / 1500); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 4))); if (p < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }, { once: true });
+  });
 
   // Live check-in demo: QR on the left, names arrive in the list, counting up to 38 of 46.
   const qr2 = document.getElementById('qr2');
