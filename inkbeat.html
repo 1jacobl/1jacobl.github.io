@@ -22,13 +22,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@800&display=block" rel="stylesheet">
 <link rel="stylesheet" href="shared.css?v=6">
-<link rel="icon" type="image/svg+xml" href="inkbeat-icon.svg">
+<link rel="icon" type="image/svg+xml" href="inkbeat-icon.svg?v=2">
 <style>
   :root {
     --desk: #15120e; --desk-2: #1d1914; --desk-3: #27221b; --edge: #352e25;
     --chalk: #efe6d2; --dim: #9c907b; --faint: #6b6152;
     --paper: #f3ead6; --paper-2: #ebe0c8; --rule: #d8c9a9; --margin: #e3a99b; --ink: #1e1a14; --ink-soft: #5b5143;
-    --rec: #e8442c; --hi: #f6d64a; --tape: #c8b083;
+    --rec: #e8442c; --hi: #e8442c; --on-hi: #fff4e6; --tape: #c8b083;
     --progress: var(--rec); --sel: var(--hi); --sel-ink: var(--ink);
   }
   body { background: var(--desk); color: var(--chalk); font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; line-height: 1.55; }
@@ -70,8 +70,8 @@
   .play:focus-visible { outline: 2px solid var(--hi); outline-offset: 3px; }
   .wave { position: relative; height: 48px; display: flex; align-items: center; gap: 3px; cursor: grab; touch-action: none; user-select: none; }
   .wave.dragging { cursor: grabbing; }
-  .wave .head { position: absolute; top: -6px; bottom: -6px; width: 2px; margin-left: -1px; background: var(--rec); border-radius: 2px; pointer-events: none; }
-  .wave .head::before { content: ""; position: absolute; top: -4px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--rec); }
+  .wave .head { position: absolute; top: -6px; bottom: -6px; width: 2px; margin-left: -1px; background: var(--chalk); border-radius: 2px; pointer-events: none; }
+  .wave .head::before { content: ""; position: absolute; top: -4px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--chalk); }
   .wave i { flex: 1; background: var(--edge); border-radius: 2px; height: var(--h); transition: background .2s; }
   .wave i.on { background: var(--chalk); }
   .wave .mk { position: absolute; top: -8px; bottom: -8px; width: 2px; background: var(--hi); }
@@ -146,7 +146,7 @@
   .transport.rec { border-color: var(--rec); box-shadow: 0 0 0 1px var(--rec); }
   .wave .mk.user { background: var(--rec); }
   .wave .mk.user::after { color: var(--rec); }
-  .key.hit kbd { background: var(--hi); color: var(--ink); border-color: var(--hi); transform: translateY(1px); box-shadow: inset 0 -2px 0 #0002; }
+  .key.hit kbd { background: var(--hi); color: var(--on-hi); border-color: var(--hi); transform: translateY(1px); box-shadow: inset 0 -2px 0 #0002; }
   kbd { transition: transform .1s, background .1s; display: inline-block; }
 
   /* build */
@@ -201,9 +201,9 @@
   .m-btn { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 9px 11px; border-radius: 9px; font-weight: 600; transition: background .2s, color .2s, box-shadow .3s, transform .1s; }
   .m-btn:active { transform: scale(.98); }
   .m-btn kbd { font-size: 10px; }
-  .m-drop { background: var(--hi); color: var(--ink); }
-  .m-drop kbd { background: #0000; border-color: #1e1a1440; color: var(--ink); }
-  .m-drop:hover, .m-drop.flash { background: #ffe470; }
+  .m-drop { background: var(--hi); color: var(--on-hi); }
+  .m-drop kbd { background: #0000; border-color: #fff4e655; color: var(--on-hi); }
+  .m-drop:hover, .m-drop.flash { background: #f2573f; }
   .m-rec { background: transparent; color: var(--rec); box-shadow: inset 0 0 0 1px #e8442c88; justify-content: flex-start; }
   .m-rec:hover { box-shadow: inset 0 0 0 1px var(--rec); }
   .m-rec i { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
@@ -309,7 +309,7 @@
       </ol>
       <div class="mock" id="mock" data-step="-1">
         <div class="m-top">
-          <span class="m-brand"><img src="inkbeat-icon.svg" alt="" width="20" height="20">Inkbeat</span>
+          <span class="m-brand"><img src="inkbeat-icon.svg?v=2" alt="" width="20" height="20">Inkbeat</span>
           <div class="m-url" data-spot="0"><span class="m-url-t">youtube.com/watch?v=late-bus-beat</span></div>
         </div>
         <div class="m-main">
