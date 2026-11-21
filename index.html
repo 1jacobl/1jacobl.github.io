@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>try{var th=localStorage.getItem("theme");if(th)document.documentElement.dataset.theme=th;}catch(e){}document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition)document.documentElement.classList.add("vt-arrive")});</script>
+<script>try{var th=localStorage.getItem("theme");if(th)document.documentElement.dataset.theme=th;}catch(e){}document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition){document.documentElement.classList.add("vt-arrive");document.querySelectorAll(".vt-t").forEach(function(el){el.style.viewTransitionName="none"});}});</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jacob Le</title>
 <meta name="description" content="Jacob Le — student engineer. Builder of Clubbie and Inkbeat.">

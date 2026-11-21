@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition)document.documentElement.classList.add("vt-arrive")});</script>
+<script>document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition)document.documentElement.classList.add("vt-arrive")});addEventListener("pageswap",function(e){var u=e.activation&&e.activation.entry&&e.activation.entry.url;if(e.viewTransition&&u&&!/clubbie|inkbeat/.test(new URL(u).pathname)){document.querySelectorAll("[style*=view-transition-name]").forEach(function(el){el.style.viewTransitionName="none"});}});</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Clubbie · Jacob Le</title>
 <meta name="description" content="Clubbie — club management for high school and college clubs, designed and built by Jacob Le.">
