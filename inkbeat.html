@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition)document.documentElement.classList.add("vt-arrive","vt-open")});addEventListener("pageswap",function(e){var u=e.activation&&e.activation.entry&&e.activation.entry.url;if(e.viewTransition&&u&&!/clubbie|inkbeat/.test(new URL(u).pathname)){document.querySelectorAll("[style*=view-transition-name]").forEach(function(el){el.style.viewTransitionName="none"});}});</script>
+<script>document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition)document.documentElement.classList.add("vt-arrive","vt-fwd")});</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Inkbeat · Jacob Le</title>
 <meta name="description" content="Inkbeat — a lyric pad for writing to a YouTube beat, designed and built by Jacob Le.">
@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@800&display=block" rel="stylesheet">
-<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="shared.css?v=6">
 <link rel="icon" type="image/svg+xml" href="inkbeat-icon.svg">
 <style>
   :root {
@@ -270,11 +270,9 @@
   .cv-foot[aria-pressed="false"] .cv-sw i { left: 3px; background: #fff; }
   .cv-sw i { position: absolute; top: 3px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--hi); transition: left .25s cubic-bezier(.3,1.4,.5,1), background .25s; }
 
-  .vt-cover { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--desk); }
 </style>
 </head>
 <body>
-<div class="vt-cover" aria-hidden="true" style="view-transition-name: ink-card"></div>
 
 <nav class="top"><div class="wrap">
   <a class="back" href="index.html#work"><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Jacob Le</a>
@@ -408,7 +406,7 @@
 </div></section>
 
 <div class="wrap">
-  <a class="next reveal" href="clubbie.html" style="view-transition-name: club-card">
+  <a class="next reveal" href="clubbie.html">
     <div class="mono">Next project · 01</div>
     <h2>Clubbie</h2>
     <span class="arrow"><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
@@ -417,7 +415,7 @@
 </main>
 
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="shared.js"></script>
+<script src="shared.js?v=6"></script>
 <script>
   requestAnimationFrame(() => document.querySelector('.hero').classList.add('ready'));
 

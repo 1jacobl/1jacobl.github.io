@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>try{var th=localStorage.getItem("theme");if(th)document.documentElement.dataset.theme=th;}catch(e){}document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition){document.documentElement.classList.add("vt-arrive");document.querySelectorAll(".vt-card").forEach(function(el){el.style.viewTransitionName="none"});}});</script>
+<script>try{var th=localStorage.getItem("theme");if(th)document.documentElement.dataset.theme=th;}catch(e){}document.documentElement.classList.add("js");if("scrollRestoration" in history)history.scrollRestoration="manual";(function(){var n=performance.getEntriesByType&&performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"){if(location.hash)history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);}})();addEventListener("pagereveal",function(e){if(e.viewTransition)document.documentElement.classList.add("vt-arrive","vt-back")});</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jacob Le</title>
 <meta name="description" content="Jacob Le — student engineer. Builder of Clubbie and Inkbeat.">
@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Unbounded:wght@700;800&family=Figtree:wght@500;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,800&family=Courier+Prime:wght@400;700&display=block" rel="stylesheet">
-<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="shared.css?v=6">
 <style>
   :root {
     --bg: #f3f1ec; --ink: #16151a; --mute: #6d6a73; --line: #dcd8d0; --card: #fbfaf7; --hover: rgba(22,21,26,.035); --solid-hover: #2c2a31;
@@ -316,7 +316,7 @@
   <div class="sec-head reveal"><h2>Selected work</h2><span class="mono">02 projects</span></div>
   <div class="projects">
 
-    <article class="proj p-club reveal vt-card" style="view-transition-name: club-card">
+    <article class="proj p-club reveal">
       <div class="info">
         <div>
           <div class="mono">01 · Web app · 2026 · Live</div>
@@ -344,7 +344,7 @@
       </div>
     </article>
 
-    <article class="proj p-ink reveal vt-card" style="view-transition-name: ink-card">
+    <article class="proj p-ink reveal">
       <div class="info">
         <div>
           <div class="mono">02 · Web app · 2026 · Live</div>
@@ -422,7 +422,7 @@
 </div></section>
 
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="shared.js"></script>
+<script src="shared.js?v=6"></script>
 <script>
   // Hero lines rise on load.
   // Opening: split the name into letters, then run the sequence once fonts are ready (no font swap mid-animation).
