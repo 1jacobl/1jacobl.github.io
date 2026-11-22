@@ -139,8 +139,11 @@
 
   /* Clubbie card — Clubbie's own palette: grape ink, lavender paper, sticker shadows */
   .p-club { background: #F5F4FF; color: #1B1340; border: 1px solid #DEDAF2; font-family: "Figtree", sans-serif; }
-  .proj { transition: transform .6s cubic-bezier(.2,.7,.1,1), box-shadow .6s; }
-  .proj:hover { box-shadow: 0 30px 60px -30px rgba(22,21,26,.35); }
+  .proj { transition: transform .6s cubic-bezier(.2,.7,.1,1), box-shadow .6s, border-color .3s; }
+  .proj { box-shadow: 0 2px 4px rgba(22,21,26,.06), 0 18px 40px -22px rgba(22,21,26,.45); }
+  .proj:hover { box-shadow: 0 2px 6px rgba(22,21,26,.08), 0 32px 64px -26px rgba(22,21,26,.55); }
+  :root[data-theme="dark"] .proj { box-shadow: none; } :root[data-theme="dark"] .p-ink { border-color: #3b342b; } :root[data-theme="dark"] .p-ink:hover { border-color: #5a5044; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .proj { box-shadow: none; } :root:not([data-theme="light"]) .p-ink { border-color: #3b342b; } :root:not([data-theme="light"]) .p-ink:hover { border-color: #5a5044; } }
   .p-club h3 { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.03em; }
   .p-club .mono { color: #6F6896; }
   .p-club .tags span { background: #EEECFA; color: #544D7A; }
