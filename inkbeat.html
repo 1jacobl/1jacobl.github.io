@@ -270,6 +270,11 @@
   .cv-foot[aria-pressed="false"] .cv-sw i { left: 3px; background: #fff; }
   .cv-sw i { position: absolute; top: 3px; left: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--hi); transition: left .25s cubic-bezier(.3,1.4,.5,1), background .25s; }
 
+  /* Guides: the part for the current step stays bright with a thin outline; the rest dims. Using the demo turns this off. */
+  .mock .m-url, .mock .m-video, .mock .m-time, .mock .m-meta, .mock .m-trans, .mock .m-btn, .mock .m-line, .mock .m-page { transition: opacity .45s ease, box-shadow .45s ease; }
+  .mock.guided:not([data-step="-1"]) :is(.m-url, .m-video, .m-time, .m-meta, .m-trans, .m-btn, .m-line, .m-page):not(.spot) { opacity: .32; }
+  .mock.guided .spot { box-shadow: 0 0 0 1.5px var(--rec), 0 10px 30px -12px #e8442c66; }
+  .mock.guided .m-line.spot { box-shadow: 0 0 0 1.5px var(--rec); }
 </style>
 </head>
 <body>
@@ -307,7 +312,8 @@
         <li>Write per section<small>Each marker gets its own lyric page, timestamped.</small></li>
         <li>Record a flow<small>The mic starts and the beat plays from that marker with a lead-in.</small></li>
       </ol>
-      <div class="mock" id="mock" data-step="-1">
+      <div class="mock-col">
+      <div class="mock guided" id="mock" data-step="-1">
         <div class="m-top">
           <span class="m-brand"><img src="inkbeat-icon.svg?v=2" alt="" width="20" height="20">Inkbeat</span>
           <div class="m-url" data-spot="0"><span class="m-url-t">youtube.com/watch?v=late-bus-beat</span></div>
@@ -337,6 +343,7 @@
         </div>
       </div>
       <div class="m-hint">Drag the timeline, drop markers, type lyrics, record a take. <button class="m-reset" id="mReset" type="button">Reset</button></div>
+      </div>
     </div>
   </div>
 </div>
@@ -546,9 +553,11 @@
       mRecAt = null; mock.classList.remove('recording'); setMPlaying(false); drawPage();
     }
   });
-  document.getElementById('mReset').addEventListener('click', () => { mReset(); if (window.__heroReset) window.__heroReset(); });
+  document.getElementById('mReset').addEventListener('click', () => { sheet.classList.add('guided'); mReset(); if (window.__heroReset) window.__heroReset(); });
   [mPlay, mDrop, mRec, document.getElementById('mBack'), document.getElementById('mFwd'), document.getElementById('mReset')].forEach((b) => b.addEventListener('mousedown', (e) => e.preventDefault()));
   const sheet = document.getElementById('mock');
+  sheet.addEventListener('pointerdown', () => sheet.classList.remove('guided'));
+  sheet.addEventListener('focusin', () => sheet.classList.remove('guided'));
   new IntersectionObserver(([e], o) => { if (e.isIntersecting) { sheet.classList.add('typed'); o.disconnect(); } }, { threshold: .4 }).observe(sheet);
   const onScroll = () => {
     const r = scrub.getBoundingClientRect();
