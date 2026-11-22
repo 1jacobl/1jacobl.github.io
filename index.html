@@ -138,16 +138,17 @@
   .stage { position: relative; min-height: 340px; display: grid; place-items: center; padding: 28px; overflow: hidden; }
 
   /* Clubbie card — Clubbie's own palette: grape ink, lavender paper, sticker shadows */
-  .p-club { background: #F5F4FF; color: #1B1340; border: 2px solid #1B1340; box-shadow: 6px 6px 0 #1B1340; font-family: "Figtree", sans-serif; }
-  .p-club:hover { box-shadow: 10px 12px 0 #1B1340; }
+  .p-club { background: #F5F4FF; color: #1B1340; border: 1px solid #DEDAF2; font-family: "Figtree", sans-serif; }
+  .proj { transition: transform .6s cubic-bezier(.2,.7,.1,1), box-shadow .6s; }
+  .proj:hover { box-shadow: 0 30px 60px -30px rgba(22,21,26,.35); }
   .p-club h3 { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(36px, 4.4vw, 54px); letter-spacing: -.03em; }
   .p-club .mono { color: #6F6896; }
   .p-club .tags span { background: #EEECFA; color: #544D7A; }
   .p-club .go-btn { border: 2px solid #1B1340; background: #fff; color: #1B1340; box-shadow: 2px 2px 0 #1B1340; }
   .p-club .go-btn.primary { background: #7B0AFF; color: #fff; }
   .p-club .go-btn:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #1B1340; }
-  .p-club .stage { background: #EEECFA; border-top: 2px solid #1B1340; }
-  @media (min-width: 900px) { .p-club .stage { border-top: 0; border-left: 2px solid #1B1340; } }
+  .p-club .stage { background: #EEECFA; border-top: 1px solid #DEDAF2; }
+  @media (min-width: 900px) { .p-club .stage { border-top: 0; border-left: 1px solid #DEDAF2; } }
   .hl { background: linear-gradient(#FFE14D, #FFE14D) no-repeat 0 72% / 100% 38%; padding: 0 2px; }
   .mini { width: min(420px, 100%); background: #fff; border: 2px solid #1B1340; border-radius: 16px; box-shadow: 5px 5px 0 #1B1340; padding: 18px; transition: transform .7s cubic-bezier(.2,.7,.1,1); }
   .p-club:hover .mini { transform: rotate(-1.2deg) scale(1.02); }
